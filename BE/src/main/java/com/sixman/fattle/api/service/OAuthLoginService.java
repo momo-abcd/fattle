@@ -1,11 +1,13 @@
 package com.sixman.fattle.api.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Service
-public class UserService {
+@RequiredArgsConstructor
+public class OAuthLoginService {
 
     @Value("${rest-api-key}")
     private String REST_API_KEY;

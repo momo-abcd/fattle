@@ -1,6 +1,7 @@
 package com.sixman.fattle.api.controller;
 
-import com.sixman.fattle.api.service.UserService;
+import com.sixman.fattle.api.service.OAuthLoginService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -9,22 +10,23 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/user")
 @CrossOrigin("*")
 @Slf4j
-public class UserController {
+@RequiredArgsConstructor
+public class AuthController {
 
-    private UserService userService;
+    private OAuthLoginService OAuthLoginService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public AuthController(OAuthLoginService OAuthLoginService) {
+        this.OAuthLoginService = OAuthLoginService;
     }
 
     @GetMapping("/login/kakao")
     public RedirectView goKakaoOAuth() {
-        return userService.goKakaoOAuth();
+        return OAuthLoginService.goKakaoOAuth();
     }
 
     @GetMapping("/login-callback")
     public RedirectView loginCallback(@RequestParam("code") String code) {
-        return userService.loginCallback(code);
+        return OAuthLoginService.loginCallback(code);
     }
 
 }
