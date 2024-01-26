@@ -1,7 +1,8 @@
 package com.sixman.fattle.api.controller;
 
-import com.sixman.fattle.api.service.OAuthLoginService;
+import com.sixman.fattle.api.service.OAuthService;
 import com.sixman.fattle.dto.response.LoginCallbackResponse;
+import com.sixman.fattle.entity.User;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,20 +15,23 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequiredArgsConstructor
 @Slf4j
 @Api(tags = "소셜로그인 API")
-public class AuthController {
+@CrossOrigin("*")
+public class OAuthController {
 
-    private final OAuthLoginService oAuthLoginService;
+    private final OAuthService oAuthService;
 
     @GetMapping("/login")
     public RedirectView goKakaoOAuth() {
-        return oAuthLoginService.goKakaoOAuth();
+        return oAuthService.goKakaoOAuth();
     }
 
     @GetMapping("/login-callback")
     public ResponseEntity<?> loginCallback(@RequestParam("code") String code) {
-        LoginCallbackResponse response = oAuthLoginService.loginCallback(code);
+        LoginCallbackResponse response = oAuthService.loginCallback(code);
 
-        return ResponseEntity.ok(response);
+        User user = oAuthService.getUser(response.getAccess_token());
+
+        return ResponseEntity.ok(user);
     }
 
 }

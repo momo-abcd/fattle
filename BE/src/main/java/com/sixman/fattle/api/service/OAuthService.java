@@ -2,7 +2,9 @@ package com.sixman.fattle.api.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sixman.fattle.dto.KakaoProfile;
 import com.sixman.fattle.dto.response.LoginCallbackResponse;
+import com.sixman.fattle.entity.User;
 import com.sixman.fattle.repository.UserRepository;
 import com.sixman.fattle.utils.Const;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Service
 @RequiredArgsConstructor
-public class OAuthLoginService {
+public class OAuthService {
 
     private final HttpCallService httpCallService;
 
@@ -88,6 +90,47 @@ public class OAuthLoginService {
         params.add("client_secret", CLIENT_SECRET);
 
         return new HttpEntity<>(params, headers);
+    }
+
+    public User getUser(String token) {
+        KakaoProfile profile = findProfile(token);
+
+        User user = userRepository.findByUserCode(profile.getId());
+
+        if (user == null) {
+            user = new User();
+            user.setUserCode(profile.getId());
+            userRepository.save(user);
+        }
+
+        return user;
+    }
+
+    public KakaoProfile findProfile(String token) {
+        RestTemplate template = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + token);
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
+
+        ResponseEntity<String> kakaoProfileResponse = template.exchange(
+                "https://kapi.kakao.com/v2/user/me",
+                HttpMethod.POST,
+                kakaoProfileRequest,
+                String.class
+        );
+
+        ObjectMapper mapper = new ObjectMapper();
+        KakaoProfile kakaoProfile = null;
+        try {
+            kakaoProfile = mapper.readValue(kakaoProfileResponse.getBody(), KakaoProfile.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return kakaoProfile;
     }
 
     public String getProfile(String token) {

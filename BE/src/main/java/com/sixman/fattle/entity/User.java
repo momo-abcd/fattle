@@ -6,6 +6,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -27,7 +32,8 @@ public class User {
     private String sex;
 
     @Column(name = "join_dt")
-    private String joinDate;
+    @CreationTimestamp
+    private Timestamp joinDate;
 
     @Column(name = "goal_weight")
     private float goalWeight;

@@ -3,7 +3,7 @@ use fattle;
 #=========================================================================
 # 관계형 데이터베이스 정의문
 CREATE TABLE `USER_TB` (
-	`USER_CD`	VARCHAR(9)	NOT null primary key,
+	`USER_CD`	BIGINT	NOT null primary key,
 	`AVATAR_CD`	INT	NOT NULL,
 	`SOCIAL_TYPE`	CHAR(5)	NOT NULL,
 	`NICKNAME`	VARCHAR(16)	NOT NULL,
