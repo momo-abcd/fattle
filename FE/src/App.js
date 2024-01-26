@@ -1,5 +1,11 @@
+import Mypage from './pages/mypage/Mypage';
+
 function App() {
-  return <div>처음</div>;
+  return (
+    <>
+      <Mypage />
+    </>
+  );
 }
 
 export default App;
