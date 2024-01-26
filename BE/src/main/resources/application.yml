@@ -1,24 +1,24 @@
 
 server:
-  port: 80
+  port: 8000
 
 # DataBase Settings : hikariCP : https://github.com/brettwooldridge/HikariCP
-#spring:
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/fattle?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
-#    hikari:
-#      driver-class-name: com.mysql.cj.jdbc.Driver
-#      username: ssafy
-#      password: ssafy
-#      pool-name: Hikari Connection Pool
-#      # hikariCP property setting
-#      maximum-pool-size: 50
-#      minimum-idle: 50
-#      connection-timeout: 5000
-#      connection-init-sql: SELECT 1
-#      idle-timeout: 600000
-#      max-lifetime: 1800000
-#      auto-commit: true
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/fattle?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: ssafy
+      password: ssafy
+      pool-name: Hikari Connection Pool
+      # hikariCP property setting
+      maximum-pool-size: 50
+      minimum-idle: 50
+      connection-timeout: 5000
+      connection-init-sql: SELECT 1
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: true
 #  # File Upload size Setting
 ##  servlet:
 ##    multipart:
@@ -49,8 +49,8 @@ logging:
 
 # kakao login
 rest-api-key: 40a6ee1bb9a630be39ffadabd71c51bd
-redirect-uri: http://localhost/accounts/auth/login-callback
-client-secret: 0YLbQqhu3njB5LYDJdNpYw23p8I6XN3E
+redirect-uri: http://localhost:8000/oauth/login-callback
+client-secret: zPTNIFgvrKxFEzMFYZWgSmDbFleYUpZG
 authorize-uri: https://kauth.kakao.com/oauth/authorize
 token-uri: https://kauth.kakao.com/oauth/token
 kakao-api-host: https://kapi.kakao.com
