@@ -1,0 +1,47 @@
+div {
+    box-sizing:content-box;
+}
+
+.wrapper {
+    background-color: #FFD3C9;
+    width: 412px;
+    height: 915px;
+    margin: auto;
+}
+
+.LoginText {
+    text-align: center;
+}
+
+.loginBtn {
+    background-color: white;
+    width: 262px;
+    height: 71;
+    margin-left: 75px;
+    margin-bottom: 15px;
+}
+
+
+.join {
+    background-color: red;
+}
+
+.joinBtn {
+    margin-left: 75;
+}
+
+
+/* .kakaoBtn {
+    width: 61px;
+    height: 61px;
+    background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzOCIgaGVpZ2h0PSIzOCIgdmlld0JveD0iMCAwIDM4IDM4Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGNpcmNsZSBjeD0iMTkiIGN5PSIxOSIgcj0iMTkiIGZpbGw9IiNGQUU0MDAiLz4KICAgICAgICA8Zz4KICAgICAgICAgICAgPHBhdGggZD0iTTAgMEgyNFYyNEgweiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNyA3KSIvPgogICAgICAgICAgICA8cGF0aCBmaWxsPSIjM0MxRTFFIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGQ9Ik0xMS45OTIgMy42OTJjNS4wOTMgMCA5LjIyMiAzLjMwMyA5LjIyMiA3LjM3N3MtNC4xMjkgNy4zNzYtOS4yMjIgNy4zNzZjLS41NTIgMC0xLjA5Mi0uMDM4LTEuNjE2LS4xMTNsLTMuNjQgMi41MTJjLS4xNzIuMTItLjM2OC0uMDIxLS4zNDMtLjE5My4wMTQtLjEwMi4yNy0xLjIwMi43NjUtMy4yOTktMi42MzMtMS4yOTgtNC4zODktMy42MjctNC4zODktNi4yODMgMC00LjA3NCA0LjEzLTcuMzc3IDkuMjIzLTcuMzc3eiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNyA3KSIvPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+Cg==);
+    background-size: cover;
+}
+
+.naverBtn {
+    width: 61px;
+    height: 61px;
+    background: url(https://ssl.nexon.com/s2/game/maplestory/renewal/common/tpa_menu03.png);
+    background-size: cover;    
+}
+ */
