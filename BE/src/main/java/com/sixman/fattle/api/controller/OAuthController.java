@@ -1,7 +1,8 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.OAuthService;
-import com.sixman.fattle.dto.response.LoginCallbackResponse;
+import com.sixman.fattle.dto.response.LoginResponse;
+import com.sixman.fattle.dto.response.OAuthTokenResponse;
 import com.sixman.fattle.entity.User;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +21,12 @@ public class OAuthController {
 
     private final OAuthService oAuthService;
 
-    @GetMapping("/login")
-    public RedirectView goKakaoOAuth() {
-        return oAuthService.goKakaoOAuth();
-    }
+    @GetMapping("/login/{provider}")
+    public ResponseEntity<?> login(@PathVariable String provider,
+                                           @RequestParam("code") String code) {
+        LoginResponse response = oAuthService.login(provider, code);
 
-    @GetMapping("/login-callback")
-    public ResponseEntity<?> loginCallback(@RequestParam("code") String code) {
-        LoginCallbackResponse response = oAuthService.loginCallback(code);
-
-        User user = oAuthService.getUser(response.getAccess_token());
-
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(response);
     }
 
 }

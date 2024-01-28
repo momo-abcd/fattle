@@ -2,8 +2,9 @@
 server:
   port: 8000
 
-# DataBase Settings : hikariCP : https://github.com/brettwooldridge/HikariCP
+
 spring:
+  # DataBase Settings : hikariCP : https://github.com/brettwooldridge/HikariCP
   datasource:
     url: jdbc:mysql://localhost:3306/fattle?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
     hikari:
@@ -46,6 +47,7 @@ logging:
       hikari:
         pool:
           HikariPool: debug
+
 
 # kakao login
 rest-api-key: 40a6ee1bb9a630be39ffadabd71c51bd

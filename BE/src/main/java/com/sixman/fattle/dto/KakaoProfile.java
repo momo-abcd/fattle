@@ -1,10 +1,22 @@
 package com.sixman.fattle.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.*;
 
 @Data
+@NoArgsConstructor
 public class KakaoProfile {
-    public long id;
-    public String connected_at;
-    public boolean setPrivacyInfo;
+
+    private Map<String, Object> attributes;
+
+    public KakaoProfile(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+
+    public long getProviderId() {
+        return Long.parseLong(String.valueOf(attributes.get("id")));
+    }
+
 }

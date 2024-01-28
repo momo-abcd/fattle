@@ -1,140 +1,107 @@
 package com.sixman.fattle.api.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sixman.fattle.dto.KakaoProfile;
-import com.sixman.fattle.dto.response.LoginCallbackResponse;
+import com.sixman.fattle.dto.response.LoginResponse;
+import com.sixman.fattle.dto.response.OAuthTokenResponse;
 import com.sixman.fattle.entity.User;
+import com.sixman.fattle.jwt.JwtTokenProvider;
 import com.sixman.fattle.repository.UserRepository;
-import com.sixman.fattle.utils.Const;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class OAuthService {
 
-    private final HttpCallService httpCallService;
+    private static final String BEARER_TYPE = "Bearer";
+
+    private final InMemoryClientRegistrationRepository inMemoryRepository;
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     private final UserRepository userRepository;
 
-    @Value("${rest-api-key}")
-    private String REST_API_KEY;
+    public LoginResponse login(String providerName, String code) {
+        ClientRegistration provider = inMemoryRepository.findByRegistrationId(providerName);
 
-    @Value("${redirect-uri}")
-    private String REDIRECT_URI;
+        OAuthTokenResponse response = getToken(code, provider);
 
-    @Value("${authorize-uri}")
-    private String AUTHORIZE_URI;
+        User user = getUserProfile(providerName, response, provider);
 
-    @Value("${token-uri}")
-    public String TOKEN_URI;
+        String accessToken = jwtTokenProvider.createAccessToken(String.valueOf(user.getUserCode()));
+        String refreshToken = jwtTokenProvider.createRefreshToken();
 
-    @Value("${client-secret}")
-    private String CLIENT_SECRET;
-
-    @Value("${kakao-api-host}")
-    private String KAKAO_API_HOST;
-
-    public RedirectView goKakaoOAuth() {
-        return goKakaoOAuth("");
+        return LoginResponse.builder()
+                .userCode(user.getUserCode())
+                .tokenType(BEARER_TYPE)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 
-    public RedirectView goKakaoOAuth(String scope) {
-        String uri = AUTHORIZE_URI + "?redirect_uri=" + REDIRECT_URI
-                + "&response_type=code&client_id=" + REST_API_KEY;
-
-        if (!scope.isEmpty()) uri += "&scope=" + scope;
-
-        return new RedirectView(uri);
+    private OAuthTokenResponse getToken(String code, ClientRegistration provider) {
+        return WebClient.create()
+                .post()
+                .uri(provider.getProviderDetails().getTokenUri())
+                .headers(header -> {
+                    header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+                    header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
+                })
+                .bodyValue(tokenRequest(code, provider))
+                .retrieve()
+                .bodyToMono(OAuthTokenResponse.class)
+                .block();
     }
 
-    public LoginCallbackResponse loginCallback(String code) {
-        RestTemplate template = new RestTemplate();
+    private MultiValueMap<String, String> tokenRequest(String code, ClientRegistration provider) {
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("code", code);
+        formData.add("grant_type", "authorization_code");
+        formData.add("redirect_uri", provider.getRedirectUri());
+        formData.add("client_secret", provider.getClientSecret());
+        formData.add("client_id", provider.getClientId());
+        return formData;
+    }
 
-        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = getKakaoTokenRequest(code);
+    private User getUserProfile(String providerName, OAuthTokenResponse response, ClientRegistration provider) {
+        Map<String, Object> userAttributes = getUserAttributes(provider, response);
+        KakaoProfile profile = null;
 
-        ResponseEntity<String> accessTokenResponse = template.exchange(TOKEN_URI, HttpMethod.POST, kakaoTokenRequest, String.class);
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        LoginCallbackResponse response = null;
-
-        try {
-            response = mapper.readValue(accessTokenResponse.getBody(), LoginCallbackResponse.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        if (providerName.equals("kakao")) {
+            profile = new KakaoProfile(userAttributes);
         }
 
-        return response;
-    }
+        long providerId = profile.getProviderId();
 
-    private HttpEntity<MultiValueMap<String, String>> getKakaoTokenRequest(String code) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "authorization_code");
-        params.add("client_id", REST_API_KEY);
-        params.add("redirect_uri", REDIRECT_URI);
-        params.add("code", code);
-        params.add("client_secret", CLIENT_SECRET);
-
-        return new HttpEntity<>(params, headers);
-    }
-
-    public User getUser(String token) {
-        KakaoProfile profile = findProfile(token);
-
-        User user = userRepository.findByUserCode(profile.getId());
+        User user = userRepository.findByUserCode(providerId);
 
         if (user == null) {
             user = new User();
-            user.setUserCode(profile.getId());
+            user.setUserCode(providerId);
             userRepository.save(user);
         }
 
         return user;
     }
 
-    public KakaoProfile findProfile(String token) {
-        RestTemplate template = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token);
-        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-
-        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
-
-        ResponseEntity<String> kakaoProfileResponse = template.exchange(
-                "https://kapi.kakao.com/v2/user/me",
-                HttpMethod.POST,
-                kakaoProfileRequest,
-                String.class
-        );
-
-        ObjectMapper mapper = new ObjectMapper();
-        KakaoProfile kakaoProfile = null;
-        try {
-            kakaoProfile = mapper.readValue(kakaoProfileResponse.getBody(), KakaoProfile.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return kakaoProfile;
+    private Map<String, Object> getUserAttributes(ClientRegistration provider, OAuthTokenResponse response) {
+        return WebClient.create()
+                .get()
+                .uri(provider.getProviderDetails().getUserInfoEndpoint().getUri())
+                .headers(header -> header.setBearerAuth(response.getAccess_token()))
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .block();
     }
 
-    public String getProfile(String token) {
-        String uri = KAKAO_API_HOST + "/v2/user/me";
-        return httpCallService.callWithToken(Const.GET, uri, token);
-    }
 }
