@@ -1,35 +1,24 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import asyncGetMypage from '../../services/mypage/asyncGetMypage';
+import React, { useEffect, useState } from 'react';
+import { getMypage } from '../../services/mypage/api';
 function Mypage(props) {
-  const { mypageGetStatus, mypageGetData } = useSelector(
-    (state) => state.mypage,
-  );
-  const dispatch = useDispatch();
+  const [data, setData] = useState({});
   useEffect(() => {
-    dispatch(asyncGetMypage());
+    (async () => {
+      setData(await getMypage('usercode'));
+    })();
   }, []);
   let calendarId = 0;
-  const {
-    followerCnt,
-    followingCnt,
-    introduction,
-    weight,
-    goalWeight,
-    calendar,
-  } = mypageGetData;
   return (
     <>
-      {mypageGetStatus === '받아옴' ? (
+      {Object.keys(data).length !== 0 && (
         <>
-          <p>현재 상태 : {mypageGetStatus}</p>
-          <p>팔로워 : {followerCnt}</p>
-          <p>팔로잉 : {followingCnt}</p>
-          <p>소개 : {introduction}</p>
-          <p>체중 : {weight}</p>
-          <p>목표 체중 : {goalWeight}</p>
+          <p>팔로워 : {data.followerCnt}</p>
+          <p>팔로잉 : {data.followingCnt}</p>
+          <p>소개 : {data.introduction}</p>
+          <p>체중 : {data.weight}</p>
+          <p>목표 체중 : {data.goalWeight}</p>
           <ul>
-            {calendar.map((date) => (
+            {data.calendar.map((date) => (
               <li key={calendarId++}>
                 날짜 : {date.date}
                 <br />
@@ -38,8 +27,6 @@ function Mypage(props) {
             ))}
           </ul>
         </>
-      ) : (
-        ''
       )}
     </>
   );

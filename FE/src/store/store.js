@@ -1,9 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import mypageSlice from './mypageSlice';
 
 const store = configureStore({
-  reducer: {
-    mypage: mypageSlice.reducer,
-  },
+  reducer: {},
 });
 export default store;
