@@ -3,5 +3,7 @@
 const BASE_URL = 'http://localhost:7979';
 
 export const API = {
-  MYPAGE_GET: `${BASE_URL}/user/mypage/`,
+  MYPAGE_GET: `${BASE_URL}/user/mypage/`, // get + put
+  FOLLOWER_GET: `${BASE_URL}/user/mypage/follower/`,
+  FOLLOWING_GET: `${BASE_URL}/user/mypage/following/`,
 };

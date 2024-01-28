@@ -3,12 +3,14 @@ import Join from './pages/join/Join';
 import Mypage from './pages/mypage/Mypage';
 import Auth from './utils/Auth';
 import MypageModify from './pages/mypage/MypageModify';
+import FollowList from './pages/mypage/FollowList';
 
 function App() {
   let isLogged = false;
   return (
     <Routes>
-      <Route path="/mypage" element={<Mypage />} />
+      <Route path="/mypage" element={<Mypage />}></Route>
+      <Route path="/mypage/follow" element={<FollowList />} />
       <Route path="/mypageModify" element={<MypageModify />} />
       <Route path="/" element={<Auth isLogged={isLogged} />} />
       <Route path="/login" element={<Auth isLogged={isLogged} />} />

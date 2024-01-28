@@ -23,8 +23,12 @@ function Mypage(props) {
       </Link>
       {Object.keys(data).length !== 0 && (
         <>
-          <p>팔로워 : {data.followerCnt}</p>
-          <p>팔로잉 : {data.followingCnt}</p>
+          <Link to="/mypage/follow" state={{ who: 'following' }}>
+            팔로잉 : {data.followingCnt}
+          </Link>
+          <Link to="/mypage/follow" state={{ who: 'follower' }}>
+            팔로워 : {data.followerCnt}
+          </Link>
           <p>소개 : {data.introduction}</p>
           <p>체중 : {data.weight}</p>
           <p>목표 체중 : {data.goalWeight}</p>
