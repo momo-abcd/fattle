@@ -1,33 +1,61 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { putMypage } from '../../services/mypage/api';
+import { useLocation } from 'react-router';
 
-const MypageModify = ({ nickname, introduction, userCode }) => {
-  const nicknameEle = useRef();
-  const introductionEle = useRef();
-  const onPutMypage = () => {
-    console.log(nicknameEle.current);
-    const status = putMypage(userCode, {
-      nickname: nicknameEle.current,
-      introduction: introduction,
+const MypageModify = () => {
+  const location = useLocation();
+
+  // variable
+  const [nickname, setNickname] = useState(location.state.nickname);
+  const [introduction, setIntroduction] = useState(location.state.introduction);
+  const nicknameInput = useRef(null);
+  const introductionTextarea = useRef(null);
+
+  const [status, setStatus] = useState('');
+
+  // method
+  const onPutMypage = async () => {
+    const status = await putMypage(location.state.userCode, {
+      nickname,
+      introduction,
     });
-    if (status === 200) console.log('성공적으로 수정됨');
+    console.log(status);
+    if (status === 200) {
+      setStatus('수정 성공');
+    } else {
+      setStatus('수정 실패 Status Code : ' + status);
+    }
+  };
+  const onChangeHandler = (e) => {
+    if (e.target === nicknameInput.current) {
+      setNickname(e.target.value);
+    } else {
+      setIntroduction(e.target.value);
+    }
   };
 
   return (
     <>
       <input
         type="text"
-        ref={nicknameEle}
+        ref={nicknameInput}
         value={nickname}
         placeholder="닉네임"
+        onChange={(e) => {
+          onChangeHandler(e);
+        }}
       />
       <textarea
         type="text"
-        ref={introductionEle}
+        ref={introductionTextarea}
         value={introduction}
         placeholder="자기 소개"
+        onChange={(e) => {
+          onChangeHandler(e);
+        }}
       />
-      <button onClick={onPutMypage}></button>
+      <button onClick={onPutMypage}>수정하기</button>
+      {status}
     </>
   );
 };

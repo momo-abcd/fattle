@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { getMypage } from '../../services/mypage/api';
+import { Link } from 'react-router-dom';
 function Mypage(props) {
   const [data, setData] = useState({});
   useEffect(() => {
     (async () => {
-      setData(await getMypage('usercode'));
+      setData(await getMypage(1));
     })();
   }, []);
   let calendarId = 0;
   return (
     <>
+      <Link
+        to="/mypageModify"
+        state={{
+          nickname: data.weight,
+          introduction: data.introduction,
+          userCode: data.id,
+        }}
+      >
+        마이페이지 수정
+      </Link>
       {Object.keys(data).length !== 0 && (
         <>
           <p>팔로워 : {data.followerCnt}</p>

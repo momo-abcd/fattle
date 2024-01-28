@@ -6,7 +6,7 @@ const getMypage = async (userCode) => {
   return data;
 };
 const putMypage = async (userCode, parameter) => {
-  const { status } = await axios.put(API.MYPAGE_GET + userCode, parameter);
+  const { status } = await axios.patch(API.MYPAGE_GET + userCode, parameter);
   return status;
 };
 // const putMypage = async ()
