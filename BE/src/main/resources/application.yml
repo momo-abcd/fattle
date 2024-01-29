@@ -4,6 +4,8 @@ server:
 
 
 spring:
+  profiles:
+    include: oauth
   # DataBase Settings : hikariCP : https://github.com/brettwooldridge/HikariCP
   datasource:
     url: jdbc:mysql://localhost:3306/fattle?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
@@ -37,10 +39,36 @@ spring:
 #    upload-images: C:/board/upload/imageUpload
 #    upload-files: C:/board/upload/fileUpload/
 
+
+## Swagger setting
+springdoc:
+  packages-to-scan: com.sixman.fattle.api.controller
+  swagger-ui:
+    path: /api-docs
+    groups-order: DESC
+    tags-sorter: alpha
+    operations-sorter: alpha
+    disabled-swagger-default-url: true
+    display-request-duration: true
+  api-docs:
+    path: /api-docs/json
+    groups:
+      enabled: true
+  show-actuator: true
+  cache:
+    disabled: true
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+
+
 # log level Setting
 logging:
   level:
     root: info
+    org:
+      springframework:
+        root: debug
+        web: debug
     com:
       fattle: debug
     zaxxer:

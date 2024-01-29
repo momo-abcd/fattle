@@ -1,43 +1,55 @@
 package com.sixman.fattle.filter;
 
-import com.sixman.fattle.jwt.JwtTokenProvider;
+import com.sixman.fattle.api.service.CustomUserDetailsService;
+import com.sixman.fattle.utils.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.*;
 
+@Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends GenericFilterBean {
-	
-	private final JwtTokenProvider jwtTokenProvider;
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+	private final JwtTokenProvider jwtTokenProvider;
+	private final CustomUserDetailsService customUserDetailsService;
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// Request Header에서 JWT 토큰 추출
-		String token = resolveToken((HttpServletRequest) request);
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+		String authorizationHeader = request.getHeader("Authorization");
 
-		// validateToken으로 토큰 유효성 검사
-		if (token != null && jwtTokenProvider.validateToken(token)) {
-			// 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
-			Authentication authentication = jwtTokenProvider.getAuthentication(token);
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+			String token = authorizationHeader.substring(7);
+
+			if (jwtTokenProvider.validateToken(token)) {
+				String payload = jwtTokenProvider.getPayload(token);
+
+				UserDetails userDetails = customUserDetailsService.loadUserByUsername(payload);
+
+				if (userDetails != null) {
+					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+							new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				}
+			}
 		}
 
-		chain.doFilter(request, response);
+		filterChain.doFilter(request, response);
 	}
 
 	// Request Header에서 토큰 정보 추출
 	private String resolveToken(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
+		String bearerToken = request.getHeader(JwtTokenProvider.AUTHORIUZATION_HEADER);
 
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
 			return bearerToken.substring(7);
@@ -47,3 +59,4 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 	}
 
 }
+

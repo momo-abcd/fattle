@@ -4,7 +4,7 @@ import com.sixman.fattle.dto.KakaoProfile;
 import com.sixman.fattle.dto.response.LoginResponse;
 import com.sixman.fattle.dto.response.OAuthTokenResponse;
 import com.sixman.fattle.entity.User;
-import com.sixman.fattle.jwt.JwtTokenProvider;
+import com.sixman.fattle.utils.JwtTokenProvider;
 import com.sixman.fattle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
