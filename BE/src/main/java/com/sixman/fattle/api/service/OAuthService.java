@@ -75,21 +75,27 @@ public class OAuthService {
 
     private User getUserProfile(String providerName, OAuthTokenResponse response, ClientRegistration provider) {
         Map<String, Object> userAttributes = getUserAttributes(provider, response);
-        KakaoProfile profile = null;
-
-        if (providerName.equals("kakao")) {
-            profile = new KakaoProfile(userAttributes);
-        }
+        KakaoProfile profile = new KakaoProfile(userAttributes);
 
         long providerId = profile.getProviderId();
 
-        User user = userRepository.findByUserCode(providerId);
+        User user = signin(providerId);
 
         if (user == null) {
-            user = new User();
-            user.setUserCode(providerId);
-            userRepository.save(user);
+            user = signUp(providerId);
         }
+
+        return user;
+    }
+
+    private User signin(long userCode) {
+        return userRepository.findByUserCode(userCode);
+    }
+
+    private User signUp(long userCode) {
+        User user = new User();
+        user.setUserCode(userCode);
+        userRepository.save(user);
 
         return user;
     }
@@ -104,4 +110,8 @@ public class OAuthService {
                 .block();
     }
 
+    public String test() {
+        User user = userRepository.findByUserCode(1234);
+        return jwtTokenProvider.createAccessToken("1234");
+    }
 }

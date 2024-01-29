@@ -40,8 +40,9 @@ public class SecurityConfig {
 								// 해당 API에 대해서는 모든 요청을 허가
 								.requestMatchers(AuthenticatedMatchers.swaggerArray)
 								.permitAll()
+								.anyRequest().permitAll())
 								// 이 밖에 모든 요청에 대해서 인증을 필요로 함
-								.anyRequest().authenticated())
+//								.anyRequest().authenticated())
 				// JWT 인증을 위하여 필터 실행
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();

@@ -27,4 +27,16 @@ public class OAuthController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<?> test() {
+        String token = oAuthService.test();
+
+        return ResponseEntity.ok(token);
+    }
+
+    @GetMapping("/test2")
+    public ResponseEntity<?> test2() {
+        return ResponseEntity.ok("token ok");
+    }
+
 }
