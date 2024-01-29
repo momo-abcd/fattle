@@ -1,61 +1,75 @@
-import axios from 'axios'
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 function Ranking() {
-  const [top10, setTop10] = useState([])
-  const [myRank, setMyRank] = useState('')
-  const [myRankUser, setMyRankUser] = useState(null)
+  const [rank, setRank] = useState([])
+  const [myRank, setMyRank] = useState()
 
   useEffect(() => {
-    
-    axios.get(`http://127.0.0.1:8000/rank/list/usercode`)
+    axios.get(`http://localhost:5000/rank`)
       .then(response => {
-        const { top10, myRank } = response.data
-
-        setTop10(top10)
-        setMyRank(myRank)
-
-        const myRankIndex = findMyRankIndex()
-        if (myRankIndex !== -1) {
-          setMyRankUser(top10[myRankIndex])
-        }
+        const top10 = response.data.top10;
+        const myRankIndex = response.data.myRank - 1
+        const myRankInfo = top10[myRankIndex];
+        myRankInfo.rank = response.data.myRank
+        setRank(top10)
+        setMyRank(myRankInfo)
       })
       .catch(error => {
-        console.error('데이터를 불러오는 중 에러 발생:', error)
+        console.error('랭킹 데이터를 불러오는 중 에러 발생:', error)
       })
   }, [])
 
-  const findMyRankIndex = () => {
-    return top10.findIndex(user => user.index + 1 === myRank)
-  }
-
   return (
     <div>
-      <h1>랭킹</h1>
-      <div>
-        1등<img src={top10[0].imgPath} alt={top10[0].nickname} />{top10[0].nickname}
-        2등<img src={top10[1].imgPath} alt={top10[1].nickname} />{top10[1].nickname}
-        3등<img src={top10[2].imgPath} alt={top10[2].nickname} />{top10[2].nickname}
-      </div>
+      <h2>랭킹</h2>
+      {rank.length > 0 && (
+        <>
+          <div>
+            <p>
+              1위
+              <img src={rank[0].imgPath} alt='' />
+              {rank[0].nickname}
+            </p>
+          </div>
 
-      <ul>
-        {top10.map((user, index) => (
+          <div>
+            <p>
+              2위
+              <img src={rank[1].imgPath} alt='' />
+              {rank[1].nickname}
+            </p>
+          </div>
+
+          <div>
+            <p>
+              3위
+              <img src={rank[2].imgPath} alt='' />
+              {rank[2].nickname}
+            </p>
+          </div>
+        </>
+      )}
+
+      <ul style={{ maxHeight: '100px', overflowY: 'auto' }}>
+        {rank.map((item, index) => (
           <li key={index}>
-            <p>{index + 1}등</p>
-            <img src={user.imgPath} alt=''/>
-            <p>{user.nickname}</p>
-            <p>성장Exp: {user.growthExp}</p>
-            <p>스택Exp: {user.stackExp}</p>
+            {index + 1}위
+            <img src={item.imgPath} alt='' />
+            {item.nickname} {item.growthExp + item.stackExp}
           </li>
         ))}
       </ul>
-      <p>내 랭크: {myRank}</p>
-        <div>
-          <img src={myRankUser.imgPath} alt={myRankUser.nickname} />
-          <p>{myRankUser.nickname}</p>
-          <p>성장Exp: {myRankUser.growthExp}</p>
-          <p>스택Exp: {myRankUser.stackExp}</p>
-        </div>
+
+      <p>
+        {myRank && (
+          <>
+            내 랭킹 : {myRank.rank}위
+            <img src={myRank.imgPath} alt='' />
+            {myRank.nickname} {myRank.growthExp + myRank.stackExp}
+          </>
+        )}
+      </p>
     </div>
   );
 }
