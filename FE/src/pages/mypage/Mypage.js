@@ -21,11 +21,16 @@ function Mypage(props) {
       >
         마이페이지 수정
       </Link>
+      <br />
+      <Link to="/mypage/goal">목표 보기</Link>
+      <br />
       {Object.keys(data).length !== 0 && (
         <>
           <Link to="/mypage/follow" state={{ who: 'following' }}>
+            {' '}
             팔로잉 : {data.followingCnt}
           </Link>
+          <br />
           <Link to="/mypage/follow" state={{ who: 'follower' }}>
             팔로워 : {data.followerCnt}
           </Link>

@@ -5,7 +5,7 @@ const getMypage = async (userCode) => {
   const { data } = await axios.get(API.MYPAGE_GET + userCode);
   return data;
 };
-const putMypage = async (userCode, parameter) => {
+const patchMypage = async (userCode, parameter) => {
   const { status } = await axios.patch(API.MYPAGE_GET + userCode, parameter);
   return status;
 };
@@ -18,5 +18,9 @@ const getFollowerList = async (userCode) => {
   const { data } = await axios.get(API.FOLLOWER_GET + userCode);
   return data;
 };
+const getGoal = async (userCode) => {
+  const { data } = await axios.get(API.GOAL_GET + userCode);
+  return data;
+};
 // const putMypage = async ()
-export { getMypage, putMypage, getFollowingList, getFollowerList };
+export { getMypage, patchMypage, getFollowingList, getFollowerList, getGoal };

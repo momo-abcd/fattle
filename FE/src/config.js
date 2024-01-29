@@ -6,4 +6,5 @@ export const API = {
   MYPAGE_GET: `${BASE_URL}/user/mypage/`, // get + put
   FOLLOWER_GET: `${BASE_URL}/user/mypage/follower/`,
   FOLLOWING_GET: `${BASE_URL}/user/mypage/following/`,
+  GOAL_GET: `${BASE_URL}/user/mypage/getGoal/`,
 };

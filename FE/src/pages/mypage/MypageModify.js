@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { putMypage } from '../../services/mypage/api';
+import { patchMypage } from '../../services/mypage/api';
 import { useLocation } from 'react-router';
 
 const MypageModify = () => {
@@ -15,7 +15,7 @@ const MypageModify = () => {
 
   // method
   const onPutMypage = async () => {
-    const status = await putMypage(location.state.userCode, {
+    const status = await patchMypage(location.state.userCode, {
       nickname,
       introduction,
     });
