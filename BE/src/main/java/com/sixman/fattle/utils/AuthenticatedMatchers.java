@@ -6,7 +6,7 @@ public class AuthenticatedMatchers {
 
     public static final String[] swaggerArray = {
             "/",
-            "/oauth/login/kakao",
+            "/oauth/login/**",
             "/api-docs",
             "/api-docs/json",
             "/v3/**",
