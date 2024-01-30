@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/oauth")
@@ -18,25 +19,20 @@ public class OAuthController {
 
     private final OAuthService oAuthService;
 
-    @Operation(summary = "로그인", description = "카카오 로그인 code를 받아 FATTLE 로그인 실행")
+    @Operation(summary = "소셜 로그인 페이지로 이동",
+            description = "소셜 로그인 페이지로 이동하여 소셜 로그인 후 code 받음")
+    @GetMapping("/code/{provider}")
+    public RedirectView getCode(@PathVariable String provider) {
+        return oAuthService.getCode(provider);
+    }
+
+    @Operation(summary = "로그인", description = "소셜 로그인 code를 받아 FATTLE 로그인 실행")
     @GetMapping("/login/{provider}")
     public ResponseEntity<?> login(@PathVariable String provider,
                                            @RequestParam("code") String code) {
         LoginResponse response = oAuthService.login(provider, code);
 
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<?> test() {
-        String token = oAuthService.test();
-
-        return ResponseEntity.ok(token);
-    }
-
-    @GetMapping("/test2")
-    public ResponseEntity<?> test2() {
-        return ResponseEntity.ok("token ok");
     }
 
 }

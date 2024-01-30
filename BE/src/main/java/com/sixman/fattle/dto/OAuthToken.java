@@ -1,4 +1,4 @@
-package com.sixman.fattle.dto.response;
+package com.sixman.fattle.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OAuthTokenResponse {
+public class OAuthToken {
     private String access_token;
     private String token_type;
     private String refresh_token;
