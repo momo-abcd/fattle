@@ -1,4 +1,4 @@
-package com.sixman.fattle.dto;
+package com.sixman.fattle.dto.dto;
 
 import com.sixman.fattle.entity.User;
 import org.springframework.security.core.GrantedAuthority;

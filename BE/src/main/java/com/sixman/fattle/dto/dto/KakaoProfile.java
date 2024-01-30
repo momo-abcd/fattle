@@ -1,4 +1,4 @@
-package com.sixman.fattle.dto;
+package com.sixman.fattle.dto.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final CorsConfig corsConfig;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -31,7 +32,6 @@ public class SecurityConfig {
 				.formLogin(AbstractHttpConfigurer::disable)
 				.httpBasic(HttpBasicConfigurer::disable)
 				.csrf(CsrfConfigurer::disable)
-				.cors(Customizer.withDefaults())
 				// JWT를 사용하기 때문에 session을 사용하지 않음
 				.sessionManagement(configurer ->
 						configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -43,6 +43,8 @@ public class SecurityConfig {
 								.anyRequest()
 								.permitAll())
 //								.authenticated())
+				// CORS 설정
+				.addFilter(corsConfig.corsFilter())
 				// JWT 인증을 위하여 필터 실행
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();

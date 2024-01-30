@@ -1,13 +1,12 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.KakaoProfile;
+import com.sixman.fattle.dto.dto.KakaoProfile;
 import com.sixman.fattle.dto.response.LoginResponse;
-import com.sixman.fattle.dto.OAuthToken;
+import com.sixman.fattle.dto.dto.OAuthToken;
 import com.sixman.fattle.entity.User;
 import com.sixman.fattle.utils.JwtTokenProvider;
 import com.sixman.fattle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;

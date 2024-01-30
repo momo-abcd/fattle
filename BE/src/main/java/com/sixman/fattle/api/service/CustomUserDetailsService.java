@@ -1,6 +1,6 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.CustomUserDetails;
+import com.sixman.fattle.dto.dto.CustomUserDetails;
 import com.sixman.fattle.entity.User;
 import com.sixman.fattle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
