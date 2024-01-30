@@ -11,7 +11,7 @@ const Join = () => {
           setName(e.target.value);
         }}
       ></input>
-      <button onClick={() => {}}>확인</button>
+      <button onClick={() => {}}>중복 확인</button>
 
       <div>
         <button disabled={dupli}>회원가입</button>
