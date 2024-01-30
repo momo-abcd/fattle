@@ -16,7 +16,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -38,11 +37,12 @@ public class SecurityConfig {
 						configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(authorize -> authorize
 								// 해당 API에 대해서는 모든 요청을 허가
-								.requestMatchers(AuthenticatedMatchers.swaggerArray)
+								.requestMatchers(AuthenticatedMatchers.matcherArray)
 								.permitAll()
-								.anyRequest().permitAll())
 								// 이 밖에 모든 요청에 대해서 인증을 필요로 함
-//								.anyRequest().authenticated())
+								.anyRequest()
+								.permitAll())
+//								.authenticated())
 				// JWT 인증을 위하여 필터 실행
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();

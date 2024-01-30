@@ -4,7 +4,7 @@ public class AuthenticatedMatchers {
 
     private AuthenticatedMatchers() {}
 
-    public static final String[] swaggerArray = {
+    public static final String[] matcherArray = {
             "/",
             "/oauth/code/**",
             "/oauth/login/**",
