@@ -8,6 +8,7 @@ import Goal from './pages/mypage/Goal';
 
 //styles
 import styles from './styles/App.module.css';
+import Callback from './pages/login/SosialLogin/Login-callback';
 
 function App() {
   let isLogged = false;
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Auth isLogged={isLogged} />} />
         <Route path="/login" element={<Auth isLogged={isLogged} />} />
         <Route path="/join" element={<Join></Join>}></Route>
+        <Route path="/login-callback" element={<Callback />}></Route>
       </Routes>
     </div>
   );

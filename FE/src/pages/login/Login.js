@@ -1,5 +1,6 @@
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
+import KakaoLogin from './SosialLogin/Login-callback';
 
 const Login = () => {
   const Navigate = useNavigate();
@@ -8,20 +9,22 @@ const Login = () => {
       <div className="wrapper">
         <p className="LoginText">로그인 화면입니다!!!</p>
         <div className="loginBtn">
-          <button
+          <a
             className="kakaoBtn"
             //type="button"
-            onClick={() => {}}
+            href="https://kauth.kakao.com/oauth/authorize?response_type=code&redirect_uri=http://localhost:3000/login-callback&client_id=40a6ee1bb9a630be39ffadabd71c51bd"
           >
-            네이버 버튼
-          </button>
-          <button
-            className="naverBtn"
-            //type="button"
-            onClick={() => {}}
-          >
-            카카오 버튼
-          </button>
+            <img
+              className="kakao"
+              src="FE/src/assets/login/kakao_btn.png"
+            ></img>
+          </a>
+          <a className="naverBtn">
+            <img
+              className="naver"
+              src="FE/src/assets/login/naver_btn.png"
+            ></img>
+          </a>
         </div>
         <div className="join">
           <button
