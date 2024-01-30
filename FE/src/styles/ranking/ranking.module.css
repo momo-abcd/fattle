@@ -1,0 +1,128 @@
+.wrapper {
+    background-color: #93C5FF;
+    width: 412px;
+    height: 915px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+/* Add the following styles to your existing CSS stylesheet or style block */
+
+.rankingcontainer {
+    background-size: cover;
+    background-position: center;
+    min-height: 45vh;
+    width: 412px;
+    position: relative;
+  }
+  
+  .rankingbar {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 65%;
+    height: 40%;
+  }
+  
+  .rankimagescontainer {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .rankimagesrow {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .rankimagescolumn {
+    margin-right: 65px;
+  }
+  
+  .rank-images {
+    margin-top: 200px;
+  }
+  
+  .ranknicknames {
+    margin-top: 250px;
+    white-space: pre;
+  }
+  
+
+
+  /* 기존의 CSS 스타일 시트나 스타일 블록에 다음 스타일을 추가하세요 */
+
+.ranklistcontainer {
+    max-height: 400px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    -ms-overflow-style: none;
+
+  }
+  .ranklistcontainer::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+  
+  .ranklistitem {
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.7);
+  }
+  
+  .rankitemcontent {
+    display: flex;
+    align-items: center;
+  }
+  
+  .rankposition {
+    margin-right: 8px;
+  }
+  
+  .rankimage {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  
+  p {
+    margin: 0;
+  }
+  
+  .myrankcontainer {
+    display: flex;
+    list-style: none;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    margin-top: 16px;
+    width: 395.2px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .myrankcontainer img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-left: 8px;
+  }
+  
+
+  .showMoreButton {
+    background-color: rgba(255, 255, 255, 0.7);
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 auto;
+  }
+  
+  .showMoreButton:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+  }

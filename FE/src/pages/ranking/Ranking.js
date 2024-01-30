@@ -1,9 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import styles from '../../styles/ranking/ranking.module.css'
+import Footer from '../../commons/Footer'
+import rankingbg from '../../assets/images/ranking/rankingbg.png'
+import rankingbar from '../../assets/images/ranking/rankingbar.png'
+
 
 function Ranking() {
   const [rank, setRank] = useState([])
   const [myRank, setMyRank] = useState()
+
+  const [visibleCount, setVisibleCount] = useState(5)
+
+  const handleShowMore = () => {
+    setVisibleCount((prevCount) => prevCount + 5)
+  };
 
   useEffect(() => {
     axios.get(`http://localhost:5000/rank`)
@@ -21,59 +32,63 @@ function Ranking() {
   }, [])
 
   return (
-    <div>
-      <h2>랭킹</h2>
+    <div className={styles.wrapper}>
+      
       {rank.length > 0 && (
-        <>
-          <div>
-            <p>
-              1위
-              <img src={rank[0].imgPath} alt='' />
-              {rank[0].nickname}
+        <div className={styles.rankingcontainer} style={{ backgroundImage: `url(${rankingbg})` }}>
+        <img src={rankingbar} alt='' className={styles.rankingbar} />
+        <div className={styles.rankimagescontainer}>
+          <div className={styles.rankimagesrow}>
+            <p className={styles.rankimagescolumn}>
+              <img src={rank[1].imgPath} alt='' className={styles.rankimages} />
             </p>
-          </div>
-
-          <div>
-            <p>
-              2위
-              <img src={rank[1].imgPath} alt='' />
-              {rank[1].nickname}
+            <p className={styles.rankimagescolumn}>
+              <img src={rank[0].imgPath} alt='' className={styles.rankimages} />
             </p>
-          </div>
-
-          <div>
             <p>
-              3위
-              <img src={rank[2].imgPath} alt='' />
+              <img src={rank[2].imgPath} alt='' className={styles.rankimages} />
+            </p>
+            <p className={styles.ranknicknames}>
+              {rank[1].nickname} {'        '}
+              {rank[0].nickname} {'        '}
               {rank[2].nickname}
             </p>
           </div>
-        </>
+        </div>
+      </div>
+      
       )}
-
-      <ul style={{ maxHeight: '100px', overflowY: 'auto' }}>
-        {rank.map((item, index) => (
-          <li key={index}>
-            {index + 1}위
-            <img src={item.imgPath} alt='' />
-            {item.nickname} {item.growthExp + item.stackExp}
+  
+      <ul className={styles.ranklistcontainer}>
+        {rank.slice(0, visibleCount).map((item, index) => (
+          <li key={index} className={styles.ranklistitem}>
+            <span className={styles.rankitemcontent}>
+              <span className={styles.rankposition}>{index + 1}위</span>
+              <img src={item.imgPath} alt='' className={styles.rankimage} />
+              <span>{item.nickname} {item.growthExp + item.stackExp}</span>
+            </span>
           </li>
         ))}
       </ul>
-
+      {visibleCount < rank.length && (
+        <button onClick={handleShowMore} className={styles.showMoreButton}>
+          더 보기
+        </button>
+      )}
+  
       <p>
         {myRank && (
-          <>
-            내 랭킹 : {myRank.rank}위
+          <div className={styles.myrankcontainer}>
+            내 랭킹: {myRank.rank}위
             <img src={myRank.imgPath} alt='' />
             {myRank.nickname} {myRank.growthExp + myRank.stackExp}
-          </>
+          </div>
         )}
       </p>
+
+      <Footer/>
     </div>
   );
-}
+}  
 
 export default Ranking
- 
-
