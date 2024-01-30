@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { getMypage } from '../../services/mypage/api';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../../styles/mypage/Mypage.module.css';
-
 // SVG 관련
-import ProfileImg from '../../assets/mypage/ProfileImg.svg';
-import Alarm from '../../assets/mypage/Alarm.svg';
-import Configure from '../../assets/mypage/Configure.svg';
-import Edit from '../../assets/mypage/Edit.svg';
+import ProfileImg from '../../assets/svg/mypage/ProfileImg.svg';
+import Alarm from '../../assets/svg/mypage/Alarm.svg';
+import Configure from '../../assets/svg/mypage/Configure.svg';
+import Edit from '../../assets/svg/mypage/Edit.svg';
 // Component 관련
 import Calendar from '../../components/mypage/Calendar';
 function Mypage(props) {
+  const navigate = useNavigate();
   const [data, setData] = useState({});
   useEffect(() => {
     (async () => {
-      setData(await getMypage(1));
+      try {
+        setData(await getMypage(1));
+      } catch (error) {
+        console.log(error);
+        navigate('/');
+      }
     })();
   }, []);
   return (
@@ -23,7 +28,16 @@ function Mypage(props) {
       <header className={styles.header}>
         <div className={styles.nickname}>
           {data.nickname}
-          <img src={Edit} alt="Edit" />
+          <Link
+            to="/mypageModify"
+            state={{
+              nickname: data.nickname,
+              introduction: data.introduction,
+              profileImg: ProfileImg,
+            }}
+          >
+            <img src={Edit} alt="Edit" />
+          </Link>
         </div>
         <div className={styles.linkContainer}>
           <div className={styles.linkItem}>
