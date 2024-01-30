@@ -1,6 +1,8 @@
 import './Login.css';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
 import KakaoLogin from './SosialLogin/Login-callback';
+import { useEffect } from 'react';
 
 const Login = () => {
   const Navigate = useNavigate();
@@ -11,8 +13,11 @@ const Login = () => {
         <div className="loginBtn">
           <a
             className="kakaoBtn"
-            //type="button"
-            href="https://kauth.kakao.com/oauth/authorize?response_type=code&redirect_uri=http://localhost:3000/login-callback&client_id=40a6ee1bb9a630be39ffadabd71c51bd"
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = 'http://localhost:8000/oauth/code/kakao';
+            }}
           >
             <img
               className="kakao"
