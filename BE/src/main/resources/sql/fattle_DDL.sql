@@ -26,9 +26,7 @@ CREATE TABLE `user_tb` (
   `growth_exp` int DEFAULT '0',
   `stack_exp` int DEFAULT '0',
   `introduction` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`user_cd`),
-  KEY `FK_avatar_tb_TO_user_tb_1` (`avatar_cd`),
-  CONSTRAINT `FK_avatar_tb_TO_user_tb_1` FOREIGN KEY (`avatar_cd`) REFERENCES `avatar_tb` (`avatar_cd`)
+  PRIMARY KEY (`user_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `battle_tb` (
@@ -39,18 +37,14 @@ CREATE TABLE `battle_tb` (
   `end_dt` timestamp NULL DEFAULT NULL,
   `contract_path` varchar(200) DEFAULT NULL,
   `status` tinyint DEFAULT '0',
-  PRIMARY KEY (`battle_cd`),
-  KEY `FK_user_tb_TO_battle_tb_1` (`creater_cd`),
-  CONSTRAINT `FK_user_tb_TO_battle_tb_1` FOREIGN KEY (`creater_cd`) REFERENCES `user_tb` (`user_cd`)
+  PRIMARY KEY (`battle_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `battle_betting_tb` (
   `betting_cd` int NOT NULL AUTO_INCREMENT,
   `battle_cd` char(6) NOT NULL,
   `content` varchar(50) NOT NULL,
-  PRIMARY KEY (`betting_cd`),
-  KEY `FK_battle_tb_TO_battle_betting_tb_1` (`battle_cd`),
-  CONSTRAINT `FK_battle_tb_TO_battle_betting_tb_1` FOREIGN KEY (`battle_cd`) REFERENCES `battle_tb` (`battle_cd`)
+  PRIMARY KEY (`betting_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `battle_player_tb` (
@@ -65,20 +59,14 @@ CREATE TABLE `battle_player_tb` (
   `food_user_pt` int DEFAULT '0',
   `quest_pt` int DEFAULT '0',
   `goal_pt` int DEFAULT '0',
-  PRIMARY KEY (`battle_cd`,`user_cd`),
-  KEY `FK_user_tb_TO_battle_player_tb_1` (`user_cd`),
-  CONSTRAINT `FK_battle_tb_TO_battle_player_tb_1` FOREIGN KEY (`battle_cd`) REFERENCES `battle_tb` (`battle_cd`),
-  CONSTRAINT `FK_user_tb_TO_battle_player_tb_1` FOREIGN KEY (`user_cd`) REFERENCES `user_tb` (`user_cd`)
+  PRIMARY KEY (`battle_cd`,`user_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `battle_trigger_tb` (
   `battle_cd` char(6) NOT NULL,
   `user_cd` bigint NOT NULL,
   `live_pt` int DEFAULT '0',
-  PRIMARY KEY (`battle_cd`,`user_cd`),
-  KEY `FK_user_tb_TO_battle_trigger_tb_1` (`user_cd`),
-  CONSTRAINT `FK_battle_tb_TO_battle_trigger_tb_1` FOREIGN KEY (`battle_cd`) REFERENCES `battle_tb` (`battle_cd`),
-  CONSTRAINT `FK_user_tb_TO_battle_trigger_tb_1` FOREIGN KEY (`user_cd`) REFERENCES `user_tb` (`user_cd`)
+  PRIMARY KEY (`battle_cd`,`user_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `battle_point_tb` (
@@ -89,13 +77,7 @@ CREATE TABLE `battle_point_tb` (
   `type` tinyint DEFAULT '0',
   `point` int DEFAULT '0',
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`point_cd`),
-  KEY `FK_battle_tb_TO_battle_point_tb_1` (`battle_cd`),
-  KEY `FK_battle_player_tb_TO_battle_point_tb_1` (`player_cd`),
-  KEY `FK_battle_trigger_tb_TO_battle_point_tb_1` (`trigger_cd`),
-  CONSTRAINT `FK_battle_player_tb_TO_battle_point_tb_1` FOREIGN KEY (`player_cd`) REFERENCES `battle_player_tb` (`user_cd`),
-  CONSTRAINT `FK_battle_tb_TO_battle_point_tb_1` FOREIGN KEY (`battle_cd`) REFERENCES `battle_tb` (`battle_cd`),
-  CONSTRAINT `FK_battle_trigger_tb_TO_battle_point_tb_1` FOREIGN KEY (`trigger_cd`) REFERENCES `battle_trigger_tb` (`user_cd`)
+  PRIMARY KEY (`point_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `exercise_type_tb` (
@@ -109,11 +91,7 @@ CREATE TABLE `exercise_tb` (
   `user_cd` bigint NOT NULL,
   `type_cd` char(3) NOT NULL,
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`exercise_cd`),
-  KEY `FK_user_tb_TO_exercise_tb_1` (`user_cd`),
-  KEY `FK_exercise_type_tb_TO_exercise_tb_1` (`type_cd`),
-  CONSTRAINT `FK_exercise_type_tb_TO_exercise_tb_1` FOREIGN KEY (`type_cd`) REFERENCES `exercise_type_tb` (`type_cd`),
-  CONSTRAINT `FK_user_tb_TO_exercise_tb_1` FOREIGN KEY (`user_cd`) REFERENCES `user_tb` (`user_cd`)
+  PRIMARY KEY (`exercise_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `exp_history_tb` (
@@ -122,20 +100,14 @@ CREATE TABLE `exp_history_tb` (
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `type` varchar(50) NOT NULL,
   `point` int DEFAULT '0',
-  PRIMARY KEY (`exp_cd`),
-  KEY `FK_user_tb_TO_exp_history_tb_1` (`user_cd`),
-  CONSTRAINT `FK_user_tb_TO_exp_history_tb_1` FOREIGN KEY (`user_cd`) REFERENCES `user_tb` (`user_cd`)
+  PRIMARY KEY (`exp_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `follow_tb` (
   `follow_cd` int NOT NULL,
   `to_user_cd` bigint NOT NULL,
   `from_user_cd` bigint NOT NULL,
-  PRIMARY KEY (`follow_cd`),
-  KEY `FK_user_tb_TO_follow_tb_1` (`to_user_cd`),
-  KEY `FK_user_tb_TO_follow_tb_2` (`from_user_cd`),
-  CONSTRAINT `FK_user_tb_TO_follow_tb_1` FOREIGN KEY (`to_user_cd`) REFERENCES `user_tb` (`user_cd`),
-  CONSTRAINT `FK_user_tb_TO_follow_tb_2` FOREIGN KEY (`from_user_cd`) REFERENCES `user_tb` (`user_cd`)
+  PRIMARY KEY (`follow_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `food_board_tb` (
@@ -144,11 +116,7 @@ CREATE TABLE `food_board_tb` (
   `player_cd` bigint NOT NULL,
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `img_path` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`food_board_cd`),
-  KEY `FK_battle_player_tb_TO_food_board_tb_1` (`battle_cd`),
-  KEY `FK_battle_player_tb_TO_food_board_tb_2` (`player_cd`),
-  CONSTRAINT `FK_battle_player_tb_TO_food_board_tb_1` FOREIGN KEY (`battle_cd`) REFERENCES `battle_player_tb` (`battle_cd`),
-  CONSTRAINT `FK_battle_player_tb_TO_food_board_tb_2` FOREIGN KEY (`player_cd`) REFERENCES `battle_player_tb` (`user_cd`)
+  PRIMARY KEY (`food_board_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `food_comment_tb` (
@@ -157,11 +125,7 @@ CREATE TABLE `food_comment_tb` (
   `trigger_cd` bigint NOT NULL,
   `content` varchar(100) DEFAULT NULL,
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`food_comment_cd`),
-  KEY `FK_food_board_tb_TO_food_comment_tb_1` (`food_board_cd`),
-  KEY `FK_battle_trigger_tb_TO_food_comment_tb_1` (`trigger_cd`),
-  CONSTRAINT `FK_battle_trigger_tb_TO_food_comment_tb_1` FOREIGN KEY (`trigger_cd`) REFERENCES `battle_trigger_tb` (`user_cd`),
-  CONSTRAINT `FK_food_board_tb_TO_food_comment_tb_1` FOREIGN KEY (`food_board_cd`) REFERENCES `food_board_tb` (`food_board_cd`)
+  PRIMARY KEY (`food_comment_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `food_tb` (
@@ -175,9 +139,7 @@ CREATE TABLE `food_tb` (
   `fat` int NOT NULL DEFAULT '0',
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `img_path` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`food_cd`),
-  KEY `FK_user_tb_TO_food_tb_1` (`user_cd`),
-  CONSTRAINT `FK_user_tb_TO_food_tb_1` FOREIGN KEY (`user_cd`) REFERENCES `user_tb` (`user_cd`)
+  PRIMARY KEY (`food_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `health_tb` (
@@ -186,9 +148,7 @@ CREATE TABLE `health_tb` (
   `height` float DEFAULT '0',
   `weight` float DEFAULT '0',
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`health_cd`),
-  KEY `FK_user_tb_TO_health_tb_1` (`user_cd`),
-  CONSTRAINT `FK_user_tb_TO_health_tb_1` FOREIGN KEY (`user_cd`) REFERENCES `user_tb` (`user_cd`)
+  PRIMARY KEY (`health_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `quest_tb` (
@@ -198,9 +158,7 @@ CREATE TABLE `quest_tb` (
   `exercise_cnt` tinyint NOT NULL DEFAULT '0',
   `food_cnt` tinyint NOT NULL DEFAULT '0',
   `is_finish` tinyint NOT NULL DEFAULT '0',
-  PRIMARY KEY (`rec_dt`,`user_cd`),
-  KEY `FK_user_tb_TO_quest_tb_1` (`user_cd`),
-  CONSTRAINT `FK_user_tb_TO_quest_tb_1` FOREIGN KEY (`user_cd`) REFERENCES `user_tb` (`user_cd`)
+  PRIMARY KEY (`rec_dt`,`user_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 create or replace view `fattle`.`ranking_vw` as
