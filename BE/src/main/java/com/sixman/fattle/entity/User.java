@@ -22,7 +22,7 @@ public class User {
     private long userCode;
 
     @Column(name = "avatar_cd")
-    private int avatarCode;
+    private String avatarCode;
 
     @Column(name = "nickname")
     private String nickname;
