@@ -40,7 +40,6 @@ public class UserService {
     }
 
     public UserInfoResponse userInfo(long userCode) {
-
-        return null;
+        return userRepository.getUserInfo(userCode);
     }
 }

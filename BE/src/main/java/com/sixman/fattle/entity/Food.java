@@ -29,6 +29,9 @@ public class Food {
     @Column(name = "calory")
     private int calory;
 
+    @Column(name = "carbo")
+    private int carbo;
+
     @Column(name = "protein")
     private int protein;
 

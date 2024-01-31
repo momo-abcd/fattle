@@ -1,6 +1,8 @@
 package com.sixman.fattle.repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sixman.fattle.dto.request.SignUpRequest;
 import com.sixman.fattle.dto.response.UserInfoResponse;
@@ -8,6 +10,9 @@ import com.sixman.fattle.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -17,6 +22,7 @@ public class UserRepository {
     private final JPAQueryFactory queryFactory;
 
     private final QUser quser = QUser.user;
+    private final QAvatar qavatar = QAvatar.avatar;
     private final QHealth qhealth = QHealth.health;
     private final QFood qfood = QFood.food;
     private final QRanking qranking = QRanking.ranking;
@@ -72,18 +78,82 @@ public class UserRepository {
                 .intValue();
     }
 
-//    public UserInfoResponse getUserInfo(long userCode) {
-//        int rank = queryFactory
-//                .select(qranking.rank)
-//                .from(qranking)
-//                .where(qranking.userCd.eq(userCode))
-//                .fetchFirst();
-//
-//        List<Tuple> foodList
-//                = queryFactory
-//                .select()
-//
-//        return null;
-//    }
+    public UserInfoResponse getUserInfo(long userCode) {
+        int rank = queryFactory
+                .select(qranking.rank)
+                .from(qranking)
+                .where(qranking.userCd.eq(userCode))
+                .fetchFirst();
+
+        LocalDate today = LocalDate.now();
+
+        List<Tuple> foodList
+                = queryFactory
+                .select(
+                        qfood.calory.sum(),
+                        qfood.carbo.sum(),
+                        qfood.protein.sum(),
+                        qfood.fat.sum())
+                .from(qfood)
+                .where(qfood.recDt.after(Timestamp.valueOf(today.atStartOfDay())))
+                .fetch();
+
+        int calory = 0;
+        int carbo = 0;
+        int protein = 0;
+        int fat = 0;
+
+        for (Tuple tuple : foodList) {
+            calory += tuple.get(qfood.calory);
+            carbo += tuple.get(qfood.carbo);
+            protein += tuple.get(qfood.protein);
+            fat += tuple.get(qfood.fat);
+        }
+
+        Tuple health = queryFactory
+                .select(
+                        qhealth.height,
+                        qhealth.weight)
+                .from(qhealth)
+                .where(qhealth.userCd.eq(userCode))
+                .orderBy(qhealth.recDt.desc())
+                .fetchFirst();
+
+        Tuple user = queryFactory
+                .select(
+                        quser.nickname,
+                        quser.goalWeight,
+                        quser.goalCalory,
+                        quser.goalCarbo,
+                        quser.goalProtein,
+                        quser.goalFat,
+                        quser.growthExp,
+                        quser.stackExp,
+                        qavatar.imgPath)
+                .from(quser)
+                .where(quser.userCd.eq(userCode))
+                .join(qavatar)
+                .on(quser.avatarCd.eq(qavatar.avatarCd))
+                .fetchFirst();
+
+        return UserInfoResponse.builder()
+                .ranking(rank)
+                .nickname(user.get(quser.nickname))
+                .height(health.get(qhealth.height))
+                .weight(health.get(qhealth.weight))
+                .goalWeight(user.get(quser.goalWeight))
+                .calory(calory)
+                .goalCalory(user.get(quser.goalCalory))
+                .carbo(carbo)
+                .goalCarbo(user.get(quser.goalCarbo))
+                .protein(protein)
+                .goalProtein(user.get(quser.goalProtein))
+                .fat(fat)
+                .goalFat(user.get(quser.goalFat))
+                .growthExp(user.get(quser.growthExp))
+                .stackExp(user.get(quser.stackExp))
+                .imgPath(user.get(qavatar.imgPath))
+                .build();
+    }
 
 }

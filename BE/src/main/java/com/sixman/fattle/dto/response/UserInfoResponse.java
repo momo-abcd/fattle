@@ -11,6 +11,7 @@ public class UserInfoResponse {
     private String nickname;
     private float height;
     private float weight;
+    private float goalWeight;
     private int calory;
     private int goalCalory;
     private int carbo;
