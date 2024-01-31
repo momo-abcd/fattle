@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import styles from '../../styles/ranking/ranking.module.css'
-import Footer from '../../commons/Footer'
+import Footer from '../../commons/Footer';
 import rankingbg from '../../assets/images/ranking/rankingbg.png'
 import rankingbar from '../../assets/images/ranking/rankingbar.png'
 
@@ -10,10 +10,12 @@ function Ranking() {
   const [rank, setRank] = useState([])
   const [myRank, setMyRank] = useState()
 
-  const [visibleCount, setVisibleCount] = useState(5)
+  const [visibleCount, setVisibleCount] = useState(8)
+  const [showCloseButton, setShowCloseButton] = useState(false);
 
   const handleShowMore = () => {
-    setVisibleCount((prevCount) => prevCount + 5)
+    setVisibleCount((prevCount) => prevCount + 8); // 5개씩 더 보이도록 업데이트
+    setShowCloseButton(true);
   };
 
   useEffect(() => {
@@ -48,7 +50,9 @@ function Ranking() {
             <p>
               <img src={rank[2].imgPath} alt='' className={styles.rankimages} />
             </p>
-            <p className={styles.ranknicknames}>
+          </div>
+          <div className={styles.ranknicknames}>
+            <p>
               {rank[1].nickname} {'        '}
               {rank[0].nickname} {'        '}
               {rank[2].nickname}
@@ -58,33 +62,51 @@ function Ranking() {
       </div>
       
       )}
-  
-      <ul className={styles.ranklistcontainer}>
-        {rank.slice(0, visibleCount).map((item, index) => (
-          <li key={index} className={styles.ranklistitem}>
-            <span className={styles.rankitemcontent}>
-              <span className={styles.rankposition}>{index + 1}위</span>
-              <img src={item.imgPath} alt='' className={styles.rankimage} />
-              <span>{item.nickname} {item.growthExp + item.stackExp}</span>
-            </span>
-          </li>
-        ))}
-      </ul>
-      {visibleCount < rank.length && (
-        <button onClick={handleShowMore} className={styles.showMoreButton}>
-          더 보기
-        </button>
-      )}
-  
+
       <p>
         {myRank && (
           <div className={styles.myrankcontainer}>
-            내 랭킹: {myRank.rank}위
+            {myRank.rank}위
             <img src={myRank.imgPath} alt='' />
-            {myRank.nickname} {myRank.growthExp + myRank.stackExp}
+            <span>
+            {myRank.nickname}
+            </span>
+            {myRank.growthExp + myRank.stackExp}
           </div>
         )}
       </p>
+
+
+      
+
+      <ul className={styles.ranklistcontainer}>
+        {rank.slice(0, visibleCount).map((item, index) => (
+          <li key={index} className={`
+          ${styles.ranklistitem} 
+          ${index === 0 ? styles.goldColor : index === 1 ? styles.silverColor : index === 2 ? styles.bronzeColor : styles[`rankColor${index % 2}`]}`}>
+            <span className={styles.rankitemcontent}>
+              <span className={styles.rankposition}>{index + 1}위</span>
+              <img src={item.imgPath} alt='' className={styles.rankimage} />
+              <span>{item.nickname}</span>
+              <span>{item.growthExp + item.stackExp}</span>
+            </span>
+          </li>
+        ))}
+
+      {visibleCount < rank.length && (
+        <>
+          <button onClick={handleShowMore} className={`${styles.ranklistitem} ${styles.centeredButton}`}>
+            더 보기
+          </button>
+          {showCloseButton && (
+            <button onClick={() => { setVisibleCount(5); setShowCloseButton(false); }} className={styles.closeButton}>
+              닫기
+            </button>
+          )}
+        </>
+      )}
+      </ul>
+      
 
       <Footer/>
     </div>
@@ -92,3 +114,4 @@ function Ranking() {
 }  
 
 export default Ranking
+

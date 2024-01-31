@@ -1,4 +1,3 @@
-
 import styles from "../../styles/main/Character.module.css"
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -36,7 +35,8 @@ function Character() {
     <div className={styles.wrapper}>
       {mainUserData && (
         <div>
-          <p>{mainUserData.ranking}등</p>
+          <p>{mainUserData.nickname}</p>
+          {/* <p>{mainUserData.ranking}등</p> */}
           {/* <img src={mainUserData.imgPath} alt="캐릭터 이미지" /> */}
           {/* <img src = {panda} alt=''/> */}
 
@@ -45,7 +45,7 @@ function Character() {
           <circle
             className={styles.circle}
             stroke="#ffffff"
-            strokeWidth="20"
+            strokeWidth="15"
             fill="transparent"
             r={radius}
             cx={radius}
@@ -61,7 +61,7 @@ function Character() {
           <circle
             className={styles.filledcircle}
             stroke="#98FF87"
-            strokeWidth="20"
+            strokeWidth="15"
             fill="transparent"
             r={radius}
             cx={radius}
@@ -84,10 +84,25 @@ function Character() {
           </div>
 
           <div className={styles.nutrienticons}>
-            <img src={탄수화물} alt='' />
-            <img src={단백질} alt='' />
-            <img src={지방} alt='' />
+            <div className={styles.nutrienticon}>
+              <img src={탄수화물} alt='' />
+              <div className={styles.nutrientbar}>
+                <div className={styles.remainingbar2} style={{ width: `${(100 / mainUserData.goalcarbo) * 100}%` }}></div>
+                <p>100 / {mainUserData.goalcarbo}g</p>
+              </div>
+              <img src={단백질} alt='' />
+              <div className={styles.nutrientbar}>
+                <div className={styles.remainingbar3} style={{ width: `${(70 / mainUserData.goalprotein) * 100}%` }}></div>
+              </div>
+
+              <img src={지방} alt='' />
+              <div className={styles.nutrientbar}>
+                <div className={styles.remainingbar4} style={{ width: `${(50 / mainUserData.goalfat) * 100}%` }}></div>
+              </div>
+            </div>
           </div>
+
+
           
           <div className={styles.infobar}>
             <p>
@@ -108,3 +123,4 @@ function Character() {
 }
 
 export default Character
+

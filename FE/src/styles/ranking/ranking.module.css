@@ -1,128 +1,161 @@
 .wrapper {
-    background-color: #93C5FF;
-    width: 412px;
-    height: 915px;
-    margin: auto;
-    margin-top: 20px;
+  background-color: azure;
+  width: 412px;
+  height: 915px;
+  margin: auto;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
 }
-
-/* Add the following styles to your existing CSS stylesheet or style block */
 
 .rankingcontainer {
-    background-size: cover;
-    background-position: center;
-    min-height: 45vh;
-    width: 412px;
-    position: relative;
-  }
-  
-  .rankingbar {
-    position: absolute;
-    top: 75%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 65%;
-    height: 40%;
-  }
-  
-  .rankimagescontainer {
-    position: relative;
-    z-index: 1;
-  }
-  
-  .rankimagesrow {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .rankimagescolumn {
-    margin-right: 65px;
-  }
-  
-  .rank-images {
-    margin-top: 200px;
-  }
-  
-  .ranknicknames {
-    margin-top: 250px;
-    white-space: pre;
-  }
-  
+  background-size: cover;
+  background-position: center;
+  min-height: 310px;
+  width: 412px;
+  position: relative;
+}
+
+.rankingbar {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+  height: 40%;
+}
 
 
-  /* 기존의 CSS 스타일 시트나 스타일 블록에 다음 스타일을 추가하세요 */
+.rankimagesrow {
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+  position: relative;
+}
+
+.rankimagescolumn {
+  margin-right: 65px;
+}
+
+.rank-images {
+  margin-top: 200px;
+}
+
+.ranknicknames {
+  margin-top: 264px;
+  display: flex;
+  justify-content: center;
+  white-space: pre;
+}
+
+
 
 .ranklistcontainer {
-    max-height: 400px;
-    overflow-y: auto;
-    list-style: none;
-    padding: 0;
-    width: 100%;
-    -ms-overflow-style: none;
+  max-height: 800px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0px;
+  width: 100%;
+  -ms-overflow-style: none;
+  background-color: azure;
+  margin-bottom: 50px;
 
-  }
-  .ranklistcontainer::-webkit-scrollbar {
-    display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
-  
-  .ranklistitem {
-    margin-bottom: 8px;
-    padding: 10px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.7);
-  }
-  
-  .rankitemcontent {
-    display: flex;
-    align-items: center;
-  }
-  
-  .rankposition {
-    margin-right: 8px;
-  }
-  
-  .rankimage {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 8px;
-  }
-  
-  p {
-    margin: 0;
-  }
-  
-  .myrankcontainer {
-    display: flex;
-    list-style: none;
-    padding: 10px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.7);
-    margin-top: 16px;
-    width: 395.2px;
-    position: relative;
-    z-index: 1;
-  }
-  
-  .myrankcontainer img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-left: 8px;
-  }
-  
+.ranklistcontainer::-webkit-scrollbar {
+  display: none;
+}
 
-  .showMoreButton {
-    background-color: rgba(255, 255, 255, 0.7);
-    color: black;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    margin: 0 auto;
-  }
-  
-  .showMoreButton:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-  }
+.ranklistitem {
+margin: 8px 8px 10px;
+padding: 10px;
+border-radius: 20px;
+/* background: rgba(255, 255, 255, 0.7); */
+}
+.goldColor{
+background: #f2d552;
+box-shadow: 0 0 10px rgba(242, 213, 82, 0.8);
+}
+.silverColor{
+background: #c0c0c0;
+}
+.bronzeColor{
+background: #E68F5B;
+}
+.rankColor0 {
+background: #cbf5ff;
+}
+.rankColor1 {
+background: #d8ffcb;
+}
+
+
+.rankitemcontent {
+  display: flex;
+  align-items: center;
+}
+
+.rankposition {
+  margin-right: 10px;
+}
+
+.rankimage {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 50px;
+}
+
+.rankitemcontent span:last-child {
+  margin-left: 120px; /* 닉네임과 경험치 사이의 간격 조절 */
+}
+
+.myrankcontainer {
+  display: flex;
+  list-style: none;
+  padding: 10px;
+  border-radius: 20px;
+  border: 2px solid #40d8e9;
+  background: #5bfff5;
+  width: 375.2px;
+  /* width: 395.2px; */
+  position: relative;
+  z-index: 1;
+  align-items: center; /* 세로 중앙 정렬을 위한 추가 */
+  /* justify-content: center; 가로 중앙 정렬을 위한 추가 */
+  margin: 8px 8px 10px;
+}
+
+.myrankcontainer img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-left: 8px;
+  margin-right: 50px;
+}
+
+.myrankcontainer span {
+  margin-right: 120px; /* 닉네임과 경험치 사이의 간격 조절 */
+}
+
+.showMoreButton {
+  background-color: rgba(255, 255, 255, 0.7);
+  color: black;
+  padding: 10px 15px;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 auto;
+}
+
+.centeredButton {
+display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+}
+
+.showMoreButton:hover {
+  background-color: rgba(175, 175, 175, 0.9);
+}

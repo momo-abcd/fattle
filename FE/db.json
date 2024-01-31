@@ -1,0 +1,126 @@
+{
+  "user": {
+    "followerCnt": 1,
+    "followingCnt": 1,
+    "introduction": "안녕하세요",
+    "weight": 1,
+    "goalWeight": 1,
+    "calendar": [
+      {
+        "date": "2024-01-01",
+        "quest": 1
+      },
+      {
+        "date": "2024-01-02",
+        "quest": 0
+      }
+    ]
+  },
+
+  "rank" : {
+    "top10":[
+      {
+        "userCode": 65489487,
+        "nickname": "찬영",
+        "growthExp": 100,
+        "stackExp": 1000,
+        "imgPath": "http://via.placeholder.com/20.jpg/"
+      },
+      {
+        "userCode": 65489488,
+        "nickname": "찬영2",
+        "growthExp": 100,
+        "stackExp": 800,
+        "imgPath": "http://via.placeholder.com/20.jpg/"
+      },
+      {
+        "userCode": 65489489,
+        "nickname": "찬영3",
+        "growthExp": 100,
+        "stackExp": 600,
+        "imgPath": "http://via.placeholder.com/20.jpg/"
+      },
+      {
+          "userCode": 65489429,
+          "nickname": "찬영4",
+          "growthExp": 100,
+          "stackExp": 400,
+          "imgPath": "http://via.placeholder.com/20.jpg/"
+      },
+      {
+          "userCode": 65489481,
+          "nickname": "찬영5",
+          "growthExp": 50,
+          "stackExp": 200,
+          "imgPath": "http://via.placeholder.com/20.jpg/"
+      },
+      {
+        "userCode": 65489481,
+        "nickname": "찬영6",
+        "growthExp": 40,
+        "stackExp": 200,
+        "imgPath": "http://via.placeholder.com/20.jpg/"
+      },
+      {
+        "userCode": 65489481,
+        "nickname": "찬영7",
+        "growthExp": 50,
+        "stackExp": 150,
+        "imgPath": "http://via.placeholder.com/20.jpg/"
+      },
+      {
+        "userCode": 65489481,
+        "nickname": "찬영8",
+        "growthExp": 50,
+        "stackExp": 100,
+        "imgPath": "http://via.placeholder.com/20.jpg/"
+      }
+    ],
+    "myRank":2
+  },
+
+  "mainuser": {
+      "nickname": "싸피 터줏대감",
+      "ranking": 1,
+      "height": 181.3,
+      "weight": 73.2,
+      "goalcarbo":150,
+      "goalprotein":120,
+      "goalfat":100,
+      "calory": 1169,
+      "goalCalory": 1930,
+      "growthExp": 75,
+      "stackExp": 400,
+      "imgPath": "http://via.placeholder.com/100.jpg/"
+    },
+
+  "ExpHistory":{
+    "history":[
+      {
+        "userCode": 123,  
+        "exp_dt": "2024-01-01",
+        "exp_type": "일일퀘스트",
+        "exp_point": 100
+      },
+      {
+        "userCode": 123,  
+        "exp_dt": "2024-01-02",
+        "exp_type": "배틀 승리",
+        "exp_point": 200
+      }
+    ]
+  },
+
+  "quest":{
+    "foodCnt": 2,
+    "exercise": {
+      "running": 1,
+      "pushup": 0,
+      "exercise1":1,
+      "exercise2":1,
+      "exercise3":1
+    }
+}
+}
+
+  
