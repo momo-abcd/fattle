@@ -31,7 +31,7 @@ CREATE TABLE `user_tb` (
 
 CREATE TABLE `battle_tb` (
   `battle_cd` char(6) NOT NULL,
-  `creater_cd` bigint NOT NULL,
+  `creator_cd` bigint NOT NULL,
   `name` varchar(20) DEFAULT NULL,
   `start_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `end_dt` timestamp NULL DEFAULT NULL,

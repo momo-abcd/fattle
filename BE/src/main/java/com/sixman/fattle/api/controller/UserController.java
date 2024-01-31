@@ -1,16 +1,16 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.UserService;
+import com.sixman.fattle.dto.request.SignUpRequest;
+import com.sixman.fattle.dto.response.UserInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -29,6 +29,32 @@ public class UserController {
     @GetMapping("/login/{userCode}")
     public ResponseEntity<?> login(@PathVariable long userCode) {
         return ResponseEntity.status(userService.login(userCode)).build();
+    }
+
+    @Operation(summary = "회원가입",
+            description = "유저 정보를 받아 회원가입")
+    @ApiResponse(responseCode = "201", description = "회원가입 성공")
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUp(@RequestBody SignUpRequest request) {
+        userService.signUp(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @Operation(summary = "닉네임 중복 확인",
+            description = "기존에 존재하는 닉네임인지 확인")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "닉네임 사용 가능"),
+            @ApiResponse(responseCode = "204", description = "닉네임 중복")
+    })
+    @GetMapping("/nickname/{nickname}")
+    public ResponseEntity<?> checkNickname(@PathVariable String nickname) {
+        return ResponseEntity.status(userService.checkNickname(nickname)).build();
+    }
+
+    @GetMapping("/userinfo/{userCode}")
+    public ResponseEntity<?> userInfo(@PathVariable long userCode) {
+        UserInfoResponse response = userService.userInfo(userCode);
+        return ResponseEntity.ok(response);
     }
 
 }

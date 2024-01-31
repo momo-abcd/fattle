@@ -19,10 +19,10 @@ public class User {
 
     @Id
     @Column(name = "user_cd")
-    private long userCode;
+    private long userCd;
 
     @Column(name = "avatar_cd")
-    private String avatarCode;
+    private String avatarCd;
 
     @Column(name = "nickname")
     private String nickname;
@@ -32,7 +32,7 @@ public class User {
 
     @Column(name = "join_dt")
     @CreationTimestamp
-    private Timestamp joinDate;
+    private Timestamp joinDt;
 
     @Column(name = "goal_weight")
     private float goalWeight;
