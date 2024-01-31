@@ -1,0 +1,35 @@
+div {
+    box-sizing:content-box;
+}
+
+.wrapper { 
+    background-color: #93C5FF;
+    width: 412px;
+    height: 915px;
+    margin: auto;
+}
+
+.LoginText {
+    text-align: center;
+}
+
+.loginBtn {
+    margin-top: 584px;
+    background-color: white;
+    width: 262px;
+    height: 71;
+    margin-left: 75px;
+    margin-bottom: 15px;
+}
+
+
+.join {
+    background-color: red;
+}
+
+.joinBtn {
+    margin-left: 75;
+}
+
+
+
