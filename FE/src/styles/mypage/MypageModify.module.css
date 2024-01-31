@@ -42,7 +42,7 @@
   margin-bottom: 16px;
   box-sizing: border-box;
   border-radius: 10px;
-  background-color: #f1f1f1;
+  background-color: var(--color-box);
   fill: #f1f1f1;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border: none;

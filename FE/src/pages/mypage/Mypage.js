@@ -63,7 +63,14 @@ function Mypage(props) {
           <div className={styles.fDiv}>
             <div>팔로워</div>
             <div className={styles.fText}>
-              <Link to="/mypage/follow" state={{ who: 'follower' }}>
+              <Link
+                to="/mypage/follow"
+                state={{
+                  who: 'follower',
+                  followerCnt: data.followerCnt,
+                  followingCnt: data.followingCnt,
+                }}
+              >
                 {data.followerCnt}
               </Link>
             </div>
@@ -71,7 +78,14 @@ function Mypage(props) {
           <div className={styles.fDiv}>
             <div>팔로잉</div>
             <div className={styles.fText}>
-              <Link to="/mypage/follow" state={{ who: 'following' }}>
+              <Link
+                to="/mypage/follow"
+                state={{
+                  who: 'following',
+                  followerCnt: data.followerCnt,
+                  followingCnt: data.followingCnt,
+                }}
+              >
                 {data.followingCnt}
               </Link>
             </div>
