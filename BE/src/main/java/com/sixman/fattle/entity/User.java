@@ -1,5 +1,6 @@
 package com.sixman.fattle.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Data
@@ -57,5 +59,17 @@ public class User {
 
     @Column(name = "introduction")
     private String introduction;
+
+//    @OneToMany(mappedBy = "toUser", cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private List<Follow> followers;
+//
+//    @OneToMany(mappedBy = "fromUser", cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private List<Follow> following;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<DailyQuest> dailyQuests;
 
 }
