@@ -6,7 +6,7 @@ spring:
         registration:
           kakao:
             client-id: 40a6ee1bb9a630be39ffadabd71c51bd
-            redirect-uri: http://i10e106.p.ssafy.io:3000/login-callback
+            redirect-uri: http://localhost:3000/login-callback
             client-authentication-method: POST
             client-secret: zPTNIFgvrKxFEzMFYZWgSmDbFleYUpZG
             authorization-grant-type: authorization_code
