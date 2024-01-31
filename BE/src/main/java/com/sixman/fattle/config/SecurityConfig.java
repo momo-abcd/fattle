@@ -35,6 +35,7 @@ public class SecurityConfig {
 				// JWT를 사용하기 때문에 session을 사용하지 않음
 				.sessionManagement(configurer ->
 						configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				// 요청 권한
 				.authorizeHttpRequests(authorize -> authorize
 								// 해당 API에 대해서는 모든 요청을 허가
 								.requestMatchers(AuthenticatedMatchers.matcherArray)

@@ -1,9 +1,8 @@
 package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.dto.KakaoProfile;
-import com.sixman.fattle.dto.response.LoginResponse;
+import com.sixman.fattle.dto.response.TokenResponse;
 import com.sixman.fattle.dto.dto.OAuthToken;
-import com.sixman.fattle.entity.User;
 import com.sixman.fattle.utils.JwtTokenProvider;
 import com.sixman.fattle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,18 +42,18 @@ public class OAuthService {
         return new RedirectView(uri);
     }
 
-    public LoginResponse login(String providerName, String code) {
+    public TokenResponse login(String providerName, String code) {
         ClientRegistration provider = inMemoryRepository.findByRegistrationId(providerName);
 
         OAuthToken token = getToken(code, provider);
 
-        User user = getUserProfile(token, provider);
+        long userCode = getUserProfile(token, provider);
 
-        String accessToken = jwtTokenProvider.createAccessToken(String.valueOf(user.getUserCode()));
+        String accessToken = jwtTokenProvider.createAccessToken(String.valueOf(userCode));
         String refreshToken = jwtTokenProvider.createRefreshToken();
 
-        return LoginResponse.builder()
-                .userCode(user.getUserCode())
+        return TokenResponse.builder()
+                .userCode(userCode)
                 .tokenType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -85,25 +84,11 @@ public class OAuthService {
         return formData;
     }
 
-    private User getUserProfile(OAuthToken token, ClientRegistration provider) {
+    private long getUserProfile(OAuthToken token, ClientRegistration provider) {
         Map<String, Object> userAttributes = getUserAttributes(provider, token);
         KakaoProfile profile = new KakaoProfile(userAttributes);
 
-        long providerId = profile.getProviderId();
-
-        return signIn(providerId);
-    }
-
-    private User signIn(long userCode) {
-        User user = userRepository.findByUserCode(userCode);
-
-        if (user == null) {
-            user = new User();
-            user.setUserCode(userCode);
-            userRepository.save(user);
-        }
-
-        return user;
+       return profile.getProviderId();
     }
 
     private Map<String, Object> getUserAttributes(ClientRegistration provider, OAuthToken token) {

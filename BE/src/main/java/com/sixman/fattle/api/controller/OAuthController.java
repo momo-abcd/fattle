@@ -1,7 +1,7 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.OAuthService;
-import com.sixman.fattle.dto.response.LoginResponse;
+import com.sixman.fattle.dto.response.TokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class OAuthController {
     @GetMapping("/login/{provider}")
     public ResponseEntity<?> login(@PathVariable String provider,
                                            @RequestParam("code") String code) {
-        LoginResponse response = oAuthService.login(provider, code);
+        TokenResponse response = oAuthService.login(provider, code);
 
         return ResponseEntity.ok(response);
     }
