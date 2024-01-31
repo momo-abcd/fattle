@@ -10,8 +10,7 @@ const Login = () => {
         <p className="LoginText">로그인 화면입니다!!!</p>
         <div className="wrapper">
           <div className="title">
-            <div>다이어트의 시작</div>
-            <div>Fattle</div>
+            <div>FATTLE</div>
           </div>
 
           <div className="kakao">
@@ -26,15 +25,6 @@ const Login = () => {
             >
               <img className="kakao" src={kakao_btn} alt="Kakao Button" />
             </a>
-          </div>
-          <div className="naver">
-            <a className="naverBtn" type="button">
-              <img className="naver" src={naver_btn} alt="Kakao Button" />
-            </a>
-          </div>
-          <div className="otherBtn">
-            <button className="faceBook">페북</button>
-            <button className="apple">apple</button>
           </div>
         </div>
       </div>

@@ -3,9 +3,10 @@ div {
 }
 
 .background { 
-    background-color:#93C5FF;
     width: 412px;
     height: 915px;
+    background-image: url('../../assets/login/loginPage.png');
+    background-size: cover;
     margin: auto;
     box-shadow: 0px 0px 1px 0px gray;
 }
@@ -13,7 +14,7 @@ div {
 .wrapper {
     background-color: white;
     width: 250px;
-    height: 500px;
+    height: 190px;
     margin:auto; 
     border-radius: 20px;
     box-shadow: 1px 1px 1px 1px gray;
@@ -26,31 +27,19 @@ div {
 }
 
 .title {
-    margin-top: 50px;
-    margin-left: 20px;
-}
-
-.kakao {
-    margin-left: 25px;
-    width: 150px;
-    margin-top: 100px;
+    margin-top: 150px;
+    text-align: center;
+    font-size: 30px;
     
 }
 
-.naver {
-    width: 150px;
-    margin-top: 10px;
-    margin-left: 25px;
+.kakao {
+    margin-left: 13px;
+    width: 200px;
+    margin-top: 30px;
+    
 }
 
-.otherBtn {
-    text-align: center;
-}
-
-.faceBook {
-    margin-top: 20px;
-    margin-right: 30px;
-}
 
 
 /* .loginBtn {
