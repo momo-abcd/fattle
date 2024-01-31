@@ -5,6 +5,9 @@ import Auth from './utils/Auth';
 import MypageModify from './pages/mypage/MypageModify';
 import FollowList from './pages/mypage/FollowList';
 import Goal from './pages/mypage/Goal';
+import Ranking from './pages/ranking/Ranking'
+import ExpHistory from './components/main/ExpHistory';
+import Main from './pages/main/Main';
 
 //styles
 import styles from './styles/App.module.css';
@@ -23,8 +26,13 @@ function App() {
         <Route path="/login" element={<Auth isLogged={isLogged} />} />
         <Route path="/join1" element={<JoinP1></JoinP1>}></Route>
         <Route path="/login-callback" element={<Callback />}></Route>
+        <Route path="/main" element={<Main />} />
+          <Route path="/history" element={<ExpHistory />} />
+          <Route path="/ranking" element={<Ranking />} />
       </Routes>
     </div>
   );
 }
 export default App;
+
+

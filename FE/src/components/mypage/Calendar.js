@@ -3,7 +3,7 @@ import styles from '../../styles/mypage/Calendar.module.css';
 import { getClassName } from '../../utils/mypage/checkQuestSuccess';
 import dates from '../../utils/mypage/makeCalendarList';
 // svg import
-import CalendarSVG from '../../assets/mypage/Calendar.svg';
+import CalendarSVG from '../../assets/svg/mypage/Calendar.svg';
 
 const Calendar = ({ calendar }) => {
   return (
