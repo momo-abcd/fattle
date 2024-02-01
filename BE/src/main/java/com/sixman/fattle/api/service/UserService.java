@@ -64,4 +64,15 @@ public class UserService {
     public UserInfoResponse userInfo(long userCode) {
         return userRepository.getUserInfo(userCode);
     }
+
+    public DailyQuest getDailyQuest(long userCode) {
+        User user = userRepository.getUser(userCode);
+        List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
+        if (!dailyQuests.isEmpty()) {
+            DailyQuest lastDailyQuest = dailyQuests.get(dailyQuests.size() - 1);
+            return lastDailyQuest;
+        } else {
+            return null;
+        }
+    }
 }

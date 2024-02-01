@@ -190,13 +190,13 @@ public class MyPageServiceImpl implements MyPageService {
 
 
     private DailyQuestDto convertToDTO(DailyQuest dailyQuest) {
-        DailyQuestDto dto = new DailyQuestDto();
-        dto.setRecordDate(dailyQuest.getRecordDate());
-        dto.setDayCheck(dailyQuest.isDayCheck());
-        dto.setExerciseCount(dailyQuest.getExerciseCount());
-        dto.setFoodCount(dailyQuest.getFoodCount());
-        dto.setFinish(dailyQuest.isFinish());
-        return dto;
+        return DailyQuestDto.builder()
+                .recordDate(dailyQuest.getRecordDate())
+                .dayCheck(dailyQuest.isDayCheck())
+                .exerciseCount(dailyQuest.getExerciseCount())
+                .foodCount(dailyQuest.getFoodCount())
+                .Finish(dailyQuest.isFinish())
+                .build();
     }
 
 

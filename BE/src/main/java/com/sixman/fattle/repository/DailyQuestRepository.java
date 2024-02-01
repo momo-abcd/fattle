@@ -7,10 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface DailyQuestRepository extends JpaRepository<DailyQuest, Date> {
     List<DailyQuest> findByUser(User user);
     List<DailyQuest> findByUserAndRecordDateBetween(User user, LocalDate start, LocalDate end);
+
 }

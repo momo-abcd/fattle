@@ -1,16 +1,24 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.UserService;
+import com.sixman.fattle.dto.DailyQuestDto;
 import com.sixman.fattle.dto.request.SignUpRequest;
 import com.sixman.fattle.dto.response.UserInfoResponse;
+import com.sixman.fattle.entity.DailyQuest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -57,7 +65,24 @@ public class UserController {
     @GetMapping("/userinfo/{userCode}")
     public ResponseEntity<UserInfoResponse> userInfo(@PathVariable long userCode) {
         UserInfoResponse response = userService.userInfo(userCode);
+        DailyQuest lastDailyQuest = userService.getDailyQuest(userCode);
+        response.setDayCheck(lastDailyQuest.isDayCheck());
+        response.setExerciseCount(lastDailyQuest.getExerciseCount());
+        response.setFoodCount(lastDailyQuest.getFoodCount());
+        response.setFinish(lastDailyQuest.isFinish());
         return ResponseEntity.ok(response);
     }
 
+
+    private DailyQuestDto convertToDto(DailyQuest dailyQuest) {
+        return DailyQuestDto.builder()
+                // DailyQuest의 필드들을 DailyQuestDto에 맞게 매핑
+                .recordDate(dailyQuest.getRecordDate())
+                .dayCheck(dailyQuest.isDayCheck())
+                .exerciseCount(dailyQuest.getExerciseCount())
+                .foodCount(dailyQuest.getFoodCount())
+                .Finish(dailyQuest.isFinish())
+                // 나머지 필드들도 필요에 따라 추가
+                .build();
+    }
 }

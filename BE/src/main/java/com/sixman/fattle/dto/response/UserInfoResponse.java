@@ -1,8 +1,13 @@
 package com.sixman.fattle.dto.response;
 
+import com.sixman.fattle.dto.DailyQuestDto;
+import com.sixman.fattle.entity.DailyQuest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Builder
@@ -25,5 +30,10 @@ public class UserInfoResponse {
     private int growthExp;
     private int stackExp;
     private String imgPath;
+    private boolean dayCheck;
+    private int exerciseCount;
+    private int foodCount;
+    private boolean Finish;
+
 
 }
