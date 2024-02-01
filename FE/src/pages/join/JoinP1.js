@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { API } from '../../config';
 // 닉네임 중복 체크 컴포넌트
 const Join = () => {
   const [nickName, setNickName] = useState('');
@@ -17,8 +18,9 @@ const Join = () => {
       <button
         onClick={() => {
           console.log(nickName);
-          axios
-            .get(`http://localhost:8000/user/nickname/${nickName}`)
+          console.log(`${API.NICKNAME_GET}${nickName}`);
+          axios // NICKNAME_GET
+            .get(`${API.NICKNAME_GET}${nickName}`)
             .then((res) => {
               console.log(res);
             })

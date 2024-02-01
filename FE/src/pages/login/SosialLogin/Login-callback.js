@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeUserCode } from '../../../store/store';
+import { API } from '../../../config';
 const KakaoLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -10,15 +11,15 @@ const KakaoLogin = () => {
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
     console.log(code);
-    axios
-      .get(`http://localhost:8000/oauth/login/kakao?code=${code}`)
+    axios // KAKAO_GET
+      .get(`${API.KAKAO_GET}${code}`)
       .then((res) => {
         console.log(res.data.userCode);
         // console.log(res.data.userCode);
         setUser(res.data.userCode);
         console.log(user);
-        axios
-          .get(`http://localhost:8000/user/login/${res.data.userCode}`)
+        axios // LOGIN_GET
+          .get(`${API.LOGIN_CALLBACK_GET}${res.data.userCode}`)
           .then((res) => {
             console.log(res.status);
             if (res.status === 200) {

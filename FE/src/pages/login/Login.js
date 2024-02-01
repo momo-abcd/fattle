@@ -2,7 +2,7 @@ import './Login.css';
 // import KakaoBtn from '../../assets/login/kakao_btn';
 import { useDispatch, useSelector } from 'react-redux';
 import kakao_btn from '../../assets/login/kakao_btn.png';
-import naver_btn from '../../assets/login/naver_btn.png';
+import { API } from '../../config.js';
 const Login = () => {
   return (
     <div>
@@ -20,7 +20,7 @@ const Login = () => {
               onClick={(e) => {
                 e.preventDefault();
                 // 주소로 이동 후 Login-callback.js에 데이터 전달
-                window.location.href = 'http://localhost:8000/oauth/code/kakao';
+                window.location.href = `${API.LOGIN_GET}`;
               }}
             >
               <img className="kakao" src={kakao_btn} alt="Kakao Button" />
