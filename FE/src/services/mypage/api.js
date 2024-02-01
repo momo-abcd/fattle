@@ -38,4 +38,11 @@ const getGoal = async (userCode) => {
   return data;
 };
 // const putMypage = async ()
-export { getMypage, patchMypage, getFollowingList, getFollowerList, getGoal };
+export {
+  getMypage,
+  patchMypage,
+  getFollowingList,
+  getFollowerList,
+  getGoal,
+  getCalendarDetail,
+};
