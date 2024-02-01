@@ -90,10 +90,10 @@ public class UserRepository {
         List<Tuple> foodList
                 = queryFactory
                 .select(
-                        qfood.calory.sum(),
-                        qfood.carbo.sum(),
-                        qfood.protein.sum(),
-                        qfood.fat.sum())
+                        qfood.calory,
+                        qfood.carbo,
+                        qfood.protein,
+                        qfood.fat)
                 .from(qfood)
                 .where(qfood.recDt.after(Timestamp.valueOf(today.atStartOfDay())))
                 .fetch();

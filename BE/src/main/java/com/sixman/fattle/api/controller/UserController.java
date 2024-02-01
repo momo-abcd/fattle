@@ -51,8 +51,11 @@ public class UserController {
         return ResponseEntity.status(userService.checkNickname(nickname)).build();
     }
 
+    @Operation(summary = "유저 정보",
+            description = "유저 코드를 받아 유저 정보를 응답")
+    @ApiResponse(responseCode = "200", description = "유저 정보 응답")
     @GetMapping("/userinfo/{userCode}")
-    public ResponseEntity<?> userInfo(@PathVariable long userCode) {
+    public ResponseEntity<UserInfoResponse> userInfo(@PathVariable long userCode) {
         UserInfoResponse response = userService.userInfo(userCode);
         return ResponseEntity.ok(response);
     }

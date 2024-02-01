@@ -2,6 +2,7 @@ package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.OAuthService;
 import com.sixman.fattle.dto.response.TokenResponse;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class OAuthController {
 
     private final OAuthService oAuthService;
 
+    @Hidden
     @Operation(summary = "소셜 로그인 페이지로 이동",
             description = "소셜 로그인 페이지로 이동하여 소셜 로그인 후 code 받음")
     @GetMapping("/code/{provider}")
