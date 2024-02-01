@@ -1,25 +1,26 @@
-import { API } from '../../config';
 import axios from 'axios';
+import API from './URL';
+const { MYPAGE_GET, MYAPGE_PATCH, FOLLOWER_GET, FOLLOWING_GET, GOAL_GET } = API;
 
 const getMypage = async (userCode) => {
-  const { data } = await axios.get(API.MYPAGE_GET + userCode);
+  const { data } = await axios.get(MYPAGE_GET + userCode);
   return data;
 };
 const patchMypage = async (userCode, parameter) => {
-  const { status } = await axios.patch(API.MYPAGE_GET + userCode, parameter);
+  const { status } = await axios.patch(MYAPGE_PATCH + userCode, parameter);
   return status;
 };
 
 const getFollowingList = async (userCode) => {
-  const { data } = await axios.get(API.FOLLOWING_GET + userCode);
+  const { data } = await axios.get(FOLLOWING_GET + userCode);
   return data;
 };
 const getFollowerList = async (userCode) => {
-  const { data } = await axios.get(API.FOLLOWER_GET + userCode);
+  const { data } = await axios.get(FOLLOWER_GET + userCode);
   return data;
 };
 const getGoal = async (userCode) => {
-  const { data } = await axios.get(API.GOAL_GET + userCode);
+  const { data } = await axios.get(GOAL_GET + userCode);
   return data;
 };
 // const putMypage = async ()
