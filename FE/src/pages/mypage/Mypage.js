@@ -101,15 +101,23 @@ function Mypage(props) {
         <div className={styles.goalContainer}>
           <div className={styles.gDiv}>
             <div>목표 체중</div>
-            <div className={styles.gText}>45kg</div>
+            <div className={styles.gText}>{data.goalWeight}kg</div>
           </div>
           <div className={styles.gDiv}>
-            <div>목표 체지방률</div>
-            <div className={styles.gText}>23.0%</div>
+            <div>칼로리</div>
+            <div className={styles.gText}>{data.goalCalory}</div>
           </div>
           <div className={styles.gDiv}>
-            <div>목표 골격근량</div>
-            <div className={styles.gText}>26Kg</div>
+            <div>탄수화물</div>
+            <div className={styles.gText}>{data.goalCarbo}</div>
+          </div>
+          <div className={styles.gDiv}>
+            <div>단백질</div>
+            <div className={styles.gText}>{data.goalProtein}</div>
+          </div>
+          <div className={styles.gDiv}>
+            <div>지방</div>
+            <div className={styles.gText}>{data.goalFat}</div>
           </div>
         </div>
       </div>
