@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -24,7 +27,7 @@ public class DailyQuest {
 
     @Id
     @Column(name = "rec_dt", unique = true)
-    private Date recordDate;
+    private Timestamp recordDate;
 
     @Column(name = "day_chk")
     private boolean dayCheck;
