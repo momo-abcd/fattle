@@ -6,7 +6,6 @@ import com.sixman.fattle.dto.response.BattleCreateResponse;
 import com.sixman.fattle.dto.response.BattleListResponse;
 import com.sixman.fattle.entity.Battle;
 import com.sixman.fattle.repository.BattleRepository;
-import com.sixman.fattle.repository.BattleRepositoryImpl;
 import com.sixman.fattle.utils.CodeGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
