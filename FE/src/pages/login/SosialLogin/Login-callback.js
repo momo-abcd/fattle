@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeUserCode } from '../../../store/store';
-import { API } from '../../../config';
+import { API } from '../../../services/login/URL';
 const KakaoLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const KakaoLogin = () => {
               );
               navigate('/');
             } else if (res.status === 204) {
-              navigate('/join1');
+              navigate('/join/page1');
             }
             // res.status === 200 ? navigate('/join') : navigate('/');
           })

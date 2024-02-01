@@ -1,5 +1,6 @@
 // const BASE_URL = 'https://www.i10E106.p.ssafy.io';
-const BASE_URL = 'http://i10e106.p.ssafy.io:8000';
+// const BASE_URL = 'http://i10e106.p.ssafy.io:8000';
+const BASE_URL = 'http://localhost:8000';
 // const BASE_URL = 'http://localhost:7979';
 
 export const API = {

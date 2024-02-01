@@ -2,7 +2,7 @@ import './Login.css';
 // import KakaoBtn from '../../assets/login/kakao_btn';
 import { useDispatch, useSelector } from 'react-redux';
 import kakao_btn from '../../assets/login/kakao_btn.png';
-import { API } from '../../config.js';
+import { API } from '../../services/login/URL';
 const Login = () => {
   return (
     <div>

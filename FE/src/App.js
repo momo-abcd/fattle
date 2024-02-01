@@ -1,11 +1,12 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import JoinP1 from './pages/join/JoinP1';
+import Join from './pages/join/Join.js';
+import JoinPage1 from './pages/join/JoinPage1';
 import Mypage from './pages/mypage/Mypage';
 import Auth from './utils/Auth';
 import MypageModify from './pages/mypage/MypageModify';
 import FollowList from './pages/mypage/FollowList';
 import Goal from './pages/mypage/Goal';
-import Ranking from './pages/ranking/Ranking'
+import Ranking from './pages/ranking/Ranking';
 import ExpHistory from './components/main/ExpHistory';
 import Main from './pages/main/Main';
 
@@ -24,15 +25,14 @@ function App() {
         <Route path="/mypage/goal" element={<Goal />} />
         <Route path="/" element={<Auth isLogged={isLogged} />} />
         <Route path="/login" element={<Auth isLogged={isLogged} />} />
-        <Route path="/join1" element={<JoinP1></JoinP1>}></Route>
+        <Route path="/join" element={<Join></Join>}></Route>
+        <Route path="/join/page1" element={<JoinPage1></JoinPage1>}></Route>
         <Route path="/login-callback" element={<Callback />}></Route>
         <Route path="/main" element={<Main />} />
-          <Route path="/history" element={<ExpHistory />} />
-          <Route path="/ranking" element={<Ranking />} />
+        <Route path="/history" element={<ExpHistory />} />
+        <Route path="/ranking" element={<Ranking />} />
       </Routes>
     </div>
   );
 }
 export default App;
-
-
