@@ -33,7 +33,7 @@ CREATE TABLE `battle_tb` (
   `battle_cd` char(6) NOT NULL,
   `creator_cd` bigint NOT NULL,
   `name` varchar(20) DEFAULT NULL,
-  `start_dt` timestamp NULL DEFAULT NULL,
+  `start_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `end_dt` timestamp NULL DEFAULT NULL,
   `contract_path` varchar(200) DEFAULT NULL,
   `status` tinyint DEFAULT '0',
@@ -154,7 +154,7 @@ CREATE TABLE `health_tb` (
 CREATE TABLE `quest_tb` (
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_cd` bigint NOT NULL,
-  `day_chk` tinyint NOT NULL DEFAULT '0',
+  `day_chk` tinyint NOT NULL DEFAULT '1',
   `exercise_cnt` tinyint NOT NULL DEFAULT '0',
   `food_cnt` tinyint NOT NULL DEFAULT '0',
   `is_finish` tinyint NOT NULL DEFAULT '0',
@@ -172,7 +172,5 @@ select
     `fattle`.`avatar_tb`.`img_path` as `img_path`
 from
     `fattle`.`user_tb`
-join
-    `fattle`.`avatar_tb`
-on
-    `fattle`.`user_tb`.`avatar_cd` = `fattle`.`avatar_tb`.`avatar_cd`;
+join `fattle`.`avatar_tb`
+on `fattle`.`user_tb`.`avatar_cd` = `fattle`.`avatar_tb`.`avatar_cd`;

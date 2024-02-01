@@ -91,7 +91,7 @@ public class BattleController {
     }
 
     @Operation(summary = "최종 몸무게 설정",
-            description = "배틀 종료 후 최종 몸무게 설정")
+            description = "배틀 종료 전 최종 몸무게 설정")
     @ApiResponse(responseCode = "200", description = "몸무게 설정 성공")
     @PatchMapping("/weight")
     public ResponseEntity<?> setPlayerWeight(@RequestBody PlayerWeightRequest request) {

@@ -22,9 +22,9 @@ public class BattlePlayerInfo {
 
     private String nickname;
 
-    private float startWeight;
+    private float beforeWeight;
 
-    private float endWeight;
+    private float afterWeight;
 
     private float goalWeight;
 
