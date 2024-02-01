@@ -1,10 +1,7 @@
 package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.dto.SimpleBattleInfo;
-import com.sixman.fattle.dto.request.BattleCreateRequest;
-import com.sixman.fattle.dto.request.BattleSettingRequest;
-import com.sixman.fattle.dto.request.RegistPlayerRequest;
-import com.sixman.fattle.dto.request.RegistTriggerRequest;
+import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.dto.response.BattleCreateResponse;
 import com.sixman.fattle.dto.response.BattleListResponse;
 import com.sixman.fattle.entity.Battle;
@@ -89,5 +86,9 @@ public class BattleService {
         } else {
             return HttpStatus.BAD_REQUEST;
         }
+    }
+
+    public void setPlayerWeight(PlayerWeightRequest request) {
+        battleRepository.setPlayerWeight(request);
     }
 }

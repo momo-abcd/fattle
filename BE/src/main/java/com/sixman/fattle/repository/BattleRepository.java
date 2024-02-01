@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sixman.fattle.dto.dto.BattlePlayerInfo;
 import com.sixman.fattle.dto.dto.SimpleBattleInfo;
 import com.sixman.fattle.dto.request.BattleSettingRequest;
+import com.sixman.fattle.dto.request.PlayerWeightRequest;
 import com.sixman.fattle.dto.request.RegistPlayerRequest;
 import com.sixman.fattle.dto.request.RegistTriggerRequest;
 import com.sixman.fattle.entity.*;
@@ -209,6 +210,15 @@ public class BattleRepository {
                 .execute();
 
         return true;
+    }
+
+    public void setPlayerWeight(PlayerWeightRequest request) {
+        queryFactory
+                .update(qbp)
+                .set(qbp.afterWeight, request.getWeight())
+                .where(qbp.battleCd.eq(request.getBattleCode()),
+                        qbp.userCd.eq(request.getUserCode()))
+                .execute();
     }
 
 }

@@ -1,10 +1,7 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.BattleService;
-import com.sixman.fattle.dto.request.BattleCreateRequest;
-import com.sixman.fattle.dto.request.RegistPlayerRequest;
-import com.sixman.fattle.dto.request.BattleSettingRequest;
-import com.sixman.fattle.dto.request.RegistTriggerRequest;
+import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.dto.response.BattleCreateResponse;
 import com.sixman.fattle.dto.response.BattleListResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,15 +70,33 @@ public class BattleController {
 
     @Operation(summary = "배틀 시작",
             description = "배틀 시작")
-    @ApiResponse(responseCode = "200", description = "배틀 시작 성공")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "배틀 시작 성공"),
+            @ApiResponse(responseCode = "400", description = "배틀 시작 실패")
+    })
     @GetMapping("/start/{battleCode}")
     public ResponseEntity<?> battleStart(@PathVariable String battleCode) {
         return ResponseEntity.status(battleService.battleStart(battleCode)).build();
     }
 
+    @Operation(summary = "배틀 종료",
+            description = "배틀 종료")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "배틀 종료 성공"),
+            @ApiResponse(responseCode = "400", description = "배틀 종료 실패")
+    })
     @GetMapping("/finish/{battleCode}")
     public ResponseEntity<?> battleFinish(@PathVariable String battleCode) {
         return ResponseEntity.status(battleService.battleFinish(battleCode)).build();
+    }
+
+    @Operation(summary = "최종 몸무게 설정",
+            description = "배틀 종료 후 최종 몸무게 설정")
+    @ApiResponse(responseCode = "200", description = "몸무게 설정 성공")
+    @PatchMapping("/weight")
+    public ResponseEntity<?> setPlayerWeight(@RequestBody PlayerWeightRequest request) {
+        battleService.setPlayerWeight(request);
+        return ResponseEntity.ok().build();
     }
 
 }
