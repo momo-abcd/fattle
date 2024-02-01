@@ -22,8 +22,9 @@ const JoinPage1 = () => {
           axios // NICKNAME_GET
             .get(`${API.NICKNAME_GET}${nickName}`)
             .then((res) => {
-              // console.log(res);
+              console.log(res);
               setDupli(false);
+              console.log(dupli);
             })
             .catch((err) => {
               if (nickName.length === 0) {
@@ -40,7 +41,14 @@ const JoinPage1 = () => {
       </button>
 
       <div>
-        <button disabled={dupli}>다음</button>
+        <button
+          disabled={dupli}
+          onClick={() => {
+            console.log('클릭 됨');
+          }}
+        >
+          다음
+        </button>
       </div>
     </div>
   );
