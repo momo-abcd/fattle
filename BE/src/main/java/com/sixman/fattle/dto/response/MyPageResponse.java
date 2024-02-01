@@ -29,6 +29,8 @@ public class MyPageResponse {
 //    private int foodCnt;
 //    private int isFinish;
     private List<DailyQuestDto> dailyQuests;
+    private String avatarCode;
+    private String imgPath;
 
 
 

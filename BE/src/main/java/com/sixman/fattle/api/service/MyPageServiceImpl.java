@@ -5,9 +5,11 @@ import com.sixman.fattle.dto.response.FollowResponse;
 import com.sixman.fattle.dto.response.GoalUpdateResponse;
 import com.sixman.fattle.dto.response.MyPageResponse;
 import com.sixman.fattle.dto.response.MyPageUpdateResponse;
+import com.sixman.fattle.entity.Avatar;
 import com.sixman.fattle.entity.DailyQuest;
 import com.sixman.fattle.entity.Follow;
 import com.sixman.fattle.entity.User;
+import com.sixman.fattle.repository.AvatarRepository;
 import com.sixman.fattle.repository.DailyQuestRepository;
 import com.sixman.fattle.repository.FollowRepository;
 import com.sixman.fattle.repository.UserRepository;
@@ -35,12 +37,15 @@ public class MyPageServiceImpl implements MyPageService {
     @Autowired
     private final DailyQuestRepository dailyQuestRepository;
 
+    @Autowired
+    private final AvatarRepository avatarRepository;
+
 
     @Override
     public ResponseEntity<MyPageResponse> getMyPageInfo(Long userCode) {
 
         User user = userRepository.getUser(Long.parseLong(String.valueOf(userCode)));
-
+        Avatar avatar = avatarRepository.findAvatarByAvatarCd(user.getAvatarCd());
         MyPageResponse myPageResponse = MyPageResponse.builder()
                 .userCode(user.getUserCd())
                 .nickname(user.getNickname())
@@ -50,6 +55,8 @@ public class MyPageServiceImpl implements MyPageService {
                 .goalCarbo(user.getGoalCarbo())
                 .goalProtein(user.getGoalProtein())
                 .goalFat(user.getGoalFat())
+                .avatarCode(user.getAvatarCd())
+                .imgPath(avatar.getImgPath())
                 .followerCnt(getFollowerCount(user))
                 .followingCnt(getFollowingCount(user))
                 .build();
@@ -74,7 +81,7 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(Long userCode, MyPageUpdateResponse myPageInfo) {
+    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(MyPageUpdateResponse myPageInfo) {
 //        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
 //                .ifPresent(user -> {
 //                    user.setNickname(myPageInfo.getNickname());
@@ -114,10 +121,13 @@ public class MyPageServiceImpl implements MyPageService {
         List<FollowResponse> response = new ArrayList<>();
 
         for (User u : followingList) {
+            Avatar avatar = avatarRepository.findAvatarByAvatarCd(u.getAvatarCd());
             response.add(FollowResponse.builder()
+                            .userCode(u.getUserCd())
                             .nickname(u.getNickname())
                             .avatarCode(u.getAvatarCd())
-                    .build());
+                            .imgPath(avatar.getImgPath())
+                            .build());
         }
         return ResponseEntity.ok(response);
 
@@ -145,14 +155,26 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public ResponseEntity<List<User>> getFollowerList(Long userCode) {
-        User user = userRepository.getUser(userCode);
-        List<Follow> followers = followRepository.findByToUser(user);
-        List<User> followerList = followers.stream()
+    public ResponseEntity<List<FollowResponse>> getFollowerList(Long userCode) {
+        User user2 = userRepository.getUser(userCode);
+        List<Follow> follower = followRepository.findByToUser(user2);
+        List<User> followerList = follower.stream()
                 .map(Follow::getFromUser)
                 .toList();
-        return ResponseEntity.ok(followerList);
+        List<FollowResponse> response2 = new ArrayList<>();
+
+        for (User u : followerList) {
+            Avatar avatar = avatarRepository.findAvatarByAvatarCd(u.getAvatarCd());
+            response2.add(FollowResponse.builder()
+                    .userCode(u.getUserCd())
+                    .nickname(u.getNickname())
+                    .avatarCode(u.getAvatarCd())
+                    .imgPath(avatar.getImgPath())
+                    .build());
+        }
+        return ResponseEntity.ok(response2);
     }
+
 
 
 
@@ -163,6 +185,9 @@ public class MyPageServiceImpl implements MyPageService {
     private int getFollowingCount(User user) {
         return followRepository.countByFromUser(user);
     }
+
+
+
 
 
     private DailyQuestDto convertToDTO(DailyQuest dailyQuest) {

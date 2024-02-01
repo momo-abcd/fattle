@@ -32,10 +32,9 @@ public class MyPageController {
         return myPageService.getMyPageInfo(userCode);
     }
 
-    @PutMapping("/{userCode}")
-    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(@PathVariable Long userCode,
-                                                           @RequestBody MyPageUpdateResponse myPageInfo) {
-        return myPageService.updateMyPageInfo(userCode, myPageInfo);
+    @PatchMapping("/modify")
+    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(@RequestBody MyPageUpdateResponse myPageInfo) {
+        return myPageService.updateMyPageInfo(myPageInfo);
     }
 
     @GetMapping("/following/{userCode}")
@@ -46,14 +45,11 @@ public class MyPageController {
 
 
     @GetMapping("/follower/{userCode}")
-    public ResponseEntity<List<User>> getFollowerList(@PathVariable Long userCode) {
-        User user = userRepository.getUser(userCode);
-        List<Follow> follower = followRepository.findByToUser(user);
-        List<User> followerList = follower.stream()
-                .map(Follow::getFromUser)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(followerList);
+    public ResponseEntity<List<FollowResponse>> getFollowerList(@PathVariable Long userCode) {
+        return myPageService.getFollowerList(userCode);
     }
+
+
 
 
 
