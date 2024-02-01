@@ -32,10 +32,9 @@ public class MyPageController {
         return myPageService.getMyPageInfo(userCode);
     }
 
-    @PutMapping("/{userCode}")
-    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(@PathVariable Long userCode,
-                                                           @RequestBody MyPageUpdateResponse myPageInfo) {
-        return myPageService.updateMyPageInfo(userCode, myPageInfo);
+    @PatchMapping("/modify")
+    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(@RequestBody MyPageUpdateResponse myPageInfo) {
+        return myPageService.updateMyPageInfo(myPageInfo);
     }
 
     @GetMapping("/following/{userCode}")
