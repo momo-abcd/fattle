@@ -9,6 +9,7 @@ import Configure from '../../assets/svg/mypage/Configure.svg';
 import Edit from '../../assets/svg/mypage/Edit.svg';
 // Component 관련
 import Calendar from '../../components/mypage/Calendar';
+import Footer from '../../commons/Footer';
 function Mypage(props) {
   const navigate = useNavigate();
   const [data, setData] = useState({});
@@ -118,6 +119,7 @@ function Mypage(props) {
       <div className={styles.headerText}>캘린더&#32;&#62;</div>
       {Object.keys(data).length !== 0 && <Calendar calendar={data.calendar} />}
       {/* 캘린더 부분 끝 */}
+      <Footer />
     </>
   );
 }
