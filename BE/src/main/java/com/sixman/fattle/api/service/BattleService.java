@@ -11,6 +11,7 @@ import com.sixman.fattle.entity.Battle;
 import com.sixman.fattle.repository.BattleRepository;
 import com.sixman.fattle.utils.CodeGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,10 @@ import java.util.List;
 public class BattleService {
 
     private final BattleRepository battleRepository;
+
+    private final int STATUS_WAIT = 0;
+    private final int STATUS_START = 1;
+    private final int STATUS_END = 2;
 
     public BattleCreateResponse createBattle(BattleCreateRequest request) {
         long userCode = request.getUserCode();
@@ -54,8 +59,12 @@ public class BattleService {
                 .build();
     }
 
-    public void registPlayer(RegistPlayerRequest request) {
-        battleRepository.setPlayer(request);
+    public HttpStatus registPlayer(RegistPlayerRequest request) {
+        if (battleRepository.setPlayer(request)) {
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
     }
 
     public void registTrigger(RegistTriggerRequest request) {
@@ -64,5 +73,21 @@ public class BattleService {
 
     public void battleSetting(BattleSettingRequest request) {
         battleRepository.setBattle(request);
+    }
+
+    public HttpStatus battleStart(String battleCode) {
+        return setBattleStatus(battleCode, STATUS_START);
+    }
+
+    public HttpStatus battleFinish(String battleCode) {
+        return setBattleStatus(battleCode, STATUS_END);
+    }
+
+    private HttpStatus setBattleStatus(String battleCode, int status) {
+        if (battleRepository.setBattleStatus(battleCode, status)) {
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
     }
 }

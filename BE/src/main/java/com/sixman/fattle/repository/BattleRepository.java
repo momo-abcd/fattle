@@ -121,7 +121,18 @@ public class BattleRepository {
         return battleList;
     }
 
-    public void setPlayer(RegistPlayerRequest request) {
+    public boolean setPlayer(RegistPlayerRequest request) {
+        int cnt = queryFactory
+                .select(qbp.count())
+                .from(qbp)
+                .where(qbp.battleCd.eq(request.getBattleCode()))
+                .fetchFirst()
+                .intValue();
+
+        if (cnt >= 2) {
+            return false;
+        }
+
         queryFactory
                 .insert(qbp)
                 .columns(
@@ -135,6 +146,8 @@ public class BattleRepository {
                         request.getBeforeWeight(),
                         request.getGoalWeight())
                 .execute();
+
+        return true;
     }
 
     public void setTrigger(RegistTriggerRequest request) {
@@ -176,4 +189,26 @@ public class BattleRepository {
                     .execute();
         }
     }
+
+    public boolean setBattleStatus(String battleCode, int status) {
+        int curStatus = queryFactory
+                .select(qbattle.status)
+                .from(qbattle)
+                .where(qbattle.battleCd.eq(battleCode))
+                .fetchFirst();
+
+        if (curStatus != 0 && status == 1) {
+            return false;
+        } else if (curStatus != 1 && status == 2) {
+            return false;
+        }
+
+        queryFactory
+                .update(qbattle)
+                .set(qbattle.status, status)
+                .execute();
+
+        return true;
+    }
+
 }

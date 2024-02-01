@@ -33,7 +33,7 @@ CREATE TABLE `battle_tb` (
   `battle_cd` char(6) NOT NULL,
   `creator_cd` bigint NOT NULL,
   `name` varchar(20) DEFAULT NULL,
-  `start_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `start_dt` timestamp NULL DEFAULT NULL,
   `end_dt` timestamp NULL DEFAULT NULL,
   `contract_path` varchar(200) DEFAULT NULL,
   `status` tinyint DEFAULT '0',
@@ -165,6 +165,14 @@ create or replace view `fattle`.`ranking_vw` as
 select
     rank() over (
     order by (`fattle`.`user_tb`.`growth_exp` + `fattle`.`user_tb`.`stack_exp`) ) as `rank`,
-    `fattle`.`user_tb`.`user_cd` as `user_cd`
+    `fattle`.`user_tb`.`user_cd` as `user_cd`,
+    `fattle`.`user_tb`.`nickname` as `nickname`,
+    `fattle`.`user_tb`.`growth_exp` as `growth_exp`,
+    `fattle`.`user_tb`.`stack_exp` as `stack_exp`,
+    `fattle`.`avatar_tb`.`img_path` as `img_path`
 from
-    `fattle`.`user_tb`;
+    `fattle`.`user_tb`
+join
+    `fattle`.`avatar_tb`
+on
+    `fattle`.`user_tb`.`avatar_cd` = `fattle`.`avatar_tb`.`avatar_cd`;
