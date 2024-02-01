@@ -125,7 +125,9 @@ function Mypage(props) {
 
       {/* 캘린더 부분 시작 */}
       <div className={styles.headerText}>캘린더&#32;&#62;</div>
-      {Object.keys(data).length !== 0 && <Calendar calendar={data.calendar} />}
+      {Object.keys(data).length !== 0 && (
+        <Calendar calendar={data.dailyQuests} />
+      )}
       {/* 캘린더 부분 끝 */}
       <Footer />
     </>

@@ -3,7 +3,7 @@ import { checkCurrentDay } from './makeCalendarList';
 // 받아온 캘린더 리스트에서 날짜(day)만 리스트에 담아 반환해주는 함수
 const getQuestSuccessList = (calendar) => {
   const list = calendar.map((item) => {
-    const day = item.date.split('-')[2];
+    const day = item.recordDate.split('-')[2];
     if (day.length === 2) {
       if (day.slice(0, 1) === '0') {
         return day.slice(1, 2);
