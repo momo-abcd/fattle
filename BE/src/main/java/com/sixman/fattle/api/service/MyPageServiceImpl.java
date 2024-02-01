@@ -75,33 +75,31 @@ public class MyPageServiceImpl implements MyPageService {
 
     @Override
     public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(Long userCode, MyPageUpdateResponse myPageInfo) {
-//        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
-//                .ifPresent(user -> {
-//                    user.setNickname(myPageInfo.getNickname());
-//                    user.setIntroduction(myPageInfo.getIntroduction());
-//                    userRepository.save(user);
-//                });
-//
-//        return ResponseEntity.ok(myPageInfo);
-        return ResponseEntity.internalServerError().build();
+        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
+                .ifPresent(user -> {
+                    user.setNickname(myPageInfo.getNickname());
+                    user.setIntroduction(myPageInfo.getIntroduction());
+                    userRepository.save(user);
+                });
+
+        return ResponseEntity.ok(myPageInfo);
     }
 
 
 
     @Override
     public ResponseEntity<GoalUpdateResponse> updateGoalInfo(Long userCode, GoalUpdateResponse myPageGoalInfo) {
-//        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
-//                .ifPresent(user -> {
-//                    user.setGoalWeight(myPageGoalInfo.getGoalWeight());
-//                    user.setGoalCalory(myPageGoalInfo.getGoalCalory());
-//                    user.setGoalCarbo(myPageGoalInfo.getGoalCarbo());
-//                    user.setGoalProtein(myPageGoalInfo.getGoalProtein());
-//                    user.setGoalFat(myPageGoalInfo.getGoalFat());
-//                    userRepository.save(user);
-//                });
-//
-//        return ResponseEntity.ok(myPageGoalInfo);
-        return ResponseEntity.internalServerError().build();
+        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
+                .ifPresent(user -> {
+                    user.setGoalWeight(myPageGoalInfo.getGoalWeight());
+                    user.setGoalCalory(myPageGoalInfo.getGoalCalory());
+                    user.setGoalCarbo(myPageGoalInfo.getGoalCarbo());
+                    user.setGoalProtein(myPageGoalInfo.getGoalProtein());
+                    user.setGoalFat(myPageGoalInfo.getGoalFat());
+                    userRepository.save(user);
+                });
+
+        return ResponseEntity.ok(myPageGoalInfo);
     }
 
     @Override
