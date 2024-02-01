@@ -3,11 +3,12 @@ package com.sixman.fattle.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Builder
 @Table(name = "avatar_tb")
+@NoArgsConstructor
 public class Avatar {
 
     @Id
