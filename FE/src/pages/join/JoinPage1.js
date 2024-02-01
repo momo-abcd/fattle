@@ -7,6 +7,8 @@ const JoinPage1 = () => {
   const [gender, setGender] = useState('');
   const [age, setAge] = useState('');
   const [height, setHeight] = useState('');
+  const [weigh, setWeigh] = useState('');
+  const [goalWeight, setGoalWeight] = useState('');
   const [dupli, setDupli] = useState(true);
   return (
     <div>
@@ -77,6 +79,22 @@ const JoinPage1 = () => {
           }}
         ></input>
       </div>
+      <div className="goal">
+        <input
+          placeholder="Kg"
+          style={{ display: 'inline-block' }}
+          onChange={(e) => {
+            setWeigh(e.target.value);
+          }}
+        ></input>
+        <input
+          placeholder="goalKg"
+          style={{ display: 'inline-block' }}
+          onChange={(e) => {
+            setGoalWeight(e.target.value);
+          }}
+        ></input>
+      </div>
 
       <div className="next">
         <button
@@ -86,6 +104,8 @@ const JoinPage1 = () => {
             console.log(gender);
             console.log(age);
             console.log(height);
+            console.log(weigh);
+            console.log(goalWeight);
           }}
         >
           다음
