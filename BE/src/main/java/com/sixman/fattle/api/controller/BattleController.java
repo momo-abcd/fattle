@@ -2,6 +2,9 @@ package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.BattleService;
 import com.sixman.fattle.dto.request.BattleCreateRequest;
+import com.sixman.fattle.dto.request.RegistPlayerRequest;
+import com.sixman.fattle.dto.request.BattleSettingRequest;
+import com.sixman.fattle.dto.request.RegistTriggerRequest;
 import com.sixman.fattle.dto.response.BattleCreateResponse;
 import com.sixman.fattle.dto.response.BattleListResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,6 +36,24 @@ public class BattleController {
     public ResponseEntity<?> getBattleList(@PathVariable long userCode) {
         BattleListResponse response = battleService.getBattleList(userCode);
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/regist/player")
+    public ResponseEntity<?> registPlayer(@RequestBody RegistPlayerRequest request) {
+        battleService.registPlayer(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/regist/trigger")
+    public ResponseEntity<?> registTrigger(@RequestBody RegistTriggerRequest request) {
+        battleService.registTrigger(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/setting")
+    public ResponseEntity<?> battleSetting(@RequestBody BattleSettingRequest request) {
+        battleService.battleSetting(request);
+        return ResponseEntity.ok().build();
     }
 
 }

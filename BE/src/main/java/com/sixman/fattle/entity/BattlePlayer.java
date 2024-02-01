@@ -19,7 +19,7 @@ public class BattlePlayer extends BattleUser {
     private float afterWeight;
 
     @Column(name = "goal")
-    private float goal;
+    private float goalWeight;
 
     @Column(name = "live_pt")
     private int livePt;

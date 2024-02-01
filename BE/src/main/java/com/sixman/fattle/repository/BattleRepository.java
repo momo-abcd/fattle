@@ -1,16 +1,19 @@
 package com.sixman.fattle.repository;
 
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sixman.fattle.dto.dto.BattlePlayerInfo;
 import com.sixman.fattle.dto.dto.SimpleBattleInfo;
+import com.sixman.fattle.dto.request.BattleSettingRequest;
+import com.sixman.fattle.dto.request.RegistPlayerRequest;
+import com.sixman.fattle.dto.request.RegistTriggerRequest;
 import com.sixman.fattle.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +28,13 @@ public class BattleRepository {
     private final QAvatar qavatar = QAvatar.avatar;
     private final QBattlePlayer qbp = QBattlePlayer.battlePlayer;
     private final QBattleTrigger qbt = QBattleTrigger.battleTrigger;
+    private final QBattleBetting qbb = QBattleBetting.battleBetting;
 
-    public int getBattle(String battleCode) {
-        return queryFactory.select(qbattle)
+    public String getBattle(String battleCode) {
+        return queryFactory.select(qbattle.battleCd)
                 .from(qbattle)
                 .where(qbattle.battleCd.in(battleCode))
-                .fetch()
-                .size();
+                .fetchFirst();
     }
 
     public long createBattle(Battle battle) {
@@ -41,7 +44,7 @@ public class BattleRepository {
                 .execute();
     }
 
-    public List<String> battleCodeList(long userCode) {
+    public List<String> getBattleCodeList(long userCode) {
         List<String> listAsPlayer = queryFactory.select(qbp.battleCd)
                 .from(qbp)
                 .where(qbp.userCd.eq(userCode))
@@ -118,4 +121,59 @@ public class BattleRepository {
         return battleList;
     }
 
+    public void setPlayer(RegistPlayerRequest request) {
+        queryFactory
+                .insert(qbp)
+                .columns(
+                        qbp.battleCd,
+                        qbp.userCd,
+                        qbp.beforeWeight,
+                        qbp.goalWeight)
+                .values(
+                        request.getBattleCode(),
+                        request.getUserCode(),
+                        request.getBeforeWeight(),
+                        request.getGoalWeight())
+                .execute();
+    }
+
+    public void setTrigger(RegistTriggerRequest request) {
+        queryFactory
+                .insert(qbt)
+                .columns(
+                        qbt.battleCd,
+                        qbt.userCd)
+                .values(
+                        request.getBattleCode(),
+                        request.getUserCode())
+                .execute();
+    }
+
+    public void setBattle(BattleSettingRequest request) {
+        String battleCode = request.getBattleCode();
+
+        queryFactory
+                .update(qbattle)
+                .set(qbattle.name, request.getBattleName())
+                .set(qbattle.startDt, Timestamp.valueOf(request.getStartDate()))
+                .set(qbattle.endDt, Timestamp.valueOf(request.getEndDate()))
+                .set(qbattle.contractPath, request.getContractPath())
+                .where(qbattle.battleCd.eq(request.getBattleCode()))
+                .execute();
+
+        queryFactory
+                .delete(qbb)
+                .where(qbb.battleCd.eq(battleCode))
+                .execute();
+
+        List<String> bettingList = request.getBetting();
+
+        for (String betting : bettingList) {
+            queryFactory
+                    .insert(qbb)
+                    .set(qbb.battleCd, battleCode)
+                    .set(qbb.content, betting)
+                    .execute();
+        }
+    }
 }
