@@ -81,9 +81,9 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-<<<<<<< HEAD
-    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(Long userCode, MyPageUpdateResponse myPageInfo) {
-        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
+
+    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(MyPageUpdateResponse myPageInfo) {
+        userRepository.findById(myPageInfo.getUserCode())
                 .ifPresent(user -> {
                     user.setNickname(myPageInfo.getNickname());
                     user.setIntroduction(myPageInfo.getIntroduction());
@@ -91,18 +91,6 @@ public class MyPageServiceImpl implements MyPageService {
                 });
 
         return ResponseEntity.ok(myPageInfo);
-=======
-    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(MyPageUpdateResponse myPageInfo) {
-//        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
-//                .ifPresent(user -> {
-//                    user.setNickname(myPageInfo.getNickname());
-//                    user.setIntroduction(myPageInfo.getIntroduction());
-//                    userRepository.save(user);
-//                });
-//
-//        return ResponseEntity.ok(myPageInfo);
-        return ResponseEntity.internalServerError().build();
->>>>>>> origin/BE
     }
 
 
