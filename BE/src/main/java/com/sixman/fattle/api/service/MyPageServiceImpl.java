@@ -115,9 +115,10 @@ public class MyPageServiceImpl implements MyPageService {
 
         for (User u : followingList) {
             response.add(FollowResponse.builder()
+                            .userCode(u.getUserCd())
                             .nickname(u.getNickname())
                             .avatarCode(u.getAvatarCd())
-                    .build());
+                            .build());
         }
         return ResponseEntity.ok(response);
 
@@ -145,14 +146,24 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public ResponseEntity<List<User>> getFollowerList(Long userCode) {
-        User user = userRepository.getUser(userCode);
-        List<Follow> followers = followRepository.findByToUser(user);
-        List<User> followerList = followers.stream()
+    public ResponseEntity<List<FollowResponse>> getFollowerList(Long userCode) {
+        User user2 = userRepository.getUser(userCode);
+        List<Follow> follower = followRepository.findByToUser(user2);
+        List<User> followerList = follower.stream()
                 .map(Follow::getFromUser)
                 .toList();
-        return ResponseEntity.ok(followerList);
+        List<FollowResponse> response2 = new ArrayList<>();
+
+        for (User u : followerList) {
+            response2.add(FollowResponse.builder()
+                    .userCode(u.getUserCd())
+                    .nickname(u.getNickname())
+                    .avatarCode(u.getAvatarCd())
+                    .build());
+        }
+        return ResponseEntity.ok(response2);
     }
+
 
 
 

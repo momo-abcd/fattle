@@ -7,6 +7,7 @@ import lombok.Data;
 @Builder
 public class FollowResponse {
 
+    private long userCode;
     private String nickname;
     private String avatarCode;
 

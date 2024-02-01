@@ -46,14 +46,11 @@ public class MyPageController {
 
 
     @GetMapping("/follower/{userCode}")
-    public ResponseEntity<List<User>> getFollowerList(@PathVariable Long userCode) {
-        User user = userRepository.getUser(userCode);
-        List<Follow> follower = followRepository.findByToUser(user);
-        List<User> followerList = follower.stream()
-                .map(Follow::getFromUser)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(followerList);
+    public ResponseEntity<List<FollowResponse>> getFollowerList(@PathVariable Long userCode) {
+        return myPageService.getFollowerList(userCode);
     }
+
+
 
 
 
