@@ -192,4 +192,17 @@ public class BattleService {
 
         return HttpStatus.OK;
     }
+
+    public HttpStatus deleteTrigger(String battleCode, long userCode) {
+        int chk = battleRepository.isTriggerExist(battleCode, userCode);
+
+        if (chk == 0) {
+            return HttpStatus.BAD_REQUEST;
+        }
+
+        battleRepository.deleteTrigger(battleCode, userCode);
+
+        return HttpStatus.OK;
+    }
+
 }

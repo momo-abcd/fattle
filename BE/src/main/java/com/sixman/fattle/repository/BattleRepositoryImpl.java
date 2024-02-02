@@ -415,6 +415,15 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
+    public void deleteTrigger(String battleCode, long userCode) {
+        queryFactory
+                .delete(qtrigger)
+                .where(qtrigger.battleCd.eq(battleCode),
+                        qtrigger.userCd.eq(userCode))
+                .execute();
+    }
+
+    @Override
     public void deleteBetting(String battleCode) {
         queryFactory
                 .delete(qbetting)
@@ -437,6 +446,17 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .from(qplayer)
                 .where(qplayer.battleCd.eq(battleCode),
                         qplayer.userCd.eq(userCode))
+                .fetchFirst()
+                .intValue();
+    }
+
+    @Override
+    public int isTriggerExist(String battleCode, long userCode) {
+        return queryFactory
+                .select(qtrigger.count())
+                .from(qtrigger)
+                .where(qtrigger.battleCd.eq(battleCode),
+                        qtrigger.userCd.eq(userCode))
                 .fetchFirst()
                 .intValue();
     }

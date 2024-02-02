@@ -53,6 +53,8 @@ public interface BattleRepositoryCustom {
 
     void deleteTrigger(String battleCode);
 
+    void deleteTrigger(String battleCode, long userCode);
+
     void deletePlayer(String battleCode);
 
     void deletePlayer(String battleCode, long userCode);
@@ -62,5 +64,7 @@ public interface BattleRepositoryCustom {
     void deleteBattle(String battleCode);
 
     int isPlayerExist(String battleCode, long userCode);
+
+    int isTriggerExist(String battleCode, long userCode);
 
 }

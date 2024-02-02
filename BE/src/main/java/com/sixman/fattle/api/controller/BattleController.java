@@ -145,4 +145,11 @@ public class BattleController {
         return ResponseEntity.status(status).build();
     }
 
+    @DeleteMapping("/trigger/{battleCode}/{userCode}")
+    public ResponseEntity<?> deleteTrigger(@PathVariable String battleCode,
+                                          @PathVariable long userCode) {
+        HttpStatus status = battleService.deleteTrigger(battleCode, userCode);
+        return ResponseEntity.status(status).build();
+    }
+
 }
