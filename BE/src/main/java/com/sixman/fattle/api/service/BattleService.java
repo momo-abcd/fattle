@@ -102,6 +102,18 @@ public class BattleService {
         SimpleBattleInfo battleInfo = battleRepository.getBattleInfo(battleCode);
         List<String> betting = battleRepository.getBettings(battleCode);
         List<BattlePlayerInfo> playerList = battleRepository.getPlayerList(battleCode);
+
+        int status = battleInfo.getStatus();
+
+        if (status != STATUS_END) {
+            for (BattlePlayerInfo info : playerList) {
+                info.setLivePoint(0);
+                info.setFoodPoint(0);
+                info.setQuestPoint(0);
+                info.setGoalPoint(0);
+            }
+        }
+
         List<BattleTriggerInfo> triggerList = battleRepository.getTriggerList(battleCode);
         return BattleInfoResponse.builder()
                 .battleCode(battleCode)
