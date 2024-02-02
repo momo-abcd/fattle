@@ -74,15 +74,5 @@ public class UserController {
     }
 
 
-    private DailyQuestDto convertToDto(DailyQuest dailyQuest) {
-        return DailyQuestDto.builder()
-                // DailyQuest의 필드들을 DailyQuestDto에 맞게 매핑
-                .recordDate(dailyQuest.getRecordDate())
-                .dayCheck(dailyQuest.isDayCheck())
-                .exerciseCount(dailyQuest.getExerciseCount())
-                .foodCount(dailyQuest.getFoodCount())
-                .Finish(dailyQuest.isFinish())
-                // 나머지 필드들도 필요에 따라 추가
-                .build();
-    }
+
 }

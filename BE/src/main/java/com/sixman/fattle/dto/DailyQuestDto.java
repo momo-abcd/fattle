@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @Builder
 public class DailyQuestDto {
     private Timestamp recordDate;
+    private Long userCd;
     private boolean dayCheck;
     private int exerciseCount;
     private int foodCount;

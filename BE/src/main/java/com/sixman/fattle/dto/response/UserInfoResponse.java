@@ -30,6 +30,7 @@ public class UserInfoResponse {
     private int growthExp;
     private int stackExp;
     private String imgPath;
+    private Timestamp recDate;
     private boolean dayCheck;
     private int exerciseCount;
     private int foodCount;

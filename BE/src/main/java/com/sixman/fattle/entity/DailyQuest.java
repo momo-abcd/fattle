@@ -1,11 +1,9 @@
 package com.sixman.fattle.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.sixman.fattle.repository.UserRepository;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -42,9 +40,16 @@ public class DailyQuest {
     private boolean isFinish;
 
 
-    @Transient
-    public Long getUserCode() {
-        return user.getUserCd();
+    @Override
+    public String toString() {
+        return "DailyQuest{" +
+                "recordDate=" + recordDate +
+                ", dayCheck=" + dayCheck +
+                ", exerciseCount=" + exerciseCount +
+                ", foodCount=" + foodCount +
+                ", isFinish=" + isFinish +
+                '}';
     }
+
 
 }
