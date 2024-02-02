@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class MyPageServiceImpl implements MyPageService {
                 .followingCnt(getFollowingCount(user))
                 .build();
 
-        List<DailyQuest> monthlyQuests = getMonthlyQuests(user);
+        List<DailyQuest> monthlyQuests = getMonthlyQuests(userCode);
         List<DailyQuestDto> monthlyQuestDTOs = monthlyQuests.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -70,16 +71,21 @@ public class MyPageServiceImpl implements MyPageService {
         return ResponseEntity.ok(myPageResponse);
     }
 
-    private List<DailyQuest> getMonthlyQuests(User user) {
+    private List<DailyQuest> getMonthlyQuests(long userCode) {
+        User user = userRepository.getUser(userCode);
+        List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
 
-        YearMonth currentYearMonth = YearMonth.now();
-//        Date startOfMonth = java.sql.Date.valueOf(currentYearMonth.atDay(1));
-        LocalDate startOfMonth = currentYearMonth.atDay(1);
-        LocalDate endOfMonth = currentYearMonth.atEndOfMonth();
+        LocalDate now = LocalDate.now();
+        int currentYear = now.getYear();
+        Month currentMonth = now.getMonth();
 
-        return dailyQuestRepository.findByUserAndRecordDateBetween(user, startOfMonth, endOfMonth);
+        return dailyQuests.stream()
+                .filter(dailyQuest -> {
+                    LocalDate questDate = dailyQuest.getRecordDate().toLocalDateTime().toLocalDate();
+                    return questDate.getYear() == currentYear && questDate.getMonth() == currentMonth;
+                })
+                .collect(Collectors.toList());
     }
-
     @Override
 
     public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(MyPageUpdateResponse myPageInfo) {
@@ -192,6 +198,7 @@ public class MyPageServiceImpl implements MyPageService {
     private DailyQuestDto convertToDTO(DailyQuest dailyQuest) {
         return DailyQuestDto.builder()
                 .recordDate(dailyQuest.getRecordDate())
+                .userCd(dailyQuest.getUser().getUserCd())
                 .dayCheck(dailyQuest.isDayCheck())
                 .exerciseCount(dailyQuest.getExerciseCount())
                 .foodCount(dailyQuest.getFoodCount())
