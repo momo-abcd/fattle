@@ -1,9 +1,16 @@
 import { useState } from 'react';
 import { API } from '../../services/login/URL';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 // 닉네임 중복 체크 컴포넌트
 const JoinPage1 = () => {
+  const location = useLocation();
+
+  const navigate = useNavigate();
   const [joinInfo, setJoinInfo] = useState({
+    userCode: location.state.userCode,
     nickname: '',
     age: '',
     sex: '',
@@ -103,7 +110,6 @@ const JoinPage1 = () => {
       <div className="goal">
         <input
           placeholder="Kg"
-          style={{ display: 'inline-block' }}
           onChange={(e) => {
             setJoinInfo({
               ...joinInfo,
@@ -113,7 +119,6 @@ const JoinPage1 = () => {
         ></input>
         <input
           placeholder="goalKg"
-          style={{ display: 'inline-block' }}
           onChange={(e) => {
             setJoinInfo({
               ...joinInfo,
@@ -128,6 +133,13 @@ const JoinPage1 = () => {
           disabled={dupli}
           onClick={() => {
             console.log('object변환');
+            navigate('/join/page2', {
+              state: {
+                nickname: joinInfo.nickname,
+                age: joinInfo.age,
+              },
+            });
+            console.log(joinInfo.userCode);
             // console.log(joinInfo.nickname);
             // console.log(joinInfo.sex);
             // console.log(joinInfo.age);

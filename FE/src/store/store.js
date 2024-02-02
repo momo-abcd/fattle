@@ -2,17 +2,15 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 const userCode = createSlice({
   name: 'userCode',
-  initialState: {
-    userCode: '132',
-  },
+  initialState: 0,
   reducers: {
-    changeUserCode(state, action) {
-      state.userCode = action.payload;
+    changeCode(state, a) {
+      return a.payload;
     },
   },
 });
 
-export const { changeUserCode } = userCode.actions;
+export const { changeCode } = userCode.actions;
 
 export default configureStore({
   reducer: {
