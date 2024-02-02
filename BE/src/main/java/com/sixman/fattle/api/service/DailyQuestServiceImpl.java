@@ -1,6 +1,6 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.DailyQuestDto;
+import com.sixman.fattle.dto.response.DailyQuestResponse;
 import com.sixman.fattle.entity.DailyQuest;
 import com.sixman.fattle.entity.User;
 import com.sixman.fattle.repository.DailyQuestRepository;
@@ -21,11 +21,9 @@ public class DailyQuestServiceImpl implements DailyQuestService {
     @Autowired
     private final DailyQuestRepository dailyQuestRepository;
 
-    public ResponseEntity<DailyQuestDto> getDailyQuests(Long userCode) {
-        User user = userRepository.getUser(userCode);
-//        List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
+    public ResponseEntity<DailyQuestResponse> getDailyQuests(Long userCode) {
         DailyQuest lastDailyQuest = getDailyQuest(userCode);
-        DailyQuestDto dailyQuest = DailyQuestDto.builder()
+        DailyQuestResponse dailyQuest = DailyQuestResponse.builder()
                 .userCd(userCode)
                 .recordDate(lastDailyQuest.getRecordDate())
                 .dayCheck(lastDailyQuest.isDayCheck())
@@ -39,8 +37,7 @@ public class DailyQuestServiceImpl implements DailyQuestService {
         User user = userRepository.getUser(userCode);
         List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
         if (!dailyQuests.isEmpty()) {
-            DailyQuest lastDailyQuest = dailyQuests.get(dailyQuests.size() - 1);
-            return lastDailyQuest;
+            return dailyQuests.get(dailyQuests.size() - 1);
         } else {
             return null;
         }

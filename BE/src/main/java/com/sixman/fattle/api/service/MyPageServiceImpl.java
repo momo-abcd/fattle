@@ -1,6 +1,6 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.DailyQuestDto;
+import com.sixman.fattle.dto.response.DailyQuestResponse;
 import com.sixman.fattle.dto.response.FollowResponse;
 import com.sixman.fattle.dto.response.GoalUpdateResponse;
 import com.sixman.fattle.dto.response.MyPageResponse;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,7 +62,7 @@ public class MyPageServiceImpl implements MyPageService {
                 .build();
 
         List<DailyQuest> monthlyQuests = getMonthlyQuests(userCode);
-        List<DailyQuestDto> monthlyQuestDTOs = monthlyQuests.stream()
+        List<DailyQuestResponse> monthlyQuestDTOs = monthlyQuests.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
         myPageResponse.setDailyQuests(monthlyQuestDTOs);
@@ -195,8 +194,8 @@ public class MyPageServiceImpl implements MyPageService {
 
 
 
-    private DailyQuestDto convertToDTO(DailyQuest dailyQuest) {
-        return DailyQuestDto.builder()
+    private DailyQuestResponse convertToDTO(DailyQuest dailyQuest) {
+        return DailyQuestResponse.builder()
                 .recordDate(dailyQuest.getRecordDate())
                 .userCd(dailyQuest.getUser().getUserCd())
                 .dayCheck(dailyQuest.isDayCheck())

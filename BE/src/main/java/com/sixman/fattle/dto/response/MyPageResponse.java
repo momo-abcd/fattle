@@ -1,6 +1,5 @@
 package com.sixman.fattle.dto.response;
 
-import com.sixman.fattle.dto.DailyQuestDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -28,7 +27,7 @@ public class MyPageResponse {
 //    private int exerciseCnt;
 //    private int foodCnt;
 //    private int isFinish;
-    private List<DailyQuestDto> dailyQuests;
+    private List<DailyQuestResponse> dailyQuests;
     private String avatarCode;
     private String imgPath;
 
