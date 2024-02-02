@@ -44,4 +44,18 @@ public interface BattleRepositoryCustom {
     void setLiveUserPoint(BattlePointRequest request);
 
     void setFoodUserPoint(BattlePointRequest request);
+
+    void deleteBoard(String battleCode);
+
+    void deleteComment(List<Integer> boardCodeList);
+
+    void deletePoint(String battleCode);
+
+    void deleteTrigger(String battleCode);
+
+    void deletePlayer(String battleCode);
+
+    void deleteBetting(String battleCode);
+
+    void deleteBattle(String battleCode);
 }

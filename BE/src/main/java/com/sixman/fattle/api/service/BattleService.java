@@ -77,7 +77,12 @@ public class BattleService {
     }
 
     public void deleteBattle(String battleCode) {
-
+        battleRepository.deleteBoard(battleCode);
+        battleRepository.deletePoint(battleCode);
+        battleRepository.deleteTrigger(battleCode);
+        battleRepository.deletePlayer(battleCode);
+        battleRepository.deleteBetting(battleCode);
+        battleRepository.deleteBattle(battleCode);
     }
 
     public void battleSetting(BattleSettingRequest request) {

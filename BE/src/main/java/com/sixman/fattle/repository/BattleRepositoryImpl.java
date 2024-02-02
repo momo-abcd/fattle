@@ -27,6 +27,8 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     private final QBattleTrigger qtrigger = QBattleTrigger.battleTrigger;
     private final QBattleBetting qbetting = QBattleBetting.battleBetting;
     private final QBattlePoint qpoint = QBattlePoint.battlePoint;
+    private final QFoodBoard qboard = QFoodBoard.foodBoard;
+    private final QFoodComment qcomment = QFoodComment.foodComment;
 
     @Override
     public int isBattleCodeExist(String battleCode) {
@@ -351,6 +353,71 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .set(qplayer.foodUserPt, foodUserPoint + request.getPoint())
                 .where(qplayer.battleCd.eq(request.getBattleCode()),
                         qplayer.userCd.eq(request.getPlayerUserCode()))
+                .execute();
+    }
+
+    @Override
+    public void deleteBoard(String battleCode) {
+        List<Integer> boardCodeList
+                = queryFactory
+                .select(qboard.foodBoardCd)
+                .from(qboard)
+                .where(qboard.battleCd.eq(battleCode))
+                .fetch();
+
+        deleteComment(boardCodeList);
+
+        queryFactory
+                .delete(qboard)
+                .where(qboard.battleCd.eq(battleCode))
+                .execute();
+    }
+
+    @Override
+    public void deleteComment(List<Integer> boardCodeList) {
+        queryFactory
+                .delete(qcomment)
+                .where(qcomment.foodBoardCd.in(boardCodeList))
+                .execute();
+    }
+
+    @Override
+    public void deletePoint(String battleCode) {
+        queryFactory
+                .delete(qpoint)
+                .where(qpoint.battleCd.eq(battleCode))
+                .execute();
+    }
+
+    @Override
+    public void deleteTrigger(String battleCode) {
+        queryFactory
+                .delete(qtrigger)
+                .where(qtrigger.battleCd.eq(battleCode))
+                .execute();
+    }
+
+    @Override
+    public void deletePlayer(String battleCode) {
+        queryFactory
+                .delete(qplayer)
+                .where(qplayer.battleCd.eq(battleCode))
+                .execute();
+    }
+
+    @Override
+    public void deleteBetting(String battleCode) {
+        queryFactory
+                .delete(qbetting)
+                .where(qbetting.battleCd.eq(battleCode))
+                .execute();
+    }
+
+    @Override
+    public void deleteBattle(String battleCode) {
+        queryFactory
+                .delete(qbattle)
+                .where(qbattle.battleCd.eq(battleCode))
                 .execute();
     }
 
