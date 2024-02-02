@@ -3,19 +3,19 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Routes, Route, Link} from 'react-router-dom'
 import ExpHistory from './ExpHistory'
-import Frame from '../../assets/images/main/Frame.png'
-import Frame2 from '../../assets/images/main/Frame2.png'
+import Frame from '../../assets/images/main/Frame.svg'
+import Frame2 from '../../assets/images/main/Frame2.svg'
 import panda from '../../assets/images/main/panda.png'
-import carbon from '../../assets/images/main/carbon.png'
-import protein from '../../assets/images/main/protein.png'
-import fat from '../../assets/images/main/fat.png'
-
+import carbon from '../../assets/images/main/carbon.svg'
+import protein from '../../assets/images/main/protein.svg'
+import fat from '../../assets/images/main/fat.svg'
+import { API } from '../../services/main/URL';
 
 function Character() {
   const [mainUserData, setMainUserData] = useState(null)
 
   useEffect((usercode) => {
-      axios.get(`http://localhost:5000/mainuser`)
+      axios.get(`${API.USER_GET}`+ usercode)
         .then(response=>{
             setMainUserData(response.data)
         })
