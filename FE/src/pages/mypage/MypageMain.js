@@ -1,32 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import { getMypage } from '../../services/mypage/api';
 import { Link, useNavigate } from 'react-router-dom';
+import { getMypage } from '../../services/mypage/api';
+// Component 관련
+import Footer from '../../commons/Footer';
+import Calendar from '../../components/mypage/Calendar';
+import getQuestSuccessDayList from './../../utils/mypage/checkQuestSuccess';
+// Style 관련
 import styles from '../../styles/mypage/Mypage.module.css';
-import calendarStyle from '../../styles/mypage/Calendar.module.css';
+import calendarStyles from '../../styles/mypage/Calendar.module.css';
 // SVG 관련
-import ProfileImg from '../../assets/svg/mypage/ProfileImg.svg';
 import Alarm from '../../assets/svg/mypage/Alarm.svg';
 import Configure from '../../assets/svg/mypage/Configure.svg';
 import Edit from '../../assets/svg/mypage/Edit.svg';
-import dates from '../../utils/mypage/makeCalendarList';
-import { getClassName } from '../../utils/mypage/checkQuestSuccess';
-// Component 관련
-import Calendar from '../../components/mypage/Calendar';
-import Footer from '../../commons/Footer';
+import ProfileImg from '../../assets/svg/mypage/ProfileImg.svg';
+import getCalendarList from '../../utils/mypage/getCalendarList.js';
 function MypageMain(props) {
   const navigate = useNavigate();
   const [data, setData] = useState({});
+  const { dates, isDayInCurrentMonth } = getCalendarList();
+  const [questSuccessDayList, setQuestSuccessDayList] = useState(null);
   useEffect(() => {
     (async () => {
       try {
         const { data, status } = await getMypage(1);
         setData(data);
+        setQuestSuccessDayList(
+          getQuestSuccessDayList(data.dailyQuests, 'recordDate'),
+        );
       } catch (error) {
         console.log(error);
         navigate('/');
       }
     })();
   }, []);
+
+  /**
+   * 달력의 성공여부, 이번달인지 계산해서 적용할 className을 반환하는 함수
+   * @param {Number} day - 몇일을 조회할 지
+   * @param {Number} index - 조회할 일이 리스트에서 몇 번째 인덱스인지
+   * @returns  달력에 적용할 className을 반환함
+   */
+  const getCalendarDayClassName = (day, index) => {
+    let className = '';
+    if (!isDayInCurrentMonth[index]) {
+      className = className.concat(calendarStyles['other']);
+    }
+    if (questSuccessDayList.includes(day)) {
+      className = className.concat(' ', calendarStyles['success']);
+    }
+    return className;
+  };
   return (
     <>
       {Object.keys(data).length !== 0 && (
@@ -130,12 +153,13 @@ function MypageMain(props) {
           {/* 목표 부분 끝 */}
 
           {/* 캘린더 부분 시작 */}
-          <div className={styles.headerText}>캘린더&#32;&#62;</div>
+          <div className={styles.headerText}>
+            <Link to="detail">캘린더&#32;&#62;</Link>
+          </div>
           <Calendar>
-            {dates.map((day, i) => {
-              const cl = getClassName(calendarStyle, data.dailyQuests, day, i);
+            {dates.map((day, index) => {
               return (
-                <li key={i} className={cl}>
+                <li key={index} className={getCalendarDayClassName(day, index)}>
                   {day} <br />
                 </li>
               );
