@@ -1,8 +1,12 @@
 package com.sixman.fattle.api.service;
 
+import com.sixman.fattle.dto.dto.BattleInfo;
+import com.sixman.fattle.dto.dto.BattlePlayerInfo;
+import com.sixman.fattle.dto.dto.BattleTriggerInfo;
 import com.sixman.fattle.dto.dto.SimpleBattleInfo;
 import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.dto.response.BattleCreateResponse;
+import com.sixman.fattle.dto.response.BattleInfoResponse;
 import com.sixman.fattle.dto.response.BattleListResponse;
 import com.sixman.fattle.entity.Battle;
 import com.sixman.fattle.repository.BattleRepository;
@@ -32,7 +36,7 @@ public class BattleService {
 
         do {
             battleCode = CodeGenerator.createBattleCode();
-        } while (battleRepository.getBattle(battleCode) != null);
+        } while (battleRepository.isBattleCodeExist(battleCode) > 0);
 
         Battle battle = Battle.builder()
                         .battleCd(battleCode)
@@ -49,7 +53,7 @@ public class BattleService {
     public BattleListResponse getBattleList(long userCode) {
         List<String> battleCodeList = battleRepository.getBattleCodeList(userCode);
 
-        List<SimpleBattleInfo> infoList = battleRepository.getBattleList(battleCodeList);
+        List<BattleInfo> infoList = battleRepository.getBattleList(battleCodeList);
 
         return BattleListResponse.builder()
                 .list(infoList)
@@ -91,4 +95,21 @@ public class BattleService {
     public void setPlayerWeight(PlayerWeightRequest request) {
         battleRepository.setPlayerWeight(request);
     }
+
+    public BattleInfoResponse getBattleInfo(String battleCode) {
+        SimpleBattleInfo battleInfo = battleRepository.getBattleInfo(battleCode);
+        List<String> betting = battleRepository.getBettings(battleCode);
+        List<BattlePlayerInfo> playerList = battleRepository.getPlayerList(battleCode);
+        List<BattleTriggerInfo> triggerList = battleRepository.getTriggerList(battleCode);
+        return BattleInfoResponse.builder()
+                .battleCode(battleCode)
+                .battleName(battleInfo.getName())
+                .startDate(battleInfo.getStartDate().toLocalDateTime())
+                .endDate(battleInfo.getEndDate().toLocalDateTime())
+                .betting(betting)
+                .playerList(playerList)
+                .triggerList(triggerList)
+                .build();
+    }
+
 }

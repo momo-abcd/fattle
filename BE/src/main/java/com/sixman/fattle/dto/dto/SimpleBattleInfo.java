@@ -1,16 +1,23 @@
 package com.sixman.fattle.dto.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Data
 @Builder
 public class SimpleBattleInfo {
 
-    private String battleCode;
+    @QueryProjection
+    public SimpleBattleInfo(String name, int status, Timestamp startDate, Timestamp endDate) {
+        this.name = name;
+        this.status = status;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     private String name;
 
@@ -19,15 +26,5 @@ public class SimpleBattleInfo {
     private Timestamp startDate;
 
     private Timestamp endDate;
-
-    private int triggerCnt;
-
-    private long userCode;
-
-    private String nickname;
-
-    private String imgPath;
-
-    private List<BattlePlayerInfo> playerList;
 
 }

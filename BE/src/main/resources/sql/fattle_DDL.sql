@@ -34,8 +34,7 @@ CREATE TABLE `battle_tb` (
   `creator_cd` bigint NOT NULL,
   `name` varchar(20) DEFAULT NULL,
   `start_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `end_dt` timestamp NULL DEFAULT NULL,
-  `contract_path` varchar(200) DEFAULT NULL,
+  `end_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint DEFAULT '0',
   PRIMARY KEY (`battle_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

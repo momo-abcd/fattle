@@ -12,12 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BattlePlayerInfo {
 
-    @QueryProjection
-    public BattlePlayerInfo(long userCode, String nickname) {
-        this.userCode = userCode;
-        this.nickname = nickname;
-    }
-
     private long userCode;
 
     private String nickname;
@@ -27,6 +21,18 @@ public class BattlePlayerInfo {
     private float afterWeight;
 
     private float goalWeight;
+
+    private int livePoint;
+
+    private int foodPoint;
+
+    private int liveUserPoint;
+
+    private int foodUserPoint;
+
+    private int questPoint;
+
+    private int goalPoint;
 
     private String imgPath;
 

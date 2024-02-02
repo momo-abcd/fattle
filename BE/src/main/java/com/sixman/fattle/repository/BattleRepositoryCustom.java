@@ -1,5 +1,8 @@
 package com.sixman.fattle.repository;
 
+import com.sixman.fattle.dto.dto.BattleInfo;
+import com.sixman.fattle.dto.dto.BattlePlayerInfo;
+import com.sixman.fattle.dto.dto.BattleTriggerInfo;
 import com.sixman.fattle.dto.dto.SimpleBattleInfo;
 import com.sixman.fattle.dto.request.BattleSettingRequest;
 import com.sixman.fattle.dto.request.PlayerWeightRequest;
@@ -11,13 +14,13 @@ import java.util.List;
 
 public interface BattleRepositoryCustom {
 
-    String getBattle(String battleCode);
+    int isBattleCodeExist(String battleCode);
 
     long createBattle(Battle battle);
 
     List<String> getBattleCodeList(long userCode);
 
-    List<SimpleBattleInfo> getBattleList(List<String> battleCodeList);
+    List<BattleInfo> getBattleList(List<String> battleCodeList);
 
     boolean setPlayer(RegistPlayerRequest request);
 
@@ -29,4 +32,11 @@ public interface BattleRepositoryCustom {
 
     void setPlayerWeight(PlayerWeightRequest request);
 
+    SimpleBattleInfo getBattleInfo(String battleCode);
+
+    List<String> getBettings(String battleCode);
+
+    List<BattlePlayerInfo> getPlayerList(String battleCode);
+
+    List<BattleTriggerInfo> getTriggerList(String battleCode);
 }

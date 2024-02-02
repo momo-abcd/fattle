@@ -4,8 +4,7 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sixman.fattle.dto.dto.BattlePlayerInfo;
-import com.sixman.fattle.dto.dto.SimpleBattleInfo;
+import com.sixman.fattle.dto.dto.*;
 import com.sixman.fattle.dto.request.BattleSettingRequest;
 import com.sixman.fattle.dto.request.PlayerWeightRequest;
 import com.sixman.fattle.dto.request.RegistPlayerRequest;
@@ -31,11 +30,12 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     private final QBattleTrigger qbt = QBattleTrigger.battleTrigger;
     private final QBattleBetting qbb = QBattleBetting.battleBetting;
 
-    public String getBattle(String battleCode) {
-        return queryFactory.select(qbattle.battleCd)
+    public int isBattleCodeExist(String battleCode) {
+        return queryFactory.select(qbattle.count())
                 .from(qbattle)
                 .where(qbattle.battleCd.in(battleCode))
-                .fetchFirst();
+                .fetchFirst()
+                .intValue();
     }
 
     public long createBattle(Battle battle) {
@@ -61,8 +61,8 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
         return listAsPlayer;
     }
 
-    public List<SimpleBattleInfo> getBattleList(List<String> battleCodeList) {
-        List<SimpleBattleInfo> battleList = new ArrayList<>();
+    public List<BattleInfo> getBattleList(List<String> battleCodeList) {
+        List<BattleInfo> battleList = new ArrayList<>();
 
         List<Tuple> tupleList
                 = queryFactory.select(
@@ -83,10 +83,10 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .fetch();
 
         for (Tuple tuple : tupleList) {
-            List<BattlePlayerInfo> playerList
+            List<SimpleBattlePlayerInfo> playerList
                     = queryFactory.select(
                             Projections.constructor(
-                                    BattlePlayerInfo.class,
+                                    SimpleBattlePlayerInfo.class,
                                     quser.userCd,
                                     quser.nickname))
                     .from(quser)
@@ -103,7 +103,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                     .fetchFirst()
                     .intValue();
 
-            SimpleBattleInfo info = SimpleBattleInfo.builder()
+            BattleInfo info = BattleInfo.builder()
                     .battleCode(tuple.get(qbattle.battleCd))
                     .name(tuple.get(qbattle.name))
                     .status(tuple.get(qbattle.status))
@@ -171,7 +171,6 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .set(qbattle.name, request.getBattleName())
                 .set(qbattle.startDt, Timestamp.valueOf(request.getStartDate()))
                 .set(qbattle.endDt, Timestamp.valueOf(request.getEndDate()))
-                .set(qbattle.contractPath, request.getContractPath())
                 .where(qbattle.battleCd.eq(request.getBattleCode()))
                 .execute();
 
@@ -219,6 +218,75 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .where(qbp.battleCd.eq(request.getBattleCode()),
                         qbp.userCd.eq(request.getUserCode()))
                 .execute();
+    }
+
+    @Override
+    public SimpleBattleInfo getBattleInfo(String battleCode) {
+        return queryFactory
+                .select(
+                        Projections.constructor(
+                                SimpleBattleInfo.class,
+                                qbattle.name,
+                                qbattle.status,
+                                qbattle.startDt,
+                                qbattle.endDt))
+                .from(qbattle)
+                .where(qbattle.battleCd.eq(battleCode))
+                .fetchFirst();
+    }
+
+    @Override
+    public List<String> getBettings(String battleCode) {
+        return queryFactory
+                .select(qbb.content)
+                .from(qbb)
+                .where(qbb.battleCd.eq(battleCode))
+                .fetch();
+    }
+
+    @Override
+    public List<BattlePlayerInfo> getPlayerList(String battleCode) {
+        return queryFactory
+                .select(
+                        Projections.bean(
+                                BattlePlayerInfo.class,
+                                qbp.userCd,
+                                quser.nickname,
+                                qbp.beforeWeight,
+                                qbp.afterWeight,
+                                qbp.goalWeight,
+                                qbp.livePt,
+                                qbp.foodPt,
+                                qbp.liveUserPt,
+                                qbp.foodUserPt,
+                                qbp.questPt,
+                                qbp.goalPt,
+                                qavatar.imgPath))
+                .from(qbp)
+                .where(qbp.battleCd.eq(battleCode))
+                .join(quser)
+                .on(qbp.userCd.eq(quser.userCd))
+                .join(qavatar)
+                .on(quser.avatarCd.eq(qavatar.avatarCd))
+                .fetch();
+    }
+
+    @Override
+    public List<BattleTriggerInfo> getTriggerList(String battleCode) {
+        return queryFactory
+                .select(
+                        Projections.constructor(
+                                BattleTriggerInfo.class,
+                                qbt.userCd,
+                                quser.nickname,
+                                qavatar.imgPath))
+                .from(qbt)
+                .where(qbt.battleCd.eq(battleCode))
+                .join(quser)
+                .on(qbt.userCd.eq(quser.userCd))
+                .join(qavatar)
+                .on(quser.avatarCd.eq(qavatar.avatarCd))
+                .fetch();
     }
 
 }

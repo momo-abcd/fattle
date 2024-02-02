@@ -3,6 +3,7 @@ package com.sixman.fattle.api.controller;
 import com.sixman.fattle.api.service.BattleService;
 import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.dto.response.BattleCreateResponse;
+import com.sixman.fattle.dto.response.BattleInfoResponse;
 import com.sixman.fattle.dto.response.BattleListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -97,6 +98,15 @@ public class BattleController {
     public ResponseEntity<?> setPlayerWeight(@RequestBody PlayerWeightRequest request) {
         battleService.setPlayerWeight(request);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "배틀 정보",
+            description = "배틀 정보 상세 보기")
+    @ApiResponse(responseCode = "200", description = "배틀 정보 상세 보기")
+    @GetMapping("/info/{battleCode}")
+    public ResponseEntity<BattleInfoResponse> getBattleInfo(@PathVariable String battleCode) {
+        BattleInfoResponse response = battleService.getBattleInfo(battleCode);
+        return ResponseEntity.ok(response);
     }
 
 }
