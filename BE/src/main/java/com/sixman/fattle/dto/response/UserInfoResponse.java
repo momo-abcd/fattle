@@ -26,4 +26,6 @@ public class UserInfoResponse {
     private int stackExp;
     private String imgPath;
 
+
+
 }

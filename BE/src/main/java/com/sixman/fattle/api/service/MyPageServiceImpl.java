@@ -1,8 +1,8 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.DailyQuestDto;
+import com.sixman.fattle.dto.response.DailyQuestResponse;
 import com.sixman.fattle.dto.response.FollowResponse;
-import com.sixman.fattle.dto.response.GoalUpdateResponse;
+import com.sixman.fattle.dto.response.MyPageGoalUpdateResponse;
 import com.sixman.fattle.dto.response.MyPageResponse;
 import com.sixman.fattle.dto.response.MyPageUpdateResponse;
 import com.sixman.fattle.entity.Avatar;
@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,8 +61,8 @@ public class MyPageServiceImpl implements MyPageService {
                 .followingCnt(getFollowingCount(user))
                 .build();
 
-        List<DailyQuest> monthlyQuests = getMonthlyQuests(user);
-        List<DailyQuestDto> monthlyQuestDTOs = monthlyQuests.stream()
+        List<DailyQuest> monthlyQuests = getMonthlyQuests(userCode);
+        List<DailyQuestResponse> monthlyQuestDTOs = monthlyQuests.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
         myPageResponse.setDailyQuests(monthlyQuestDTOs);
@@ -70,16 +70,21 @@ public class MyPageServiceImpl implements MyPageService {
         return ResponseEntity.ok(myPageResponse);
     }
 
-    private List<DailyQuest> getMonthlyQuests(User user) {
+    private List<DailyQuest> getMonthlyQuests(long userCode) {
+        User user = userRepository.getUser(userCode);
+        List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
 
-        YearMonth currentYearMonth = YearMonth.now();
-//        Date startOfMonth = java.sql.Date.valueOf(currentYearMonth.atDay(1));
-        LocalDate startOfMonth = currentYearMonth.atDay(1);
-        LocalDate endOfMonth = currentYearMonth.atEndOfMonth();
+        LocalDate now = LocalDate.now();
+        int currentYear = now.getYear();
+        Month currentMonth = now.getMonth();
 
-        return dailyQuestRepository.findByUserAndRecordDateBetween(user, startOfMonth, endOfMonth);
+        return dailyQuests.stream()
+                .filter(dailyQuest -> {
+                    LocalDate questDate = dailyQuest.getRecordDate().toLocalDateTime().toLocalDate();
+                    return questDate.getYear() == currentYear && questDate.getMonth() == currentMonth;
+                })
+                .collect(Collectors.toList());
     }
-
     @Override
 
     public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(MyPageUpdateResponse myPageInfo) {
@@ -96,8 +101,8 @@ public class MyPageServiceImpl implements MyPageService {
 
 
     @Override
-    public ResponseEntity<GoalUpdateResponse> updateGoalInfo(Long userCode, GoalUpdateResponse myPageGoalInfo) {
-        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
+    public ResponseEntity<MyPageGoalUpdateResponse> updateGoalInfo(MyPageGoalUpdateResponse myPageGoalInfo) {
+        userRepository.findById(myPageGoalInfo.getUserCode())
                 .ifPresent(user -> {
                     user.setGoalWeight(myPageGoalInfo.getGoalWeight());
                     user.setGoalCalory(myPageGoalInfo.getGoalCalory());
@@ -130,27 +135,6 @@ public class MyPageServiceImpl implements MyPageService {
         }
         return ResponseEntity.ok(response);
 
-//        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
-//                .ifPresent(user -> {
-//                    myPageResponse.setUserCode(user.getUserCode());
-//                    myPageResponse.setNickname(user.getNickname());
-//                    myPageResponse.setIntroduction(user.getIntroduction());
-//                    myPageResponse.setGoalWeight(user.getGoalWeight());
-//                    myPageResponse.setGoalCalory(user.getGoalCalory());
-//                    myPageResponse.setGoalCarbo(user.getGoalCarbo());
-//                    myPageResponse.setGoalProtein(user.getGoalProtein());
-//                    myPageResponse.setGoalFat(user.getGoalFat());
-//                    myPageResponse.setFollowerCnt(getFollowerCount(user));
-//                    myPageResponse.setFollowingCnt(getFollowingCount(user));
-////                    List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
-//                    List<DailyQuest> monthlyQuests = getMonthlyQuests(user);
-//                    List<DailyQuestDto> monthlyQuestDTOs = monthlyQuests.stream()
-//                            .map(this::convertToDTO)
-//                            .collect(Collectors.toList());
-//                    myPageResponse.setDailyQuests(monthlyQuestDTOs);
-//                });
-//
-//        return ResponseEntity.ok(myPageResponse);
     }
 
     @Override
@@ -189,14 +173,15 @@ public class MyPageServiceImpl implements MyPageService {
 
 
 
-    private DailyQuestDto convertToDTO(DailyQuest dailyQuest) {
-        DailyQuestDto dto = new DailyQuestDto();
-        dto.setRecordDate(dailyQuest.getRecordDate());
-        dto.setDayCheck(dailyQuest.isDayCheck());
-        dto.setExerciseCount(dailyQuest.getExerciseCount());
-        dto.setFoodCount(dailyQuest.getFoodCount());
-        dto.setFinish(dailyQuest.isFinish());
-        return dto;
+    private DailyQuestResponse convertToDTO(DailyQuest dailyQuest) {
+        return DailyQuestResponse.builder()
+                .recordDate(dailyQuest.getRecordDate())
+                .userCd(dailyQuest.getUser().getUserCd())
+                .dayCheck(dailyQuest.isDayCheck())
+                .exerciseCount(dailyQuest.getExerciseCount())
+                .foodCount(dailyQuest.getFoodCount())
+                .Finish(dailyQuest.isFinish())
+                .build();
     }
 
 

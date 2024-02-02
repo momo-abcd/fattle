@@ -29,22 +29,34 @@ public class UserService {
         User user =  userRepository.getUser(userCode);
         if (user == null) {
             return HttpStatus.NO_CONTENT;
-        } else {
-            List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
-            if (!dailyQuests.isEmpty()) {
-                DailyQuest lastDailyQuest = dailyQuests.get(dailyQuests.size() - 1);
-                LocalDateTime now = LocalDateTime.now();
-                if (!lastDailyQuest.getRecordDate().toLocalDateTime().isAfter(now.toLocalDate().atStartOfDay())) {
-                    DailyQuest dailyQuest = new DailyQuest();
-                    dailyQuest.setRecordDate(Timestamp.valueOf(now));
-                    dailyQuest.setDayCheck(true);
-                    dailyQuest.setExerciseCount(0);
-                    dailyQuest.setFoodCount(0);
-                    dailyQuest.setFinish(false);
-                }
-            }
-            return HttpStatus.OK;
         }
+
+        List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
+        LocalDateTime now = LocalDateTime.now();
+        if (!dailyQuests.isEmpty()) {
+            DailyQuest lastDailyQuest = dailyQuests.get(dailyQuests.size() - 1);
+            if (lastDailyQuest.getRecordDate().toLocalDateTime().isBefore(now.toLocalDate().atStartOfDay())) {
+                DailyQuest dailyQuest = new DailyQuest();
+                dailyQuest.setRecordDate(Timestamp.valueOf(now));
+                dailyQuest.setUser(user);
+                dailyQuest.setDayCheck(true);
+                dailyQuest.setExerciseCount(0);
+                dailyQuest.setFoodCount(0);
+                dailyQuest.setFinish(false);
+                dailyQuestRepository.save(dailyQuest);
+            }
+        } else {
+        DailyQuest dailyQuest = new DailyQuest();
+        dailyQuest.setRecordDate(Timestamp.valueOf(now));
+        dailyQuest.setUser(user);
+        dailyQuest.setDayCheck(true);
+        dailyQuest.setExerciseCount(0);
+        dailyQuest.setFoodCount(0);
+        dailyQuest.setFinish(false);
+        dailyQuestRepository.save(dailyQuest);
+        }
+        return HttpStatus.OK;
+
     }
 
     public void signUp(SignUpRequest request) {
@@ -64,4 +76,6 @@ public class UserService {
     public UserInfoResponse userInfo(long userCode) {
         return userRepository.getUserInfo(userCode);
     }
+
+
 }

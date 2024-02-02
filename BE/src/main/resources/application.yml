@@ -8,7 +8,7 @@ spring:
     include: oauth
   # DataBase Settings : hikariCP : https://github.com/brettwooldridge/HikariCP
   datasource:
-    url: jdbc:mysql://localhost:3306/fattle?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/fattle?serverTimezone=Asia/Seoul&useUniCode=yes&characterEncoding=UTF-8
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: fattle

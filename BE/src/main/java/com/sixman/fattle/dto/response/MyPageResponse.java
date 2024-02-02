@@ -1,6 +1,5 @@
 package com.sixman.fattle.dto.response;
 
-import com.sixman.fattle.dto.DailyQuestDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -23,12 +22,12 @@ public class MyPageResponse {
     private int goalProtein;
     private int goalFat;
     // 캘린더 기능 추가 필요
-//    private Date recDate;
+//    private Timestamp recDate;
 //    private int dayCheck;
 //    private int exerciseCnt;
 //    private int foodCnt;
 //    private int isFinish;
-    private List<DailyQuestDto> dailyQuests;
+    private List<DailyQuestResponse> dailyQuests;
     private String avatarCode;
     private String imgPath;
 
