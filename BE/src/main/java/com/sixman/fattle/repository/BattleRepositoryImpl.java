@@ -30,6 +30,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     private final QBattleTrigger qbt = QBattleTrigger.battleTrigger;
     private final QBattleBetting qbb = QBattleBetting.battleBetting;
 
+    @Override
     public int isBattleCodeExist(String battleCode) {
         return queryFactory.select(qbattle.count())
                 .from(qbattle)
@@ -38,6 +39,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .intValue();
     }
 
+    @Override
     public long createBattle(Battle battle) {
         return queryFactory.insert(qbattle)
                 .columns(qbattle.battleCd, qbattle.creatorCd)
@@ -45,6 +47,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .execute();
     }
 
+    @Override
     public List<String> getBattleCodeList(long userCode) {
         List<String> listAsPlayer = queryFactory.select(qbp.battleCd)
                 .from(qbp)
@@ -61,6 +64,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
         return listAsPlayer;
     }
 
+    @Override
     public List<BattleInfo> getBattleList(List<String> battleCodeList) {
         List<BattleInfo> battleList = new ArrayList<>();
 
@@ -122,6 +126,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
         return battleList;
     }
 
+    @Override
     public boolean setPlayer(RegistPlayerRequest request) {
         int cnt = queryFactory
                 .select(qbp.count())
@@ -151,6 +156,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
         return true;
     }
 
+    @Override
     public void setTrigger(RegistTriggerRequest request) {
         queryFactory
                 .insert(qbt)
@@ -163,6 +169,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .execute();
     }
 
+    @Override
     public void setBattle(BattleSettingRequest request) {
         String battleCode = request.getBattleCode();
 
@@ -190,6 +197,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
         }
     }
 
+    @Override
     public boolean setBattleStatus(String battleCode, int status) {
         int curStatus = queryFactory
                 .select(qbattle.status)
@@ -211,6 +219,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
         return true;
     }
 
+    @Override
     public void setPlayerWeight(PlayerWeightRequest request) {
         queryFactory
                 .update(qbp)
