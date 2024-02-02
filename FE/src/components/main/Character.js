@@ -15,7 +15,8 @@ function Character() {
   const [mainUserData, setMainUserData] = useState(null)
 
   useEffect((usercode) => {
-      axios.get(`${API.USER_GET}`+ usercode)
+      axios.get(`http://localhost:5000/mainuser`)
+      // axios.get(`${API.USER_GET}`)
         .then(response=>{
             setMainUserData(response.data)
         })
@@ -35,15 +36,36 @@ function Character() {
     <div className={styles.wrapper}>
       {mainUserData && (
         <div>
-          <p>{mainUserData.nickname}</p>
+          <p className={styles.nicknameText}>{mainUserData.nickname}</p>
           {/* <p>{mainUserData.ranking}등</p> */}
           {/* <img src={mainUserData.imgPath} alt="캐릭터 이미지" /> */}
 
           <svg height={radius * 2} width={radius * 2} className={styles.progressbar2}>
+          <defs>
+            <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+              <feOffset result="offOut" in="SourceAlpha" dx="-5" dy="-5" />
+              <feGaussianBlur result="blurOut" in="offOut" stdDeviation="3" />
+              <feColorMatrix
+                result="matrixOut"
+                in="blurOut"
+                type="matrix"
+                values="1 0 0 0 0
+                        0 1 0 0 0
+                        0 0 1 0 0
+                        0 0 0 0.2 0" 
+              />
+              <feBlend in="SourceGraphic" in2="matrixOut" mode="normal" />
+            </filter>
+
+            <filter id="glow">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
+        </filter>
+          </defs>
+          
           <circle
             className={styles.circle}
             stroke="#ffffff"
-            strokeWidth="15"
+            strokeWidth="18"
             fill="transparent"
             r={radius}
             cx={radius}
@@ -55,28 +77,34 @@ function Character() {
             y={radius - 100} 
             width="200"
             height="200"
+            className={styles.shineImage}
+            
             />
           <circle
             className={styles.filledcircle}
             stroke="#98FF87"
-            strokeWidth="15"
+            strokeWidth="20"
             fill="transparent"
             r={radius}
             cx={radius}
             cy={radius}
             strokeDasharray={circumference}
             strokeDashoffset={circumference - (mainUserData.growthExp / maxGrowthExp) * circumference}
+            filter="url(#shadow) url(#glow)" 
             />
         </svg>
-          <p>성장 경험치: {mainUserData.growthExp}</p>
-          <p>스택 경험치: {mainUserData.stackExp}</p>
+
+          {/* <p>성장 경험치: {mainUserData.growthExp}</p>
+          <p>스택 경험치: {mainUserData.stackExp}</p> */}
 
 
-          <Link to="/history">
+          {/* <Link to="/history">
             <button>경험치 히스토리</button>
-          </Link>
+          </Link> */}
 
-          <p>{mainUserData.calory} / {mainUserData.goalCalory}kcal</p>
+          <p className={styles.caloryinfo}>
+            <span className={styles.boldText}>{mainUserData.calory}</span> / {mainUserData.goalCalory} kcal
+          </p>
           <div className={styles.progressbar}>
             <div className={styles.remainingbar} style={{ width: `${100 - (mainUserData.calory / mainUserData.goalCalory) * 100}%` }}></div>
           </div>
@@ -85,19 +113,25 @@ function Character() {
             <div className={styles.nutrienticon}>
               <img src={carbon} alt='' />
               <div className={styles.nutrientbar}>
-                <div className={styles.remainingbar2} style={{ width: `${(100 / mainUserData.goalcarbo) * 100}%` }}></div>
-                <p>100 / {mainUserData.goalcarbo}g</p>
+                <div className={styles.remainingbar2} style={{ width: `${(mainUserData.carbo / mainUserData.goalcarbo) * 100}%` }}></div>
               </div>
+              
               <img src={protein} alt='' />
               <div className={styles.nutrientbar}>
-                <div className={styles.remainingbar3} style={{ width: `${(70 / mainUserData.goalprotein) * 100}%` }}></div>
+                <div className={styles.remainingbar3} style={{ width: `${(mainUserData.protein / mainUserData.goalprotein) * 100}%` }}></div>
               </div>
 
               <img src={fat} alt='' />
               <div className={styles.nutrientbar}>
-                <div className={styles.remainingbar4} style={{ width: `${(50 / mainUserData.goalfat) * 100}%` }}></div>
+                <div className={styles.remainingbar4} style={{ width: `${(mainUserData.fat / mainUserData.goalfat) * 100}%` }}></div>
               </div>
             </div>
+          </div>
+          <div className={styles.nutrientContainer}>
+
+              <p>{mainUserData.carbo} / {mainUserData.goalcarbo}g</p>
+              <p>{mainUserData.protein} / {mainUserData.goalprotein}g</p>
+              <p>{mainUserData.fat} / {mainUserData.goalfat}g</p>
           </div>
 
 
