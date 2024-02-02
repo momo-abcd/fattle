@@ -34,8 +34,7 @@ CREATE TABLE `battle_tb` (
   `creator_cd` bigint NOT NULL,
   `name` varchar(20) DEFAULT NULL,
   `start_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `end_dt` timestamp NULL DEFAULT NULL,
-  `contract_path` varchar(200) DEFAULT NULL,
+  `end_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint DEFAULT '0',
   PRIMARY KEY (`battle_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -73,7 +72,7 @@ CREATE TABLE `battle_point_tb` (
   `point_cd` int NOT NULL AUTO_INCREMENT,
   `battle_cd` char(6) NOT NULL,
   `player_cd` bigint NOT NULL,
-  `trigger_cd` bigint NOT NULL,
+  `trigger_cd` bigint NOT NULL DEFAULT 0,
   `type` tinyint DEFAULT '0',
   `point` int DEFAULT '0',
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -99,6 +98,7 @@ CREATE TABLE `exp_history_tb` (
   `user_cd` bigint NOT NULL,
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `type` varchar(50) NOT NULL,
+  `content` varchar(50) NOT NULL,
   `point` int DEFAULT '0',
   PRIMARY KEY (`exp_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
