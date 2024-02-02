@@ -47,7 +47,7 @@ public class BattleController {
             @ApiResponse(responseCode = "200", description = "내기자 등록 성공"),
             @ApiResponse(responseCode = "400", description = "내기자 등록 실패")
     })
-    @PatchMapping("/regist/player")
+    @PostMapping("/regist/player")
     public ResponseEntity<HttpStatus> registPlayer(@RequestBody RegistPlayerRequest request) {
         return ResponseEntity.status(battleService.registPlayer(request)).build();
     }
@@ -55,9 +55,15 @@ public class BattleController {
     @Operation(summary = "자극자 등록",
             description = "배틀 자극자 등록")
     @ApiResponse(responseCode = "200", description = "자극자 등록 성공")
-    @PatchMapping("/regist/trigger")
+    @PostMapping("/regist/trigger")
     public ResponseEntity<?> registTrigger(@RequestBody RegistTriggerRequest request) {
         battleService.registTrigger(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{battleCode}")
+    public ResponseEntity<?> deleteBattle(@PathVariable String battleCode) {
+        battleService.deleteBattle(battleCode);
         return ResponseEntity.ok().build();
     }
 
@@ -118,6 +124,18 @@ public class BattleController {
                                                               @PathVariable long userCode) {
         RemainPointResponse response = battleService.getRemainPoint(battleCode, userCode);
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "자극자 점수 부여",
+            description = "배틀 중 자극자 점수 부여")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "점수 부여 성공"),
+            @ApiResponse(responseCode = "400", description = "점수 부여 실패")
+    })
+    @PatchMapping("/point")
+    public ResponseEntity<?> setBattlePoint(@RequestBody BattlePointRequest request) {
+        HttpStatus status = battleService.setBattlePoint(request);
+        return ResponseEntity.status(status).build();
     }
 
 }

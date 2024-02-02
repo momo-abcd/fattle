@@ -4,10 +4,7 @@ import com.sixman.fattle.dto.dto.BattleInfo;
 import com.sixman.fattle.dto.dto.BattlePlayerInfo;
 import com.sixman.fattle.dto.dto.BattleTriggerInfo;
 import com.sixman.fattle.dto.dto.SimpleBattleInfo;
-import com.sixman.fattle.dto.request.BattleSettingRequest;
-import com.sixman.fattle.dto.request.PlayerWeightRequest;
-import com.sixman.fattle.dto.request.RegistPlayerRequest;
-import com.sixman.fattle.dto.request.RegistTriggerRequest;
+import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.entity.Battle;
 
 import java.util.List;
@@ -41,4 +38,10 @@ public interface BattleRepositoryCustom {
     List<BattleTriggerInfo> getTriggerList(String battleCode);
 
     int getRemainPoint(String battleCode, long userCode);
+
+    void setPoint(BattlePointRequest request);
+
+    void setLiveUserPoint(BattlePointRequest request);
+
+    void setFoodUserPoint(BattlePointRequest request);
 }
