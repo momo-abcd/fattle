@@ -135,27 +135,6 @@ public class MyPageServiceImpl implements MyPageService {
         }
         return ResponseEntity.ok(response);
 
-//        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
-//                .ifPresent(user -> {
-//                    myPageResponse.setUserCode(user.getUserCode());
-//                    myPageResponse.setNickname(user.getNickname());
-//                    myPageResponse.setIntroduction(user.getIntroduction());
-//                    myPageResponse.setGoalWeight(user.getGoalWeight());
-//                    myPageResponse.setGoalCalory(user.getGoalCalory());
-//                    myPageResponse.setGoalCarbo(user.getGoalCarbo());
-//                    myPageResponse.setGoalProtein(user.getGoalProtein());
-//                    myPageResponse.setGoalFat(user.getGoalFat());
-//                    myPageResponse.setFollowerCnt(getFollowerCount(user));
-//                    myPageResponse.setFollowingCnt(getFollowingCount(user));
-////                    List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
-//                    List<DailyQuest> monthlyQuests = getMonthlyQuests(user);
-//                    List<DailyQuestDto> monthlyQuestDTOs = monthlyQuests.stream()
-//                            .map(this::convertToDTO)
-//                            .collect(Collectors.toList());
-//                    myPageResponse.setDailyQuests(monthlyQuestDTOs);
-//                });
-//
-//        return ResponseEntity.ok(myPageResponse);
     }
 
     @Override
