@@ -3,12 +3,18 @@ import { API } from '../../services/login/URL';
 import axios from 'axios';
 // 닉네임 중복 체크 컴포넌트
 const JoinPage1 = () => {
-  const [nickName, setNickName] = useState('');
-  const [gender, setGender] = useState('');
-  const [age, setAge] = useState('');
-  const [height, setHeight] = useState('');
-  const [weigh, setWeigh] = useState('');
-  const [goalWeight, setGoalWeight] = useState('');
+  const [joinInfo, setJoinInfo] = useState({
+    nickname: '',
+    age: '',
+    sex: '',
+    height: '',
+    weigh: '',
+    goalWeight: '',
+    goalCalory: '',
+    goalCarbon: '',
+    goalProtein: '',
+    goalFat: '',
+  });
   const [dupli, setDupli] = useState(true);
   return (
     <div>
@@ -17,23 +23,26 @@ const JoinPage1 = () => {
           placeholder="닉네임 입력"
           onChange={(e) => {
             setDupli(true);
-            setNickName(e.target.value);
+            setJoinInfo({
+              ...joinInfo,
+              nickname: e.target.value,
+            });
           }}
         ></input>
         <button
           onClick={() => {
             axios // NICKNAME_GET
-              .get(`${API.NICKNAME_GET}${nickName}`)
+              .get(`${API.NICKNAME_GET}${joinInfo.nickname}`)
               .then((res) => {
+                alert('좋은 닉네임 입니다.');
                 setDupli(false);
               })
               .catch((err) => {
-                if (nickName.length === 0) {
+                if (joinInfo.nickname.length === 0) {
                   alert('닉네임을 입력해 주세요!!!');
                 } else {
                   alert('중복된 닉네임 입니다!!!');
                 }
-
                 console.log(err);
               });
           }}
@@ -48,7 +57,10 @@ const JoinPage1 = () => {
             type="radio"
             name="gender"
             onClick={() => {
-              setGender('M');
+              setJoinInfo({
+                ...joinInfo,
+                sex: 'M',
+              });
             }}
           />
           남자
@@ -58,7 +70,10 @@ const JoinPage1 = () => {
             type="radio"
             name="gender"
             onClick={() => {
-              setGender('W');
+              setJoinInfo({
+                ...joinInfo,
+                sex: 'W',
+              });
             }}
           />
           여자
@@ -69,13 +84,19 @@ const JoinPage1 = () => {
         <input
           placeholder="세"
           onChange={(e) => {
-            setAge(e.target.value);
+            setJoinInfo({
+              ...joinInfo,
+              age: e.target.value,
+            });
           }}
         ></input>
         <input
           placeholder="CM"
           onChange={(e) => {
-            setHeight(e.target.value);
+            setJoinInfo({
+              ...joinInfo,
+              height: e.target.value,
+            });
           }}
         ></input>
       </div>
@@ -84,14 +105,20 @@ const JoinPage1 = () => {
           placeholder="Kg"
           style={{ display: 'inline-block' }}
           onChange={(e) => {
-            setWeigh(e.target.value);
+            setJoinInfo({
+              ...joinInfo,
+              weigh: e.target.value,
+            });
           }}
         ></input>
         <input
           placeholder="goalKg"
           style={{ display: 'inline-block' }}
           onChange={(e) => {
-            setGoalWeight(e.target.value);
+            setJoinInfo({
+              ...joinInfo,
+              goalWeight: e.target.value,
+            });
           }}
         ></input>
       </div>
@@ -100,12 +127,13 @@ const JoinPage1 = () => {
         <button
           disabled={dupli}
           onClick={() => {
-            console.log(nickName);
-            console.log(gender);
-            console.log(age);
-            console.log(height);
-            console.log(weigh);
-            console.log(goalWeight);
+            console.log('object변환');
+            // console.log(joinInfo.nickname);
+            // console.log(joinInfo.sex);
+            // console.log(joinInfo.age);
+            // console.log(joinInfo.height);
+            // console.log(joinInfo.weigh);
+            // console.log(joinInfo.goalWeight);
           }}
         >
           다음
