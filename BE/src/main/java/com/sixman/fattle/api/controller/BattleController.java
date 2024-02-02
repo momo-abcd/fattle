@@ -132,12 +132,24 @@ public class BattleController {
         return ResponseEntity.status(status).build();
     }
 
+    @Operation(summary = "배틀 삭제",
+            description = "배틀 코드를 통해 배틀 삭제")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "배틀 삭제 완료"),
+            @ApiResponse(responseCode = "400", description = "존재하지 않는 배틀")
+    })
     @DeleteMapping("/{battleCode}")
     public ResponseEntity<?> deleteBattle(@PathVariable String battleCode) {
         HttpStatus status = battleService.deleteBattle(battleCode);
         return ResponseEntity.status(status).build();
     }
 
+    @Operation(summary = "내기자 삭제",
+            description = "배틀 코드와 내기자 코드를 통해 배틀 삭제")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "내기자 삭제 완료"),
+            @ApiResponse(responseCode = "400", description = "존재하지 않는 내기자")
+    })
     @DeleteMapping("/player/{battleCode}/{userCode}")
     public ResponseEntity<?> deletePlayer(@PathVariable String battleCode,
                                           @PathVariable long userCode) {
@@ -145,6 +157,12 @@ public class BattleController {
         return ResponseEntity.status(status).build();
     }
 
+    @Operation(summary = "자극자 삭제",
+            description = "배틀 코드와 자극자 코드를 통해 배틀 삭제")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "자극자 삭제 완료"),
+            @ApiResponse(responseCode = "400", description = "존재하지 않는 자극자")
+    })
     @DeleteMapping("/trigger/{battleCode}/{userCode}")
     public ResponseEntity<?> deleteTrigger(@PathVariable String battleCode,
                                           @PathVariable long userCode) {
