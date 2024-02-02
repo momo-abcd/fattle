@@ -127,7 +127,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
-    public boolean setPlayer(RegistPlayerRequest request) {
+    public boolean setPlayer(PlayerRequest request) {
         int cnt = queryFactory
                 .select(qplayer.count())
                 .from(qplayer)
@@ -157,7 +157,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
-    public void setTrigger(RegistTriggerRequest request) {
+    public void setTrigger(TriggerRequest request) {
         queryFactory
                 .insert(qtrigger)
                 .columns(
@@ -459,6 +459,17 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                         qtrigger.userCd.eq(userCode))
                 .fetchFirst()
                 .intValue();
+    }
+
+    @Override
+    public long modifyPlayer(PlayerRequest request) {
+        return queryFactory
+                .update(qplayer)
+                .set(qplayer.beforeWeight, request.getBeforeWeight())
+                .set(qplayer.goalWeight, request.getGoalWeight())
+                .where(qpoint.battleCd.eq(request.getBattleCode()),
+                        qplayer.userCd.eq(request.getUserCode()))
+                .execute();
     }
 
 }

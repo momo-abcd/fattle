@@ -14,7 +14,6 @@ import com.sixman.fattle.repository.BattleRepository;
 import com.sixman.fattle.utils.CodeGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,7 +64,7 @@ public class BattleService {
                 .build();
     }
 
-    public HttpStatus registPlayer(RegistPlayerRequest request) {
+    public HttpStatus registPlayer(PlayerRequest request) {
         if (battleRepository.setPlayer(request)) {
             return HttpStatus.OK;
         } else {
@@ -73,7 +72,7 @@ public class BattleService {
         }
     }
 
-    public void registTrigger(RegistTriggerRequest request) {
+    public void registTrigger(TriggerRequest request) {
         battleRepository.setTrigger(request);
     }
 
@@ -205,4 +204,12 @@ public class BattleService {
         return HttpStatus.OK;
     }
 
+    public HttpStatus modifyPlayer(PlayerRequest request) {
+        long cnt = battleRepository.modifyPlayer(request);
+        if (cnt == 0) {
+            return HttpStatus.BAD_REQUEST;
+        } else {
+            return HttpStatus.OK;
+        }
+    }
 }

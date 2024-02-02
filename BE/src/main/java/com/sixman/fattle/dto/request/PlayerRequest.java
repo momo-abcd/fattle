@@ -3,7 +3,7 @@ package com.sixman.fattle.dto.request;
 import lombok.Getter;
 
 @Getter
-public class RegistPlayerRequest {
+public class PlayerRequest {
 
     private String battleCode;
     private long userCode;

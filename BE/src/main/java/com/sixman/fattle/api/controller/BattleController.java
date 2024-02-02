@@ -48,7 +48,7 @@ public class BattleController {
             @ApiResponse(responseCode = "400", description = "내기자 등록 실패")
     })
     @PostMapping("/regist/player")
-    public ResponseEntity<HttpStatus> registPlayer(@RequestBody RegistPlayerRequest request) {
+    public ResponseEntity<HttpStatus> registPlayer(@RequestBody PlayerRequest request) {
         return ResponseEntity.status(battleService.registPlayer(request)).build();
     }
 
@@ -56,7 +56,7 @@ public class BattleController {
             description = "배틀 자극자 등록")
     @ApiResponse(responseCode = "200", description = "자극자 등록 성공")
     @PostMapping("/regist/trigger")
-    public ResponseEntity<?> registTrigger(@RequestBody RegistTriggerRequest request) {
+    public ResponseEntity<?> registTrigger(@RequestBody TriggerRequest request) {
         battleService.registTrigger(request);
         return ResponseEntity.ok().build();
     }
@@ -167,6 +167,18 @@ public class BattleController {
     public ResponseEntity<?> deleteTrigger(@PathVariable String battleCode,
                                           @PathVariable long userCode) {
         HttpStatus status = battleService.deleteTrigger(battleCode, userCode);
+        return ResponseEntity.status(status).build();
+    }
+
+    @Operation(summary = "내기자 목표 수정",
+            description = "내기자 목표 수정")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "내기자 목표 수정 성공"),
+            @ApiResponse(responseCode = "400", description = "존재하지 않는 내기자")
+    })
+    @PatchMapping("/modify/player")
+    public ResponseEntity<?> modifyPlayer(@RequestBody PlayerRequest request) {
+        HttpStatus status = battleService.modifyPlayer(request);
         return ResponseEntity.status(status).build();
     }
 

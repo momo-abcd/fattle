@@ -19,9 +19,9 @@ public interface BattleRepositoryCustom {
 
     List<BattleInfo> getBattleList(List<String> battleCodeList);
 
-    boolean setPlayer(RegistPlayerRequest request);
+    boolean setPlayer(PlayerRequest request);
 
-    void setTrigger(RegistTriggerRequest request);
+    void setTrigger(TriggerRequest request);
 
     void setBattle(BattleSettingRequest request);
 
@@ -67,4 +67,5 @@ public interface BattleRepositoryCustom {
 
     int isTriggerExist(String battleCode, long userCode);
 
+    long modifyPlayer(PlayerRequest request);
 }
