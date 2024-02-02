@@ -39,4 +39,6 @@ public interface BattleRepositoryCustom {
     List<BattlePlayerInfo> getPlayerList(String battleCode);
 
     List<BattleTriggerInfo> getTriggerList(String battleCode);
+
+    int getRemainPoint(String battleCode, long userCode);
 }

@@ -8,6 +8,7 @@ import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.dto.response.BattleCreateResponse;
 import com.sixman.fattle.dto.response.BattleInfoResponse;
 import com.sixman.fattle.dto.response.BattleListResponse;
+import com.sixman.fattle.dto.response.RemainPointResponse;
 import com.sixman.fattle.entity.Battle;
 import com.sixman.fattle.repository.BattleRepository;
 import com.sixman.fattle.utils.CodeGenerator;
@@ -28,6 +29,7 @@ public class BattleService {
     private final int STATUS_WAIT = 0;
     private final int STATUS_START = 1;
     private final int STATUS_END = 2;
+    private final int MAX_POINT = 1000;
 
     public BattleCreateResponse createBattle(BattleCreateRequest request) {
         long userCode = request.getUserCode();
@@ -109,6 +111,15 @@ public class BattleService {
                 .betting(betting)
                 .playerList(playerList)
                 .triggerList(triggerList)
+                .build();
+    }
+
+    public RemainPointResponse getRemainPoint(String battleCode, long userCode) {
+        int currentPoint = battleRepository.getRemainPoint(battleCode, userCode);
+        return RemainPointResponse.builder()
+                .maxPoint(MAX_POINT)
+                .currentPoint(currentPoint)
+                .remainPoint(MAX_POINT - currentPoint)
                 .build();
     }
 

@@ -298,4 +298,14 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public int getRemainPoint(String battleCode, long userCode) {
+        return queryFactory
+                .select(qbt.livePt)
+                .from(qbt)
+                .where(qbt.battleCd.eq(battleCode),
+                        qbt.userCd.eq(userCode))
+                .fetchFirst();
+    }
+
 }

@@ -5,6 +5,7 @@ import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.dto.response.BattleCreateResponse;
 import com.sixman.fattle.dto.response.BattleInfoResponse;
 import com.sixman.fattle.dto.response.BattleListResponse;
+import com.sixman.fattle.dto.response.RemainPointResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -102,10 +103,20 @@ public class BattleController {
 
     @Operation(summary = "배틀 정보",
             description = "배틀 정보 상세 보기")
-    @ApiResponse(responseCode = "200", description = "배틀 정보 상세 보기")
+    @ApiResponse(responseCode = "200", description = "배틀 정보 상세 보기 성공")
     @GetMapping("/info/{battleCode}")
     public ResponseEntity<BattleInfoResponse> getBattleInfo(@PathVariable String battleCode) {
         BattleInfoResponse response = battleService.getBattleInfo(battleCode);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "자극자 남은 라이브 점수",
+            description = "자극자 남은 라이브 점수 조회")
+    @ApiResponse(responseCode = "200", description = "자극자 남은 라이브 점수 조회 성공")
+    @GetMapping("/point/{battleCode}/{userCode}")
+    public ResponseEntity<RemainPointResponse> getRemainPoint(@PathVariable String battleCode,
+                                                              @PathVariable long userCode) {
+        RemainPointResponse response = battleService.getRemainPoint(battleCode, userCode);
         return ResponseEntity.ok(response);
     }
 
