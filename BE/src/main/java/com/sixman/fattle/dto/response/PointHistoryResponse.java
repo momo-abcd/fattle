@@ -1,6 +1,6 @@
 package com.sixman.fattle.dto.response;
 
-import com.sixman.fattle.dto.dto.BattleInfo;
+import com.sixman.fattle.dto.dto.PointHistory;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,8 +8,8 @@ import java.util.List;
 
 @Data
 @Builder
-public class BattleListResponse {
+public class PointHistoryResponse {
 
-    private List<BattleInfo> list;
+    private List<PointHistory> list;
 
 }

@@ -1,9 +1,8 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.dto.SimpleBattleInfo;
+import com.sixman.fattle.dto.dto.*;
 import com.sixman.fattle.dto.request.*;
-import com.sixman.fattle.dto.response.BattleCreateResponse;
-import com.sixman.fattle.dto.response.BattleListResponse;
+import com.sixman.fattle.dto.response.*;
 import com.sixman.fattle.entity.Battle;
 import com.sixman.fattle.repository.BattleRepository;
 import com.sixman.fattle.utils.CodeGenerator;
@@ -24,6 +23,9 @@ public class BattleService {
     private final int STATUS_WAIT = 0;
     private final int STATUS_START = 1;
     private final int STATUS_END = 2;
+    private final int MAX_POINT = 1000;
+    private final int LIVE_USER_POINT = 1;
+    private final int FOOD_USER_POINT = 2;
 
     public BattleCreateResponse createBattle(BattleCreateRequest request) {
         long userCode = request.getUserCode();
@@ -32,7 +34,7 @@ public class BattleService {
 
         do {
             battleCode = CodeGenerator.createBattleCode();
-        } while (battleRepository.getBattle(battleCode) != null);
+        } while (battleRepository.isBattleCodeExist(battleCode) > 0);
 
         Battle battle = Battle.builder()
                         .battleCd(battleCode)
@@ -49,14 +51,14 @@ public class BattleService {
     public BattleListResponse getBattleList(long userCode) {
         List<String> battleCodeList = battleRepository.getBattleCodeList(userCode);
 
-        List<SimpleBattleInfo> infoList = battleRepository.getBattleList(battleCodeList);
+        List<BattleInfo> infoList = battleRepository.getBattleList(battleCodeList);
 
         return BattleListResponse.builder()
                 .list(infoList)
                 .build();
     }
 
-    public HttpStatus registPlayer(RegistPlayerRequest request) {
+    public HttpStatus registPlayer(PlayerRequest request) {
         if (battleRepository.setPlayer(request)) {
             return HttpStatus.OK;
         } else {
@@ -64,7 +66,7 @@ public class BattleService {
         }
     }
 
-    public void registTrigger(RegistTriggerRequest request) {
+    public void registTrigger(TriggerRequest request) {
         battleRepository.setTrigger(request);
     }
 
@@ -90,5 +92,126 @@ public class BattleService {
 
     public void setPlayerWeight(PlayerWeightRequest request) {
         battleRepository.setPlayerWeight(request);
+    }
+
+    public BattleInfoResponse getBattleInfo(String battleCode) {
+        SimpleBattleInfo battleInfo = battleRepository.getBattleInfo(battleCode);
+        List<String> betting = battleRepository.getBettings(battleCode);
+        List<BattlePlayerInfo> playerList = battleRepository.getPlayerList(battleCode);
+
+        int status = battleInfo.getStatus();
+
+        if (status != STATUS_END) {
+            for (BattlePlayerInfo info : playerList) {
+                info.setLivePoint(0);
+                info.setFoodPoint(0);
+                info.setQuestPoint(0);
+                info.setGoalPoint(0);
+            }
+        }
+
+        List<BattleTriggerInfo> triggerList = battleRepository.getTriggerList(battleCode);
+
+        return BattleInfoResponse.builder()
+                .battleCode(battleCode)
+                .battleName(battleInfo.getName())
+                .startDate(battleInfo.getStartDate().toLocalDateTime())
+                .endDate(battleInfo.getEndDate().toLocalDateTime())
+                .betting(betting)
+                .playerList(playerList)
+                .triggerList(triggerList)
+                .build();
+    }
+
+    public RemainPointResponse getRemainPoint(String battleCode, long userCode) {
+        int currentPoint = battleRepository.getRemainPoint(battleCode, userCode);
+        return RemainPointResponse.builder()
+                .maxPoint(MAX_POINT)
+                .currentPoint(currentPoint)
+                .remainPoint(MAX_POINT - currentPoint)
+                .build();
+    }
+
+    public HttpStatus setBattlePoint(BattlePointRequest request) {
+        String battleCode = request.getBattleCode();;
+        long triggerUserCode = request.getTriggerUserCode();
+        int type = request.getType();
+        int point = request.getPoint();
+
+        if (type == LIVE_USER_POINT) {
+            int currentPoint = battleRepository.getRemainPoint(battleCode, triggerUserCode);
+            if (currentPoint + point >= MAX_POINT) {
+                return HttpStatus.BAD_REQUEST;
+            }
+            battleRepository.setLiveUserPoint(request);
+        } else if (type == FOOD_USER_POINT) {
+            if (0 >= point || point > 100) {
+                return HttpStatus.BAD_REQUEST;
+            }
+            battleRepository.setFoodUserPoint(request);
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
+
+        battleRepository.setPoint(request);
+
+        return HttpStatus.OK;
+    }
+
+    public HttpStatus deleteBattle(String battleCode) {
+        int chk = battleRepository.isBattleCodeExist(battleCode);
+
+        if (chk == 0) {
+            return HttpStatus.BAD_REQUEST;
+        }
+
+        battleRepository.deleteBoard(battleCode);
+        battleRepository.deletePoint(battleCode);
+        battleRepository.deleteTrigger(battleCode);
+        battleRepository.deletePlayer(battleCode);
+        battleRepository.deleteBetting(battleCode);
+        battleRepository.deleteBattle(battleCode);
+
+        return HttpStatus.OK;
+    }
+
+    public HttpStatus deletePlayer(String battleCode, long userCode) {
+        int chk = battleRepository.isPlayerExist(battleCode, userCode);
+
+        if (chk == 0) {
+            return HttpStatus.BAD_REQUEST;
+        }
+
+        battleRepository.deletePlayer(battleCode, userCode);
+
+        return HttpStatus.OK;
+    }
+
+    public HttpStatus deleteTrigger(String battleCode, long userCode) {
+        int chk = battleRepository.isTriggerExist(battleCode, userCode);
+
+        if (chk == 0) {
+            return HttpStatus.BAD_REQUEST;
+        }
+
+        battleRepository.deleteTrigger(battleCode, userCode);
+
+        return HttpStatus.OK;
+    }
+
+    public HttpStatus modifyPlayer(PlayerRequest request) {
+        long cnt = battleRepository.modifyPlayer(request);
+        if (cnt == 0) {
+            return HttpStatus.BAD_REQUEST;
+        } else {
+            return HttpStatus.OK;
+        }
+    }
+
+    public PointHistoryResponse getPoihtHistory(String battleCode) {
+        List<PointHistory> pointHistoryList = battleRepository.getPointHistory(battleCode);
+        return PointHistoryResponse.builder()
+                .list(pointHistoryList)
+                .build();
     }
 }

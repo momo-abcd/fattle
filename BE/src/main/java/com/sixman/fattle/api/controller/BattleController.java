@@ -2,8 +2,7 @@ package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.BattleService;
 import com.sixman.fattle.dto.request.*;
-import com.sixman.fattle.dto.response.BattleCreateResponse;
-import com.sixman.fattle.dto.response.BattleListResponse;
+import com.sixman.fattle.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -45,16 +44,16 @@ public class BattleController {
             @ApiResponse(responseCode = "200", description = "내기자 등록 성공"),
             @ApiResponse(responseCode = "400", description = "내기자 등록 실패")
     })
-    @PatchMapping("/regist/player")
-    public ResponseEntity<HttpStatus> registPlayer(@RequestBody RegistPlayerRequest request) {
+    @PostMapping("/regist/player")
+    public ResponseEntity<HttpStatus> registPlayer(@RequestBody PlayerRequest request) {
         return ResponseEntity.status(battleService.registPlayer(request)).build();
     }
 
     @Operation(summary = "자극자 등록",
             description = "배틀 자극자 등록")
     @ApiResponse(responseCode = "200", description = "자극자 등록 성공")
-    @PatchMapping("/regist/trigger")
-    public ResponseEntity<?> registTrigger(@RequestBody RegistTriggerRequest request) {
+    @PostMapping("/regist/trigger")
+    public ResponseEntity<?> registTrigger(@RequestBody TriggerRequest request) {
         battleService.registTrigger(request);
         return ResponseEntity.ok().build();
     }
@@ -97,6 +96,96 @@ public class BattleController {
     public ResponseEntity<?> setPlayerWeight(@RequestBody PlayerWeightRequest request) {
         battleService.setPlayerWeight(request);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "배틀 정보",
+            description = "배틀 정보 상세 보기")
+    @ApiResponse(responseCode = "200", description = "배틀 정보 상세 보기 성공")
+    @GetMapping("/info/{battleCode}")
+    public ResponseEntity<BattleInfoResponse> getBattleInfo(@PathVariable String battleCode) {
+        BattleInfoResponse response = battleService.getBattleInfo(battleCode);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "자극자 남은 라이브 점수",
+            description = "자극자 남은 라이브 점수 조회")
+    @ApiResponse(responseCode = "200", description = "자극자 남은 라이브 점수 조회 성공")
+    @GetMapping("/point/{battleCode}/{userCode}")
+    public ResponseEntity<RemainPointResponse> getRemainPoint(@PathVariable String battleCode,
+                                                              @PathVariable long userCode) {
+        RemainPointResponse response = battleService.getRemainPoint(battleCode, userCode);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "자극자 점수 부여",
+            description = "배틀 중 자극자 점수 부여")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "점수 부여 성공"),
+            @ApiResponse(responseCode = "400", description = "점수 부여 실패")
+    })
+    @PatchMapping("/point")
+    public ResponseEntity<?> setBattlePoint(@RequestBody BattlePointRequest request) {
+        HttpStatus status = battleService.setBattlePoint(request);
+        return ResponseEntity.status(status).build();
+    }
+
+    @Operation(summary = "배틀 삭제",
+            description = "배틀 코드를 통해 배틀 삭제")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "배틀 삭제 완료"),
+            @ApiResponse(responseCode = "400", description = "존재하지 않는 배틀")
+    })
+    @DeleteMapping("/{battleCode}")
+    public ResponseEntity<?> deleteBattle(@PathVariable String battleCode) {
+        HttpStatus status = battleService.deleteBattle(battleCode);
+        return ResponseEntity.status(status).build();
+    }
+
+    @Operation(summary = "내기자 삭제",
+            description = "배틀 코드와 내기자 코드를 통해 배틀 삭제")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "내기자 삭제 완료"),
+            @ApiResponse(responseCode = "400", description = "존재하지 않는 내기자")
+    })
+    @DeleteMapping("/player/{battleCode}/{userCode}")
+    public ResponseEntity<?> deletePlayer(@PathVariable String battleCode,
+                                          @PathVariable long userCode) {
+        HttpStatus status = battleService.deletePlayer(battleCode, userCode);
+        return ResponseEntity.status(status).build();
+    }
+
+    @Operation(summary = "자극자 삭제",
+            description = "배틀 코드와 자극자 코드를 통해 배틀 삭제")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "자극자 삭제 완료"),
+            @ApiResponse(responseCode = "400", description = "존재하지 않는 자극자")
+    })
+    @DeleteMapping("/trigger/{battleCode}/{userCode}")
+    public ResponseEntity<?> deleteTrigger(@PathVariable String battleCode,
+                                          @PathVariable long userCode) {
+        HttpStatus status = battleService.deleteTrigger(battleCode, userCode);
+        return ResponseEntity.status(status).build();
+    }
+
+    @Operation(summary = "내기자 정보 수정",
+            description = "내기자 정보 수정")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "내기자 정보 수정 성공"),
+            @ApiResponse(responseCode = "400", description = "존재하지 않는 내기자")
+    })
+    @PatchMapping("/modify/player")
+    public ResponseEntity<?> modifyPlayer(@RequestBody PlayerRequest request) {
+        HttpStatus status = battleService.modifyPlayer(request);
+        return ResponseEntity.status(status).build();
+    }
+
+    @Operation(summary = "배틀 점수 조회",
+            description = "배틀 점수 내역 조회")
+    @ApiResponse(responseCode = "200", description = "배틀 점수 조회 성공")
+    @GetMapping("/point/history/{battleCode}")
+    public ResponseEntity<PointHistoryResponse> getPointHistory(@PathVariable String battleCode) {
+        PointHistoryResponse response = battleService.getPoihtHistory(battleCode);
+        return ResponseEntity.ok(response);
     }
 
 }

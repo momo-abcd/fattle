@@ -1,27 +1,24 @@
 package com.sixman.fattle.repository;
 
-import com.sixman.fattle.dto.dto.SimpleBattleInfo;
-import com.sixman.fattle.dto.request.BattleSettingRequest;
-import com.sixman.fattle.dto.request.PlayerWeightRequest;
-import com.sixman.fattle.dto.request.RegistPlayerRequest;
-import com.sixman.fattle.dto.request.RegistTriggerRequest;
+import com.sixman.fattle.dto.dto.*;
+import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.entity.Battle;
 
 import java.util.List;
 
 public interface BattleRepositoryCustom {
 
-    String getBattle(String battleCode);
+    int isBattleCodeExist(String battleCode);
 
     long createBattle(Battle battle);
 
     List<String> getBattleCodeList(long userCode);
 
-    List<SimpleBattleInfo> getBattleList(List<String> battleCodeList);
+    List<BattleInfo> getBattleList(List<String> battleCodeList);
 
-    boolean setPlayer(RegistPlayerRequest request);
+    boolean setPlayer(PlayerRequest request);
 
-    void setTrigger(RegistTriggerRequest request);
+    void setTrigger(TriggerRequest request);
 
     void setBattle(BattleSettingRequest request);
 
@@ -29,4 +26,45 @@ public interface BattleRepositoryCustom {
 
     void setPlayerWeight(PlayerWeightRequest request);
 
+    SimpleBattleInfo getBattleInfo(String battleCode);
+
+    List<String> getBettings(String battleCode);
+
+    List<BattlePlayerInfo> getPlayerList(String battleCode);
+
+    List<BattleTriggerInfo> getTriggerList(String battleCode);
+
+    int getRemainPoint(String battleCode, long userCode);
+
+    void setPoint(BattlePointRequest request);
+
+    void setLiveUserPoint(BattlePointRequest request);
+
+    void setFoodUserPoint(BattlePointRequest request);
+
+    void deleteBoard(String battleCode);
+
+    void deleteComment(List<Integer> boardCodeList);
+
+    void deletePoint(String battleCode);
+
+    void deleteTrigger(String battleCode);
+
+    void deleteTrigger(String battleCode, long userCode);
+
+    void deletePlayer(String battleCode);
+
+    void deletePlayer(String battleCode, long userCode);
+
+    void deleteBetting(String battleCode);
+
+    void deleteBattle(String battleCode);
+
+    int isPlayerExist(String battleCode, long userCode);
+
+    int isTriggerExist(String battleCode, long userCode);
+
+    long modifyPlayer(PlayerRequest request);
+
+    List<PointHistory> getPointHistory(String battleCode);
 }

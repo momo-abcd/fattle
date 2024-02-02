@@ -33,9 +33,6 @@ public class Battle {
     @Column(name = "end_dt")
     private Timestamp endDt;
 
-    @Column(name = "contract_path")
-    private String contractPath;
-
     @Column(name = "status")
     private int status;
 
