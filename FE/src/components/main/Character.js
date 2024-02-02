@@ -6,21 +6,21 @@ import ExpHistory from './ExpHistory'
 import Frame from '../../assets/images/main/Frame.png'
 import Frame2 from '../../assets/images/main/Frame2.png'
 import panda from '../../assets/images/main/panda.png'
-import 탄수화물 from '../../assets/images/main/탄수화물.png'
-import 단백질 from '../../assets/images/main/단백질.png'
-import 지방 from '../../assets/images/main/지방.png'
+import carbon from '../../assets/images/main/carbon.png'
+import protein from '../../assets/images/main/protein.png'
+import fat from '../../assets/images/main/fat.png'
 
 
 function Character() {
   const [mainUserData, setMainUserData] = useState(null)
 
-  useEffect(() => {
+  useEffect((usercode) => {
       axios.get(`http://localhost:5000/mainuser`)
         .then(response=>{
             setMainUserData(response.data)
         })
         .catch(error => {
-            console.error('랭킹 데이터를 불러오는 중 에러 발생:', error)
+            console.error('메인 데이터를 불러오는 중 에러 발생:', error)
           })
   }, [])
 
@@ -38,8 +38,6 @@ function Character() {
           <p>{mainUserData.nickname}</p>
           {/* <p>{mainUserData.ranking}등</p> */}
           {/* <img src={mainUserData.imgPath} alt="캐릭터 이미지" /> */}
-          {/* <img src = {panda} alt=''/> */}
-
 
           <svg height={radius * 2} width={radius * 2} className={styles.progressbar2}>
           <circle
@@ -85,17 +83,17 @@ function Character() {
 
           <div className={styles.nutrienticons}>
             <div className={styles.nutrienticon}>
-              <img src={탄수화물} alt='' />
+              <img src={carbon} alt='' />
               <div className={styles.nutrientbar}>
                 <div className={styles.remainingbar2} style={{ width: `${(100 / mainUserData.goalcarbo) * 100}%` }}></div>
                 <p>100 / {mainUserData.goalcarbo}g</p>
               </div>
-              <img src={단백질} alt='' />
+              <img src={protein} alt='' />
               <div className={styles.nutrientbar}>
                 <div className={styles.remainingbar3} style={{ width: `${(70 / mainUserData.goalprotein) * 100}%` }}></div>
               </div>
 
-              <img src={지방} alt='' />
+              <img src={fat} alt='' />
               <div className={styles.nutrientbar}>
                 <div className={styles.remainingbar4} style={{ width: `${(50 / mainUserData.goalfat) * 100}%` }}></div>
               </div>

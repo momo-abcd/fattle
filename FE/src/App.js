@@ -3,12 +3,10 @@ import Join from './pages/join/Join.js';
 import JoinPage1 from './pages/join/JoinPage1';
 import Mypage from './pages/mypage/Mypage';
 import Auth from './utils/Auth';
-import MypageModify from './pages/mypage/MypageModify';
-import FollowList from './pages/mypage/FollowList';
-import Goal from './pages/mypage/Goal';
 import Ranking from './pages/ranking/Ranking';
 import ExpHistory from './components/main/ExpHistory';
 import Main from './pages/main/Main';
+import mypageRoutes from './pages/mypage/mypageRoutes.js';
 
 //styles
 import styles from './styles/App.module.css';
@@ -19,10 +17,9 @@ function App() {
   return (
     <div className={styles.wrapper}>
       <Routes>
-        <Route path="/mypage" element={<Mypage />}></Route>
-        <Route path="/mypage/follow" element={<FollowList />} />
-        <Route path="/mypageModify" element={<MypageModify />} />
-        <Route path="/mypage/goal" element={<Goal />} />
+        <Route path="/mypage" element={<Mypage />}>
+          {mypageRoutes}
+        </Route>
         <Route path="/" element={<Auth isLogged={isLogged} />} />
         <Route path="/login" element={<Auth isLogged={isLogged} />} />
         <Route path="/join" element={<Join></Join>}></Route>
