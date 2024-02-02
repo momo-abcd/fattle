@@ -64,10 +64,9 @@ public class MyPageController {
     @Operation(summary = "나의 목표 수정",
             description = "마이페이지에서 유저가 입력한 데이터로 나의 목표 수정")
     @ApiResponse(responseCode = "200", description = "나의 목표 수정 성공")
-    @PatchMapping("/modify-goal/{userCode}")
-    public ResponseEntity<MyPageGoalUpdateResponse> updateGoalInfo(@PathVariable Long userCode,
-                                                                   @RequestBody MyPageGoalUpdateResponse myPageGoalInfo) {
-        return myPageService.updateGoalInfo(userCode, myPageGoalInfo);
+    @PatchMapping("/modify-goal")
+    public ResponseEntity<MyPageGoalUpdateResponse> updateGoalInfo(@RequestBody MyPageGoalUpdateResponse myPageGoalInfo) {
+        return myPageService.updateGoalInfo(myPageGoalInfo);
     }
 
 

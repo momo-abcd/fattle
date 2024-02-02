@@ -101,8 +101,8 @@ public class MyPageServiceImpl implements MyPageService {
 
 
     @Override
-    public ResponseEntity<MyPageGoalUpdateResponse> updateGoalInfo(Long userCode, MyPageGoalUpdateResponse myPageGoalInfo) {
-        userRepository.findById(Long.parseLong(String.valueOf(userCode)))
+    public ResponseEntity<MyPageGoalUpdateResponse> updateGoalInfo(MyPageGoalUpdateResponse myPageGoalInfo) {
+        userRepository.findById(myPageGoalInfo.getUserCode())
                 .ifPresent(user -> {
                     user.setGoalWeight(myPageGoalInfo.getGoalWeight());
                     user.setGoalCalory(myPageGoalInfo.getGoalCalory());

@@ -11,7 +11,7 @@ import java.util.List;
 public interface MyPageService {
     ResponseEntity<MyPageResponse> getMyPageInfo(Long userCode);
     ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(MyPageUpdateResponse myPageInfo);
-    ResponseEntity<MyPageGoalUpdateResponse> updateGoalInfo(Long userCode, MyPageGoalUpdateResponse myPageGoalInfo);
+    ResponseEntity<MyPageGoalUpdateResponse> updateGoalInfo(MyPageGoalUpdateResponse myPageGoalInfo);
     ResponseEntity<List<FollowResponse>> getFollowingList(Long userCode);
     ResponseEntity<List<FollowResponse>> getFollowerList(Long userCode);
 }

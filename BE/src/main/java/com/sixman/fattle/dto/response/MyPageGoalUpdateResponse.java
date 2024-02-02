@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class MyPageGoalUpdateResponse {
 
+    private long userCode;
     private Float goalWeight;
     private int goalCalory;
     private int goalCarbo;
