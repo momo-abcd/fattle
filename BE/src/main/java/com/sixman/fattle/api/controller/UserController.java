@@ -65,14 +65,13 @@ public class UserController {
     @GetMapping("/userinfo/{userCode}")
     public ResponseEntity<UserInfoResponse> userInfo(@PathVariable long userCode) {
         UserInfoResponse response = userService.userInfo(userCode);
-        DailyQuest lastDailyQuest = userService.getDailyQuest(userCode);
-        response.setDayCheck(lastDailyQuest.isDayCheck());
-        response.setExerciseCount(lastDailyQuest.getExerciseCount());
-        response.setFoodCount(lastDailyQuest.getFoodCount());
-        response.setFinish(lastDailyQuest.isFinish());
+//        DailyQuest lastDailyQuest = userService.getDailyQuest(userCode);
+//        response.setDayCheck(lastDailyQuest.isDayCheck());
+//        response.setExerciseCount(lastDailyQuest.getExerciseCount());
+//        response.setFoodCount(lastDailyQuest.getFoodCount());
+//        response.setFinish(lastDailyQuest.isFinish());
         return ResponseEntity.ok(response);
     }
-
 
 
 }
