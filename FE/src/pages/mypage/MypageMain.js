@@ -30,7 +30,7 @@ function MypageMain(props) {
         <div className={styles.nickname}>
           {data.nickname}
           <Link
-            to="/mypageModify"
+            to="modify"
             state={{
               nickname: data.nickname,
               introduction: data.introduction,
@@ -47,6 +47,7 @@ function MypageMain(props) {
         </div>
       </header>
       {/* 헤더바 끝 */}
+
       {/* 프로필 정보 시작 */}
       <div className={styles.profileContainer}>
         <div>
@@ -64,7 +65,7 @@ function MypageMain(props) {
             <div>팔로워</div>
             <div className={styles.fText}>
               <Link
-                to="/mypage/follow"
+                to="follow"
                 state={{
                   who: 'follower',
                   followerCnt: data.followerCnt,
@@ -79,7 +80,7 @@ function MypageMain(props) {
             <div>팔로잉</div>
             <div className={styles.fText}>
               <Link
-                to="/mypage/follow"
+                to="follow"
                 state={{
                   who: 'following',
                   followerCnt: data.followerCnt,
@@ -121,6 +122,7 @@ function MypageMain(props) {
         </div>
       </div>
       {/* 목표 부분 끝 */}
+
       {/* 캘린더 부분 시작 */}
       <div className={styles.headerText}>캘린더&#32;&#62;</div>
       {Object.keys(data).length !== 0 && (
@@ -131,4 +133,5 @@ function MypageMain(props) {
     </>
   );
 }
+
 export default MypageMain;
