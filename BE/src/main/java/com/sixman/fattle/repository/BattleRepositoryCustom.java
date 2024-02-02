@@ -1,9 +1,6 @@
 package com.sixman.fattle.repository;
 
-import com.sixman.fattle.dto.dto.BattleInfo;
-import com.sixman.fattle.dto.dto.BattlePlayerInfo;
-import com.sixman.fattle.dto.dto.BattleTriggerInfo;
-import com.sixman.fattle.dto.dto.SimpleBattleInfo;
+import com.sixman.fattle.dto.dto.*;
 import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.entity.Battle;
 
@@ -68,4 +65,6 @@ public interface BattleRepositoryCustom {
     int isTriggerExist(String battleCode, long userCode);
 
     long modifyPlayer(PlayerRequest request);
+
+    List<PointHistory> getPointHistory(String battleCode);
 }

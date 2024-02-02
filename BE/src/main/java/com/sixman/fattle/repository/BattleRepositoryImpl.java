@@ -1,7 +1,10 @@
 package com.sixman.fattle.repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.SubQueryExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sixman.fattle.dto.dto.*;
@@ -11,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -470,6 +474,29 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .where(qpoint.battleCd.eq(request.getBattleCode()),
                         qplayer.userCd.eq(request.getUserCode()))
                 .execute();
+    }
+
+    @Override
+    public List<PointHistory> getPointHistory(String battleCode) {
+        QUser player = new QUser("player");
+        QUser trigger = new QUser("trigger");
+
+        return queryFactory
+                .select(Projections.constructor(
+                        PointHistory.class,
+                        player.nickname,
+                        trigger.nickname,
+                        qpoint.type,
+                        qpoint.point,
+                        qpoint.recDt
+                ))
+                .from(qpoint)
+                .join(player)
+                .on(qpoint.playerCd.eq(player.userCd))
+                .leftJoin(trigger)
+                .on(qpoint.triggerCd.eq(trigger.userCd))
+                .where(qpoint.battleCd.eq(battleCode))
+                .fetch();
     }
 
 }

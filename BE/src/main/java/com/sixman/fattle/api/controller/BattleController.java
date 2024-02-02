@@ -2,10 +2,7 @@ package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.BattleService;
 import com.sixman.fattle.dto.request.*;
-import com.sixman.fattle.dto.response.BattleCreateResponse;
-import com.sixman.fattle.dto.response.BattleInfoResponse;
-import com.sixman.fattle.dto.response.BattleListResponse;
-import com.sixman.fattle.dto.response.RemainPointResponse;
+import com.sixman.fattle.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -170,16 +167,25 @@ public class BattleController {
         return ResponseEntity.status(status).build();
     }
 
-    @Operation(summary = "내기자 목표 수정",
-            description = "내기자 목표 수정")
+    @Operation(summary = "내기자 정보 수정",
+            description = "내기자 정보 수정")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "내기자 목표 수정 성공"),
+            @ApiResponse(responseCode = "200", description = "내기자 정보 수정 성공"),
             @ApiResponse(responseCode = "400", description = "존재하지 않는 내기자")
     })
     @PatchMapping("/modify/player")
     public ResponseEntity<?> modifyPlayer(@RequestBody PlayerRequest request) {
         HttpStatus status = battleService.modifyPlayer(request);
         return ResponseEntity.status(status).build();
+    }
+
+    @Operation(summary = "배틀 점수 조회",
+            description = "배틀 점수 내역 조회")
+    @ApiResponse(responseCode = "200", description = "배틀 점수 조회 성공")
+    @GetMapping("/point/history/{battleCode}")
+    public ResponseEntity<PointHistoryResponse> getPointHistory(@PathVariable String battleCode) {
+        PointHistoryResponse response = battleService.getPoihtHistory(battleCode);
+        return ResponseEntity.ok(response);
     }
 
 }

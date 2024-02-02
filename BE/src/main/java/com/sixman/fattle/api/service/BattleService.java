@@ -1,14 +1,8 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.dto.BattleInfo;
-import com.sixman.fattle.dto.dto.BattlePlayerInfo;
-import com.sixman.fattle.dto.dto.BattleTriggerInfo;
-import com.sixman.fattle.dto.dto.SimpleBattleInfo;
+import com.sixman.fattle.dto.dto.*;
 import com.sixman.fattle.dto.request.*;
-import com.sixman.fattle.dto.response.BattleCreateResponse;
-import com.sixman.fattle.dto.response.BattleInfoResponse;
-import com.sixman.fattle.dto.response.BattleListResponse;
-import com.sixman.fattle.dto.response.RemainPointResponse;
+import com.sixman.fattle.dto.response.*;
 import com.sixman.fattle.entity.Battle;
 import com.sixman.fattle.repository.BattleRepository;
 import com.sixman.fattle.utils.CodeGenerator;
@@ -117,6 +111,7 @@ public class BattleService {
         }
 
         List<BattleTriggerInfo> triggerList = battleRepository.getTriggerList(battleCode);
+
         return BattleInfoResponse.builder()
                 .battleCode(battleCode)
                 .battleName(battleInfo.getName())
@@ -211,5 +206,12 @@ public class BattleService {
         } else {
             return HttpStatus.OK;
         }
+    }
+
+    public PointHistoryResponse getPoihtHistory(String battleCode) {
+        List<PointHistory> pointHistoryList = battleRepository.getPointHistory(battleCode);
+        return PointHistoryResponse.builder()
+                .list(pointHistoryList)
+                .build();
     }
 }

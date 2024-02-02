@@ -72,7 +72,7 @@ CREATE TABLE `battle_point_tb` (
   `point_cd` int NOT NULL AUTO_INCREMENT,
   `battle_cd` char(6) NOT NULL,
   `player_cd` bigint NOT NULL,
-  `trigger_cd` bigint NOT NULL,
+  `trigger_cd` bigint NULL,
   `type` tinyint DEFAULT '0',
   `point` int DEFAULT '0',
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
