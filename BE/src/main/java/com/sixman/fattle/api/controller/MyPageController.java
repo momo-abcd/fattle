@@ -2,23 +2,16 @@ package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.MyPageService;
 import com.sixman.fattle.dto.response.FollowResponse;
-import com.sixman.fattle.dto.response.GoalUpdateResponse;
+import com.sixman.fattle.dto.response.MyPageGoalUpdateResponse;
 import com.sixman.fattle.dto.response.MyPageUpdateResponse;
-import com.sixman.fattle.entity.Follow;
-import com.sixman.fattle.entity.User;
-import com.sixman.fattle.repository.FollowRepository;
-import com.sixman.fattle.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user/mypage")
@@ -71,9 +64,9 @@ public class MyPageController {
     @Operation(summary = "나의 목표 수정",
             description = "마이페이지에서 유저가 입력한 데이터로 나의 목표 수정")
     @ApiResponse(responseCode = "200", description = "나의 목표 수정 성공")
-    @PutMapping("/modifyGoal/{userCode}")
-    public ResponseEntity<GoalUpdateResponse> updateGoalInfo(@PathVariable Long userCode,
-                                                             @RequestBody GoalUpdateResponse myPageGoalInfo) {
+    @PatchMapping("/modify-goal/{userCode}")
+    public ResponseEntity<MyPageGoalUpdateResponse> updateGoalInfo(@PathVariable Long userCode,
+                                                                   @RequestBody MyPageGoalUpdateResponse myPageGoalInfo) {
         return myPageService.updateGoalInfo(userCode, myPageGoalInfo);
     }
 

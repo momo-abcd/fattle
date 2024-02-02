@@ -3,7 +3,7 @@ package com.sixman.fattle.dto.response;
 import lombok.Data;
 
 @Data
-public class GoalUpdateResponse {
+public class MyPageGoalUpdateResponse {
 
     private Float goalWeight;
     private int goalCalory;

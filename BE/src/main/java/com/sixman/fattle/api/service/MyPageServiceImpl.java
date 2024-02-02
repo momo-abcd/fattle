@@ -2,7 +2,7 @@ package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.response.DailyQuestResponse;
 import com.sixman.fattle.dto.response.FollowResponse;
-import com.sixman.fattle.dto.response.GoalUpdateResponse;
+import com.sixman.fattle.dto.response.MyPageGoalUpdateResponse;
 import com.sixman.fattle.dto.response.MyPageResponse;
 import com.sixman.fattle.dto.response.MyPageUpdateResponse;
 import com.sixman.fattle.entity.Avatar;
@@ -101,7 +101,7 @@ public class MyPageServiceImpl implements MyPageService {
 
 
     @Override
-    public ResponseEntity<GoalUpdateResponse> updateGoalInfo(Long userCode, GoalUpdateResponse myPageGoalInfo) {
+    public ResponseEntity<MyPageGoalUpdateResponse> updateGoalInfo(Long userCode, MyPageGoalUpdateResponse myPageGoalInfo) {
         userRepository.findById(Long.parseLong(String.valueOf(userCode)))
                 .ifPresent(user -> {
                     user.setGoalWeight(myPageGoalInfo.getGoalWeight());
