@@ -14,6 +14,7 @@ import com.sixman.fattle.repository.BattleRepository;
 import com.sixman.fattle.utils.CodeGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,15 +75,6 @@ public class BattleService {
 
     public void registTrigger(RegistTriggerRequest request) {
         battleRepository.setTrigger(request);
-    }
-
-    public void deleteBattle(String battleCode) {
-        battleRepository.deleteBoard(battleCode);
-        battleRepository.deletePoint(battleCode);
-        battleRepository.deleteTrigger(battleCode);
-        battleRepository.deletePlayer(battleCode);
-        battleRepository.deleteBetting(battleCode);
-        battleRepository.deleteBattle(battleCode);
     }
 
     public void battleSetting(BattleSettingRequest request) {
@@ -172,5 +164,32 @@ public class BattleService {
         return HttpStatus.OK;
     }
 
+    public HttpStatus deleteBattle(String battleCode) {
+        int chk = battleRepository.isBattleCodeExist(battleCode);
 
+        if (chk == 0) {
+            return HttpStatus.BAD_REQUEST;
+        }
+
+        battleRepository.deleteBoard(battleCode);
+        battleRepository.deletePoint(battleCode);
+        battleRepository.deleteTrigger(battleCode);
+        battleRepository.deletePlayer(battleCode);
+        battleRepository.deleteBetting(battleCode);
+        battleRepository.deleteBattle(battleCode);
+
+        return HttpStatus.OK;
+    }
+
+    public HttpStatus deletePlayer(String battleCode, long userCode) {
+        int chk = battleRepository.isPlayerExist(battleCode, userCode);
+
+        if (chk == 0) {
+            return HttpStatus.BAD_REQUEST;
+        }
+
+        battleRepository.deletePlayer(battleCode, userCode);
+
+        return HttpStatus.OK;
+    }
 }

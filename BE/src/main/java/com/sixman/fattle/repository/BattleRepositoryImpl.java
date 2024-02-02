@@ -406,6 +406,15 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
+    public void deletePlayer(String battleCode, long userCode) {
+        queryFactory
+                .delete(qplayer)
+                .where(qplayer.battleCd.eq(battleCode),
+                        qplayer.userCd.eq(userCode))
+                .execute();
+    }
+
+    @Override
     public void deleteBetting(String battleCode) {
         queryFactory
                 .delete(qbetting)
@@ -419,6 +428,17 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .delete(qbattle)
                 .where(qbattle.battleCd.eq(battleCode))
                 .execute();
+    }
+
+    @Override
+    public int isPlayerExist(String battleCode, long userCode) {
+        return queryFactory
+                .select(qplayer.count())
+                .from(qplayer)
+                .where(qplayer.battleCd.eq(battleCode),
+                        qplayer.userCd.eq(userCode))
+                .fetchFirst()
+                .intValue();
     }
 
 }

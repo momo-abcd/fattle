@@ -55,7 +55,12 @@ public interface BattleRepositoryCustom {
 
     void deletePlayer(String battleCode);
 
+    void deletePlayer(String battleCode, long userCode);
+
     void deleteBetting(String battleCode);
 
     void deleteBattle(String battleCode);
+
+    int isPlayerExist(String battleCode, long userCode);
+
 }

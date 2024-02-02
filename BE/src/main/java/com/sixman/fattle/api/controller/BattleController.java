@@ -61,12 +61,6 @@ public class BattleController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{battleCode}")
-    public ResponseEntity<?> deleteBattle(@PathVariable String battleCode) {
-        battleService.deleteBattle(battleCode);
-        return ResponseEntity.ok().build();
-    }
-
     @Operation(summary = "배틀 정보 수정",
             description = "배틀 정보 수정")
     @ApiResponse(responseCode = "200", description = "배틀 정보 수정 성공")
@@ -135,6 +129,19 @@ public class BattleController {
     @PatchMapping("/point")
     public ResponseEntity<?> setBattlePoint(@RequestBody BattlePointRequest request) {
         HttpStatus status = battleService.setBattlePoint(request);
+        return ResponseEntity.status(status).build();
+    }
+
+    @DeleteMapping("/{battleCode}")
+    public ResponseEntity<?> deleteBattle(@PathVariable String battleCode) {
+        HttpStatus status = battleService.deleteBattle(battleCode);
+        return ResponseEntity.status(status).build();
+    }
+
+    @DeleteMapping("/player/{battleCode}/{userCode}")
+    public ResponseEntity<?> deletePlayer(@PathVariable String battleCode,
+                                          @PathVariable long userCode) {
+        HttpStatus status = battleService.deletePlayer(battleCode, userCode);
         return ResponseEntity.status(status).build();
     }
 
