@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+// Component
 import Calendar from '../../components/mypage/Calendar';
+import BackHeader from '../../components/commons/BackHeader.js';
+
+// utils
 import { getCalendarDetail } from '../../services/mypage/api';
 import getCalendarList from '../../utils/mypage/getCalendarList.js';
 
@@ -41,6 +46,7 @@ const CalendarDetail = (props) => {
   };
   return (
     <>
+      <BackHeader navigate={navigate} />
       {data && (
         <>
           <Calendar>
