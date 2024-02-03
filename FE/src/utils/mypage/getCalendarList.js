@@ -43,7 +43,7 @@ const getCalendarList = (
   // 캘린더의 요일이 현재 월의 요일인지 아닌지 체크해서 반환
   const isDayInCurrentMonth = [];
   for (let index = 0; index < dates.length; index++) {
-    if (index >= firstDateIndex && index < lastDateIndex) {
+    if (index >= firstDateIndex && index < lastDateIndex + 1) {
       isDayInCurrentMonth[index] = true;
     } else {
       isDayInCurrentMonth[index] = false;

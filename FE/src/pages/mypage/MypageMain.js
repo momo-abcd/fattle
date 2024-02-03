@@ -4,7 +4,7 @@ import { getMypage } from '../../services/mypage/api';
 // Component 관련
 import Footer from '../../commons/Footer';
 import Calendar from '../../components/mypage/Calendar';
-import getQuestSuccessDayList from './../../utils/mypage/checkQuestSuccess';
+import getQuestSuccessDayList from './../../utils/mypage/getQuestSuccessDayList.js';
 // Style 관련
 import styles from '../../styles/mypage/Mypage.module.css';
 import calendarStyles from '../../styles/mypage/Calendar.module.css';
@@ -42,12 +42,13 @@ function MypageMain(props) {
    */
   const getCalendarDayClassName = (day, index) => {
     let className = '';
-    if (!isDayInCurrentMonth[index]) {
-      className = className.concat(calendarStyles['other']);
+    if (isDayInCurrentMonth[index]) {
+      if (questSuccessDayList.includes(day)) {
+        className = className.concat(calendarStyles['success']);
+      }
+      return className;
     }
-    if (questSuccessDayList.includes(day)) {
-      className = className.concat(' ', calendarStyles['success']);
-    }
+    className = className.concat(' ', calendarStyles['other']);
     return className;
   };
   return (
@@ -159,7 +160,13 @@ function MypageMain(props) {
           <Calendar>
             {dates.map((day, index) => {
               return (
-                <li key={index} className={getCalendarDayClassName(day, index)}>
+                <li
+                  key={index}
+                  className={`${calendarStyles.day} ${getCalendarDayClassName(
+                    day,
+                    index,
+                  )}`}
+                >
                   {day} <br />
                 </li>
               );
