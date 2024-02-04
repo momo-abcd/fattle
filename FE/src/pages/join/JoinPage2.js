@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const JoinPage2 = () => {
+  const [menu, setMenu] = useState(1);
   const navigate = useNavigate();
   const location = useLocation();
   const joinInfo = {
@@ -39,19 +40,43 @@ const JoinPage2 = () => {
       <div>조인페이지2</div>
       <div className="mealCheck">
         <label>
-          <input type="radio" name="meal" />
+          <input
+            type="radio"
+            name="meal"
+            onChange={() => {
+              setMenu(1);
+            }}
+          />
           일반 식단
         </label>
         <label>
-          <input type="radio" name="meal" />
+          <input
+            type="radio"
+            name="meal"
+            onChange={() => {
+              setMenu(2);
+            }}
+          />
           운동 식단
         </label>
         <label>
-          <input type="radio" name="meal" />
+          <input
+            type="radio"
+            name="meal"
+            onChange={() => {
+              setMenu(3);
+            }}
+          />
           키토 식단
         </label>
         <label>
-          <input type="radio" name="meal" />
+          <input
+            type="radio"
+            name="meal"
+            onChange={() => {
+              setMenu(4);
+            }}
+          />
           비건 식단
         </label>
       </div>
@@ -70,6 +95,7 @@ const JoinPage2 = () => {
                 goalCarbon: joinInfo.goalCarbon,
                 goalProtein: joinInfo.goalProtein,
                 goalFat: joinInfo.goalFat,
+                menu: menu,
               },
             });
           }}
