@@ -34,7 +34,7 @@ public interface BattleRepositoryCustom {
 
     List<BattleTriggerInfo> getTriggerList(String battleCode);
 
-    int getRemainPoint(String battleCode, long userCode);
+    int getCurrentPoint(String battleCode, long userCode);
 
     void setPoint(BattlePointRequest request);
 

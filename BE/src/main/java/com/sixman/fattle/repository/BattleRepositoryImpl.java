@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -303,64 +304,6 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
-    public int getRemainPoint(String battleCode, long userCode) {
-        return queryFactory
-                .select(qtrigger.livePt)
-                .from(qtrigger)
-                .where(qtrigger.battleCd.eq(battleCode),
-                        qtrigger.userCd.eq(userCode))
-                .fetchFirst();
-    }
-
-    @Override
-    public void setPoint(BattlePointRequest request) {
-        queryFactory
-                .insert(qpoint)
-                .set(qpoint.battleCd, request.getBattleCode())
-                .set(qpoint.playerCd, request.getPlayerUserCode())
-                .set(qpoint.triggerCd, request.getTriggerUserCode())
-                .set(qpoint.type, request.getType())
-                .set(qpoint.point, request.getPoint())
-                .execute();
-    }
-
-    @Override
-    public void setLiveUserPoint(BattlePointRequest request) {
-        int liveUserPoint
-                = queryFactory
-                .select(qplayer.liveUserPt)
-                .from(qplayer)
-                .where(qplayer.battleCd.eq(request.getBattleCode()),
-                        qplayer.userCd.eq(request.getPlayerUserCode()))
-                .fetchFirst();
-
-        queryFactory
-                .update(qplayer)
-                .set(qplayer.liveUserPt, liveUserPoint + request.getPoint())
-                .where(qplayer.battleCd.eq(request.getBattleCode()),
-                        qplayer.userCd.eq(request.getPlayerUserCode()))
-                .execute();
-    }
-
-    @Override
-    public void setFoodUserPoint(BattlePointRequest request) {
-        int foodUserPoint
-                = queryFactory
-                .select(qplayer.foodUserPt)
-                .from(qplayer)
-                .where(qplayer.battleCd.eq(request.getBattleCode()),
-                        qplayer.userCd.eq(request.getPlayerUserCode()))
-                .fetchFirst();
-
-        queryFactory
-                .update(qplayer)
-                .set(qplayer.foodUserPt, foodUserPoint + request.getPoint())
-                .where(qplayer.battleCd.eq(request.getBattleCode()),
-                        qplayer.userCd.eq(request.getPlayerUserCode()))
-                .execute();
-    }
-
-    @Override
     public void deleteBoard(String battleCode) {
         List<Integer> boardCodeList
                 = queryFactory
@@ -473,6 +416,75 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .set(qplayer.goalWeight, request.getGoalWeight())
                 .where(qpoint.battleCd.eq(request.getBattleCode()),
                         qplayer.userCd.eq(request.getUserCode()))
+                .execute();
+    }
+
+    @Override
+    public int getCurrentPoint(String battleCode, long userCode) {
+        Integer point
+                =  queryFactory
+                .select(qpoint.point.sum())
+                .from(qpoint)
+                .where(qpoint.battleCd.eq(battleCode),
+                        qpoint.triggerCd.eq(userCode),
+                        qpoint.recDt.after(LocalDate.now().atStartOfDay()))
+                .fetchFirst();
+
+        return point == null ? 0 : point;
+    }
+
+    @Override
+    public void setPoint(BattlePointRequest request) {
+        queryFactory
+                .insert(qpoint)
+                .columns(
+                        qpoint.battleCd,
+                        qpoint.playerCd,
+                        qpoint.triggerCd,
+                        qpoint.type,
+                        qpoint.point)
+                .values(
+                        request.getBattleCode(),
+                        request.getPlayerUserCode(),
+                        request.getTriggerUserCode(),
+                        request.getType(),
+                        request.getPoint())
+                .execute();
+    }
+
+    @Override
+    public void setLiveUserPoint(BattlePointRequest request) {
+        int liveUserPoint
+                = queryFactory
+                .select(qplayer.liveUserPt)
+                .from(qplayer)
+                .where(qplayer.battleCd.eq(request.getBattleCode()),
+                        qplayer.userCd.eq(request.getPlayerUserCode()))
+                .fetchFirst();
+
+        queryFactory
+                .update(qplayer)
+                .set(qplayer.liveUserPt, liveUserPoint + request.getPoint())
+                .where(qplayer.battleCd.eq(request.getBattleCode()),
+                        qplayer.userCd.eq(request.getPlayerUserCode()))
+                .execute();
+    }
+
+    @Override
+    public void setFoodUserPoint(BattlePointRequest request) {
+        int foodUserPoint
+                = queryFactory
+                .select(qplayer.foodUserPt)
+                .from(qplayer)
+                .where(qplayer.battleCd.eq(request.getBattleCode()),
+                        qplayer.userCd.eq(request.getPlayerUserCode()))
+                .fetchFirst();
+
+        queryFactory
+                .update(qplayer)
+                .set(qplayer.foodUserPt, foodUserPoint + request.getPoint())
+                .where(qplayer.battleCd.eq(request.getBattleCode()),
+                        qplayer.userCd.eq(request.getPlayerUserCode()))
                 .execute();
     }
 
