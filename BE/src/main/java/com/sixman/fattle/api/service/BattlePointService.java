@@ -62,6 +62,10 @@ public class BattlePointService {
         return HttpStatus.OK;
     }
 
+    public void setBattlePoint(String battleCode, long userCode, int type, int point) {
+        battleRepository.setPoint(battleCode, userCode, type, point);
+    }
+
     public PointHistoryResponse getPointHistory(String battleCode) {
         List<PointHistory> pointHistoryList = battleRepository.getPointHistory(battleCode);
         return PointHistoryResponse.builder()

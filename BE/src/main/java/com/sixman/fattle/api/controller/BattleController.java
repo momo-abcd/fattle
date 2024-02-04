@@ -1,5 +1,6 @@
 package com.sixman.fattle.api.controller;
 
+import com.sixman.fattle.api.service.BattlePointService;
 import com.sixman.fattle.api.service.BattleService;
 import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.dto.response.*;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class BattleController {
 
     private final BattleService battleService;
+    private final BattlePointService battlePointService;
 
     @Operation(summary = "배틀 코드 생성",
             description = "배틀 코드를 생성하여 사용자에게 제공")
@@ -90,7 +92,7 @@ public class BattleController {
     }
 
     @Operation(summary = "최종 몸무게 설정",
-            description = "배틀 종료 전 최종 몸무게 설정")
+            description = "배틀 종료 전 최종 몸무게 설정 및 목표 수치에 따라 포인트 지급")
     @ApiResponse(responseCode = "200", description = "몸무게 설정 성공")
     @PatchMapping("/weight")
     public ResponseEntity<?> setPlayerWeight(@RequestBody PlayerWeightRequest request) {

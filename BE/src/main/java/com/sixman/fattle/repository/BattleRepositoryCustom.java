@@ -1,9 +1,11 @@
 package com.sixman.fattle.repository;
 
+import com.querydsl.core.Tuple;
 import com.sixman.fattle.dto.dto.*;
 import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.entity.Battle;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BattleRepositoryCustom {
@@ -34,14 +36,6 @@ public interface BattleRepositoryCustom {
 
     List<BattleTriggerInfo> getTriggerList(String battleCode);
 
-    int getCurrentPoint(String battleCode, long userCode);
-
-    void setPoint(BattlePointRequest request);
-
-    void setLiveUserPoint(BattlePointRequest request);
-
-    void setFoodUserPoint(BattlePointRequest request);
-
     void deleteBoard(String battleCode);
 
     void deleteComment(List<Integer> boardCodeList);
@@ -66,5 +60,17 @@ public interface BattleRepositoryCustom {
 
     long modifyPlayer(PlayerRequest request);
 
+    int getCurrentPoint(String battleCode, long userCode);
+
+    void setPoint(BattlePointRequest request);
+
+    void setLiveUserPoint(BattlePointRequest request);
+
+    void setFoodUserPoint(BattlePointRequest request);
+
+    void setPoint(String battleCode, long userCode, int type, int point);
+
     List<PointHistory> getPointHistory(String battleCode);
+
+    int getGoalPoint(PlayerWeightRequest request);
 }

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,6 +35,15 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     private final QBattlePoint qpoint = QBattlePoint.battlePoint;
     private final QFoodBoard qboard = QFoodBoard.foodBoard;
     private final QFoodComment qcomment = QFoodComment.foodComment;
+
+    private final int MAX_GOAL_POINT = 500;
+
+    private final int LIVE_USER_POINT = 1;
+    private final int FOOD_USER_POINT = 2;
+    private final int LIVE_BASIC_POINT = 3;
+    private final int FOOD_BASIC_POINT = 4;
+    private final int QUEST_POINT = 5;
+    private final int GOAL_POINT = 6;
 
     @Override
     public int isBattleCodeExist(String battleCode) {
@@ -489,6 +499,57 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
+    public void setPoint(String battleCode, long userCode, int type, int point) {
+        Tuple points
+                = queryFactory
+                .select(
+                        qplayer.livePt,
+                        qplayer.foodPt,
+                        qplayer.questPt)
+                .from(qpoint)
+                .where(qpoint.battleCd.eq(battleCode),
+                        qplayer.userCd.eq(userCode))
+                .fetchFirst();
+
+        switch (type) {
+            case LIVE_BASIC_POINT:
+                queryFactory
+                        .update(qplayer)
+                        .set(qplayer.livePt, point + points.get(qplayer.livePt))
+                        .execute();
+            case FOOD_BASIC_POINT:
+                queryFactory
+                        .update(qplayer)
+                        .set(qplayer.foodPt, point + points.get(qplayer.foodPt))
+                        .execute();
+            case QUEST_POINT:
+                queryFactory
+                        .update(qplayer)
+                        .set(qplayer.questPt, point + points.get(qplayer.questPt))
+                        .execute();
+            case GOAL_POINT:
+                queryFactory
+                        .update(qplayer)
+                        .set(qplayer.goalPt, point)
+                        .execute();
+        }
+
+        queryFactory
+                .insert(qpoint)
+                .columns(
+                        qpoint.battleCd,
+                        qpoint.playerCd,
+                        qpoint.type,
+                        qpoint.point)
+                .values(
+                        battleCode,
+                        userCode,
+                        type,
+                        point)
+                .execute();
+    }
+
+    @Override
     public List<PointHistory> getPointHistory(String battleCode) {
         QUser player = new QUser("player");
         QUser trigger = new QUser("trigger");
@@ -509,6 +570,58 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .on(qpoint.triggerCd.eq(trigger.userCd))
                 .where(qpoint.battleCd.eq(battleCode))
                 .fetch();
+    }
+
+    @Override
+    public int getGoalPoint(PlayerWeightRequest request) {
+        int point;
+
+        Tuple tuple
+                = queryFactory
+                .select(
+                        qbattle.startDt,
+                        qbattle.endDt,
+                        qplayer.beforeWeight,
+                        qplayer.goalWeight)
+                .from(qbattle)
+                .join(qplayer)
+                .on(qbattle.battleCd.eq(qplayer.battleCd))
+                .where(qplayer.userCd.eq(request.getUserCode()))
+                .fetchFirst();
+
+        int days = (int) Duration.between(
+                tuple.get(qbattle.startDt).toLocalDateTime(),
+                tuple.get(qbattle.endDt).toLocalDateTime()).toDays();
+
+        float beforeWeight = tuple.get(qplayer.beforeWeight);
+        float afterWeight = request.getWeight();
+        float goalWeight = tuple.get(qplayer.goalWeight);
+
+        if (goalWeight < beforeWeight) {
+            if (beforeWeight < afterWeight) {
+                point = 0;
+            } else if (afterWeight < goalWeight) {
+                point = MAX_GOAL_POINT * days;
+            } else {
+                float goalDiff = beforeWeight - goalWeight;
+                float finalDiff = beforeWeight - afterWeight;
+
+                point = (int) (finalDiff / goalDiff * MAX_GOAL_POINT * 500);
+            }
+        } else {
+            if (beforeWeight > afterWeight) {
+                point = 0;
+            } else if (afterWeight > goalWeight) {
+                point = MAX_GOAL_POINT * days;
+            } else {
+                float goalDiff = goalWeight - beforeWeight;
+                float finalDiff = afterWeight - beforeWeight;
+
+                point = (int) (finalDiff / goalDiff * MAX_GOAL_POINT * 500);
+            }
+        }
+
+        return point;
     }
 
 }

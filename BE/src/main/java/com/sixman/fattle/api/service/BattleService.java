@@ -1,5 +1,6 @@
 package com.sixman.fattle.api.service;
 
+import com.querydsl.core.Tuple;
 import com.sixman.fattle.dto.dto.*;
 import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.dto.response.*;
@@ -11,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 
 @Service
@@ -19,6 +23,14 @@ import java.util.List;
 public class BattleService {
 
     private final BattleRepository battleRepository;
+    private final BattlePointService battlePointService;
+
+    private final int LIVE_USER_POINT = 1;
+    private final int FOOD_USER_POINT = 2;
+    private final int LIVE_BASIC_POINT = 3;
+    private final int FOOD_BASIC_POINT = 4;
+    private final int QUEST_POINT = 5;
+    private final int GOAL_POINT = 6;
 
     private final int STATUS_WAIT = 0;
     private final int STATUS_START = 1;
@@ -89,6 +101,10 @@ public class BattleService {
 
     public void setPlayerWeight(PlayerWeightRequest request) {
         battleRepository.setPlayerWeight(request);
+
+        int point = battleRepository.getGoalPoint(request);
+
+        battlePointService.setBattlePoint(request.getBattleCode(), request.getUserCode(), GOAL_POINT, point);
     }
 
     public BattleInfoResponse getBattleInfo(String battleCode) {
