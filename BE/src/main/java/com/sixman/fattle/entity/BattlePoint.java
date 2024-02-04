@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class BattlePoint {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "point_cd")
     private int pointCd;
 

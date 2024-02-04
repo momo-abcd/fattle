@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 public class Food {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "food_cd")
     private int foodCd;
 

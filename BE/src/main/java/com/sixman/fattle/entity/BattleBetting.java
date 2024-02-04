@@ -11,7 +11,7 @@ import lombok.Data;
 public class BattleBetting {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "betting_cd")
     private int bettingCd;
 
