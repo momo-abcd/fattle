@@ -39,7 +39,7 @@ const JoinPage3 = () => {
       </div>
       <button
         onClick={() => {
-          navigate('/join/page3', {
+          navigate('/join/page4', {
             state: {
               userCode: joinInfo.userCode,
               nickname: joinInfo.nickname,
@@ -51,7 +51,7 @@ const JoinPage3 = () => {
               goalCarbon: joinInfo.goalCarbon,
               goalProtein: joinInfo.goalProtein,
               goalFat: joinInfo.goalFat,
-              menu: menu,
+              menu: joinInfo.menu,
             },
           });
         }}
