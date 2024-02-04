@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 public class Health {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "health_cd")
     private int healthCd;
 
