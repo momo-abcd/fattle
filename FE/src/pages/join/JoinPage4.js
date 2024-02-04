@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import API from '../../services/join/URL';
 import axios from 'axios';
 const JoinPage4 = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [nutrient, setNutrient] = useState([
     {
       carbon: 241,
@@ -103,6 +105,8 @@ const JoinPage4 = () => {
                 goalFat: nutrient[joinInfo.menu].fats,
               })
               .then((res) => {
+                alert('회원가입이 완료되었습니다.');
+                navigate('/login');
                 console.log(res);
               })
               .catch((err) => {
