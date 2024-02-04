@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,6 +17,23 @@ const JoinPage2 = () => {
     goalProtein: location.state.goalProtein,
     goalFat: location.state.goalFat,
   };
+
+  // useEffect(() => {
+  //   const handleBeforeUnload = (e) => {
+  //     const confirmationMessage =
+  //       '페이지를 떠나면 작성한 모든 데이터가 없어집니다.';
+  //     e.returnValue = confirmationMessage;
+  //     // e.preventDefault();
+  //     console.log('새로고침 됨');
+  //     return confirmationMessage;
+  //   };
+  //   window.addEventListener('beforeunload', handleBeforeUnload);
+
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBeforeUnload);
+  //   };
+  // }, []);
+
   return (
     <div>
       <div>조인페이지2</div>
@@ -37,7 +55,6 @@ const JoinPage2 = () => {
           비건 식단
         </label>
       </div>
-
       <div className="next">
         <button
           onClick={() => {
