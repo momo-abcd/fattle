@@ -44,7 +44,7 @@ const JoinPage2 = () => {
             type="radio"
             name="meal"
             onChange={() => {
-              setMenu(1);
+              setMenu(0);
             }}
           />
           일반 식단
@@ -54,7 +54,7 @@ const JoinPage2 = () => {
             type="radio"
             name="meal"
             onChange={() => {
-              setMenu(2);
+              setMenu(1);
             }}
           />
           운동 식단
@@ -64,7 +64,7 @@ const JoinPage2 = () => {
             type="radio"
             name="meal"
             onChange={() => {
-              setMenu(3);
+              setMenu(2);
             }}
           />
           키토 식단
@@ -74,7 +74,7 @@ const JoinPage2 = () => {
             type="radio"
             name="meal"
             onChange={() => {
-              setMenu(4);
+              setMenu(3);
             }}
           />
           비건 식단
