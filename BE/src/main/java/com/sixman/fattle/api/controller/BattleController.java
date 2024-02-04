@@ -107,28 +107,6 @@ public class BattleController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "자극자 남은 라이브 점수",
-            description = "자극자 남은 라이브 점수 조회")
-    @ApiResponse(responseCode = "200", description = "자극자 남은 라이브 점수 조회 성공")
-    @GetMapping("/point/{battleCode}/{userCode}")
-    public ResponseEntity<RemainPointResponse> getRemainPoint(@PathVariable String battleCode,
-                                                              @PathVariable long userCode) {
-        RemainPointResponse response = battleService.getRemainPoint(battleCode, userCode);
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "자극자 점수 부여",
-            description = "배틀 중 자극자 점수 부여")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "점수 부여 성공"),
-            @ApiResponse(responseCode = "400", description = "점수 부여 실패")
-    })
-    @PatchMapping("/point")
-    public ResponseEntity<?> setBattlePoint(@RequestBody BattlePointRequest request) {
-        HttpStatus status = battleService.setBattlePoint(request);
-        return ResponseEntity.status(status).build();
-    }
-
     @Operation(summary = "배틀 삭제",
             description = "배틀 코드를 통해 배틀 삭제")
     @ApiResponses(value = {
@@ -177,15 +155,6 @@ public class BattleController {
     public ResponseEntity<?> modifyPlayer(@RequestBody PlayerRequest request) {
         HttpStatus status = battleService.modifyPlayer(request);
         return ResponseEntity.status(status).build();
-    }
-
-    @Operation(summary = "배틀 점수 조회",
-            description = "배틀 점수 내역 조회")
-    @ApiResponse(responseCode = "200", description = "배틀 점수 조회 성공")
-    @GetMapping("/point/history/{battleCode}")
-    public ResponseEntity<PointHistoryResponse> getPointHistory(@PathVariable String battleCode) {
-        PointHistoryResponse response = battleService.getPoihtHistory(battleCode);
-        return ResponseEntity.ok(response);
     }
 
 }
