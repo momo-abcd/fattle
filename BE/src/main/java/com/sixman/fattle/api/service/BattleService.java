@@ -7,6 +7,7 @@ import com.sixman.fattle.dto.response.*;
 import com.sixman.fattle.entity.Battle;
 import com.sixman.fattle.repository.BattleRepository;
 import com.sixman.fattle.utils.CodeGenerator;
+import com.sixman.fattle.utils.Const;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,17 +25,6 @@ public class BattleService {
 
     private final BattleRepository battleRepository;
     private final BattlePointService battlePointService;
-
-    private final int LIVE_USER_POINT = 1;
-    private final int FOOD_USER_POINT = 2;
-    private final int LIVE_BASIC_POINT = 3;
-    private final int FOOD_BASIC_POINT = 4;
-    private final int QUEST_POINT = 5;
-    private final int GOAL_POINT = 6;
-
-    private final int STATUS_WAIT = 0;
-    private final int STATUS_START = 1;
-    private final int STATUS_END = 2;
 
     public BattleCreateResponse createBattle(BattleCreateRequest request) {
         long userCode = request.getUserCode();
@@ -84,11 +74,11 @@ public class BattleService {
     }
 
     public HttpStatus battleStart(String battleCode) {
-        return setBattleStatus(battleCode, STATUS_START);
+        return setBattleStatus(battleCode, Const.BATTLE_STATUS_START);
     }
 
     public HttpStatus battleFinish(String battleCode) {
-        return setBattleStatus(battleCode, STATUS_END);
+        return setBattleStatus(battleCode, Const.BATTLE_STATUS_END);
     }
 
     private HttpStatus setBattleStatus(String battleCode, int status) {
@@ -104,7 +94,7 @@ public class BattleService {
 
         int point = battleRepository.getGoalPoint(request);
 
-        battlePointService.setBattlePoint(request.getBattleCode(), request.getUserCode(), GOAL_POINT, point);
+        battlePointService.setBattlePoint(request.getBattleCode(), request.getUserCode(), Const.TYPE_GOAL_POINT, point);
     }
 
     public BattleInfoResponse getBattleInfo(String battleCode) {
@@ -114,7 +104,7 @@ public class BattleService {
 
         int status = battleInfo.getStatus();
 
-        if (status != STATUS_END) {
+        if (status != Const.BATTLE_STATUS_END) {
             for (BattlePlayerInfo info : playerList) {
                 info.setLivePoint(0);
                 info.setFoodPoint(0);

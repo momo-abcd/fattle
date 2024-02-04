@@ -2,6 +2,12 @@ package com.sixman.fattle.utils;
 
 public class Const {
 
+    public static final int BATTLE_STATUS_WAIT = 0;
+
+    public static final int BATTLE_STATUS_START = 1;
+
+    public static final int BATTLE_STATUS_END = 2;
+
     public static final int MAX_LIVE_USER_POINT = 100;
 
     public static final int MAX_FOOD_USER_POINT = 30;
