@@ -121,7 +121,6 @@ const JoinPage1 = () => {
         <button
           disabled={dupli}
           onClick={() => {
-            console.log('object변환');
             navigate('/join/page2', {
               state: {
                 userCode: joinInfo.userCode,

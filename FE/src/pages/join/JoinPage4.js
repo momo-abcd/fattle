@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-
+import API from '../../services/join/URL';
+import axios from 'axios';
 const JoinPage4 = () => {
   const location = useLocation();
   const [nutrient, setNutrient] = useState([
@@ -86,7 +86,33 @@ const JoinPage4 = () => {
           ></input>
         </div>
       </div>
-      <div></div>
+      <div>
+        <button
+          onClick={() => {
+            axios
+              .post(`${API.JOIN_POST}`, {
+                userCode: joinInfo.userCode,
+                nickname: joinInfo.nickname,
+                sex: joinInfo.sex,
+                height: joinInfo.height,
+                weight: joinInfo.weight,
+                goalWeight: joinInfo.goalWeight,
+                goalCalory: joinInfo.goalCalory,
+                goalCarbo: nutrient[joinInfo.menu].carbon,
+                goalProtein: nutrient[joinInfo.menu].protein,
+                goalFat: nutrient[joinInfo.menu].fats,
+              })
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }}
+        >
+          다음
+        </button>
+      </div>
     </div>
   );
 };
