@@ -82,4 +82,12 @@ public class BattlePointService {
         }
     }
 
+    public void quest(long userCode) {
+        List<String> list = battleRepository.getBattleCodeListAsPlayer(userCode);
+
+        for (String code : list) {
+            setBattlePoint(code, userCode, Const.TYPE_QUEST_POINT, Const.QUEST_POINT);
+        }
+    }
+
 }
