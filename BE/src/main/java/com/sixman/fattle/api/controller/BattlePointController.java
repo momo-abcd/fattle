@@ -1,11 +1,9 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.BattlePointService;
-import com.sixman.fattle.api.service.BattleService;
 import com.sixman.fattle.dto.request.BattlePointRequest;
 import com.sixman.fattle.dto.response.PointHistoryResponse;
 import com.sixman.fattle.dto.response.RemainPointResponse;
-import com.sixman.fattle.utils.Const;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

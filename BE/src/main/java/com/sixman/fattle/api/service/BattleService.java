@@ -1,6 +1,5 @@
 package com.sixman.fattle.api.service;
 
-import com.querydsl.core.Tuple;
 import com.sixman.fattle.dto.dto.*;
 import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.dto.response.*;
@@ -13,9 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.List;
 
 @Service
