@@ -1,23 +1,38 @@
 package com.sixman.fattle.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Builder
 @Table(name = "ranking_vw")
+@NoArgsConstructor
 public class Ranking {
 
-    @Id
     @Column(name = "rank")
     private int rank;
 
+    @Id
     @Column(name = "user_cd")
     private long userCd;
+
+    @Column(name = "nickname")
+    private String nickName;
+
+    @Column(name = "growth_exp")
+    private int growthExp;
+
+    @Column(name = "stack_exp")
+    private int stackExp;
+
+    @Column(name = "img_path")
+    private String imgPath;
+
+    @Transient
+    private int page;
+
+
 
 }
