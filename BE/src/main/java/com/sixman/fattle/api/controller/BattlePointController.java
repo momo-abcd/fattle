@@ -5,6 +5,7 @@ import com.sixman.fattle.api.service.BattleService;
 import com.sixman.fattle.dto.request.BattlePointRequest;
 import com.sixman.fattle.dto.response.PointHistoryResponse;
 import com.sixman.fattle.dto.response.RemainPointResponse;
+import com.sixman.fattle.utils.Const;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -52,6 +53,17 @@ public class BattlePointController {
     public ResponseEntity<PointHistoryResponse> getPointHistory(@PathVariable String battleCode) {
         PointHistoryResponse response = battlePointService.getPointHistory(battleCode);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/live-on/{battleCode}/{userCode}")
+    public ResponseEntity<?> liveOn(@PathVariable String battleCode, @PathVariable long userCode) {
+        int cnt = battlePointService.liveOn(battleCode, userCode);
+
+        if (cnt == 0) {
+            battlePointService.setBattlePoint(battleCode, userCode, Const.TYPE_LIVE_BASIC_POINT, Const.LIVE_BASIC_POINT);
+        }
+
+        return ResponseEntity.ok().build();
     }
 
 }

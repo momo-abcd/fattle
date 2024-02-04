@@ -1,15 +1,13 @@
 package com.sixman.fattle.repository;
 
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.SubQueryExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sixman.fattle.dto.dto.*;
 import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.entity.*;
+import com.sixman.fattle.utils.Const;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -35,15 +33,6 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     private final QBattlePoint qpoint = QBattlePoint.battlePoint;
     private final QFoodBoard qboard = QFoodBoard.foodBoard;
     private final QFoodComment qcomment = QFoodComment.foodComment;
-
-    private final int MAX_GOAL_POINT = 500;
-
-    private final int LIVE_USER_POINT = 1;
-    private final int FOOD_USER_POINT = 2;
-    private final int LIVE_BASIC_POINT = 3;
-    private final int FOOD_BASIC_POINT = 4;
-    private final int QUEST_POINT = 5;
-    private final int GOAL_POINT = 6;
 
     @Override
     public int isBattleCodeExist(String battleCode) {
@@ -506,32 +495,48 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                         qplayer.livePt,
                         qplayer.foodPt,
                         qplayer.questPt)
-                .from(qpoint)
-                .where(qpoint.battleCd.eq(battleCode),
+                .from(qplayer)
+                .where(qplayer.battleCd.eq(battleCode),
                         qplayer.userCd.eq(userCode))
                 .fetchFirst();
 
         switch (type) {
-            case LIVE_BASIC_POINT:
+            case Const.TYPE_LIVE_BASIC_POINT:
                 queryFactory
                         .update(qplayer)
                         .set(qplayer.livePt, point + points.get(qplayer.livePt))
+                        .where(
+                                qplayer.battleCd.eq(battleCode),
+                                qplayer.userCd.eq(userCode))
                         .execute();
-            case FOOD_BASIC_POINT:
+                break;
+            case Const.TYPE_FOOD_BASIC_POINT:
                 queryFactory
                         .update(qplayer)
                         .set(qplayer.foodPt, point + points.get(qplayer.foodPt))
+                        .where(
+                                qplayer.battleCd.eq(battleCode),
+                                qplayer.userCd.eq(userCode))
                         .execute();
-            case QUEST_POINT:
+                break;
+            case Const.TYPE_QUEST_POINT:
                 queryFactory
                         .update(qplayer)
                         .set(qplayer.questPt, point + points.get(qplayer.questPt))
+                        .where(
+                                qplayer.battleCd.eq(battleCode),
+                                qplayer.userCd.eq(userCode))
                         .execute();
-            case GOAL_POINT:
+                break;
+            case Const.TYPE_GOAL_POINT:
                 queryFactory
                         .update(qplayer)
                         .set(qplayer.goalPt, point)
+                        .where(
+                                qplayer.battleCd.eq(battleCode),
+                                qplayer.userCd.eq(userCode))
                         .execute();
+                break;
         }
 
         queryFactory
@@ -601,27 +606,40 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
             if (beforeWeight < afterWeight) {
                 point = 0;
             } else if (afterWeight < goalWeight) {
-                point = MAX_GOAL_POINT * days;
+                point = Const.MAX_GOAL_POINT * days;
             } else {
                 float goalDiff = beforeWeight - goalWeight;
                 float finalDiff = beforeWeight - afterWeight;
 
-                point = (int) (finalDiff / goalDiff * MAX_GOAL_POINT * 500);
+                point = (int) (finalDiff / goalDiff * Const.MAX_GOAL_POINT * 500);
             }
         } else {
             if (beforeWeight > afterWeight) {
                 point = 0;
             } else if (afterWeight > goalWeight) {
-                point = MAX_GOAL_POINT * days;
+                point = Const.MAX_GOAL_POINT * days;
             } else {
                 float goalDiff = goalWeight - beforeWeight;
                 float finalDiff = afterWeight - beforeWeight;
 
-                point = (int) (finalDiff / goalDiff * MAX_GOAL_POINT * 500);
+                point = (int) (finalDiff / goalDiff * Const.MAX_GOAL_POINT * 500);
             }
         }
 
         return point;
+    }
+
+    @Override
+    public int getLivePoint(String battleCode, long userCode) {
+        return queryFactory
+                .select(qpoint.count())
+                .from(qpoint)
+                .where(
+                        qpoint.battleCd.eq(battleCode),
+                        qpoint.playerCd.eq(userCode),
+                        qpoint.recDt.after(LocalDate.now().atStartOfDay()))
+                .fetchFirst()
+                .intValue();
     }
 
 }

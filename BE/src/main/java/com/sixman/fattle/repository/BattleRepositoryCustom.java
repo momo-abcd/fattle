@@ -73,4 +73,6 @@ public interface BattleRepositoryCustom {
     List<PointHistory> getPointHistory(String battleCode);
 
     int getGoalPoint(PlayerWeightRequest request);
+
+    int getLivePoint(String battleCode, long userCode);
 }
