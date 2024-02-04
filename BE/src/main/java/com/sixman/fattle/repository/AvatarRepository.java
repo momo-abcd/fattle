@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AvatarRepository extends JpaRepository<Avatar, String> {
 
-
     Avatar findAvatarByAvatarCd(String avatarCd);
 
 }

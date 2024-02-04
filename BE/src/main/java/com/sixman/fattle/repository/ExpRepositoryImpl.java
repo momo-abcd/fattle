@@ -10,4 +10,6 @@ public class ExpRepositoryImpl {
 
     private final JPAQueryFactory queryFactory;
 
+
+
 }
