@@ -33,6 +33,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     private final QBattlePoint qpoint = QBattlePoint.battlePoint;
     private final QFoodBoard qboard = QFoodBoard.foodBoard;
     private final QFoodComment qcomment = QFoodComment.foodComment;
+    private final QFood qfood = QFood.food;
 
     @Override
     public int isBattleCodeExist(String battleCode) {
@@ -640,6 +641,28 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                         qpoint.recDt.after(LocalDate.now().atStartOfDay()))
                 .fetchFirst()
                 .intValue();
+    }
+
+    @Override
+    public int foodCount(long userCode, int type) {
+        return queryFactory
+                .select(qfood.count())
+                .from(qfood)
+                .where(
+                        qfood.userCd.eq(userCode),
+                        qfood.type.eq(type),
+                        qfood.recDt.after(Timestamp.valueOf(LocalDate.now().atStartOfDay())))
+                .fetchFirst()
+                .intValue();
+    }
+
+    @Override
+    public List<String> getBattleCodeListAsPlayer(long userCode) {
+        return queryFactory
+                .select(qplayer.battleCd)
+                .from(qplayer)
+                .where(qplayer.userCd.eq(userCode))
+                .fetch();
     }
 
 }

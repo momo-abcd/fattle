@@ -1,11 +1,9 @@
 package com.sixman.fattle.repository;
 
-import com.querydsl.core.Tuple;
 import com.sixman.fattle.dto.dto.*;
 import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.entity.Battle;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BattleRepositoryCustom {
@@ -75,4 +73,8 @@ public interface BattleRepositoryCustom {
     int getGoalPoint(PlayerWeightRequest request);
 
     int getLivePoint(String battleCode, long userCode);
+
+    int foodCount(long userCode, int type);
+
+    List<String> getBattleCodeListAsPlayer(long userCode);
 }

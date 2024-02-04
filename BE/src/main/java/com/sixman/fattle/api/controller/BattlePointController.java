@@ -57,16 +57,20 @@ public class BattlePointController {
 
     @Operation(summary = "자극자 라이브 점수 제공",
             description = "자극자 라이브 방송 시 1일 1회 라이브 점수 제공")
-    @ApiResponse(responseCode = "200", description = "반영 성공")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "반영 성공"),
+            @ApiResponse(responseCode = "202", description = "반영 불가")
+    })
     @GetMapping("/live-on/{battleCode}/{userCode}")
     public ResponseEntity<?> liveOn(@PathVariable String battleCode, @PathVariable long userCode) {
         int cnt = battlePointService.liveOn(battleCode, userCode);
 
         if (cnt == 0) {
             battlePointService.setBattlePoint(battleCode, userCode, Const.TYPE_LIVE_BASIC_POINT, Const.LIVE_BASIC_POINT);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.accepted().build();
         }
-
-        return ResponseEntity.ok().build();
     }
 
 }

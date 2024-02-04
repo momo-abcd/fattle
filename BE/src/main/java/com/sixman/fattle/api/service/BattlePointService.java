@@ -20,9 +20,6 @@ public class BattlePointService {
 
     private final BattleRepository battleRepository;
 
-
-
-
     public RemainPointResponse getRemainPoint(String battleCode, long userCode) {
         int currentPoint = battleRepository.getCurrentPoint(battleCode, userCode);
         return RemainPointResponse.builder()
@@ -72,4 +69,17 @@ public class BattlePointService {
     public int liveOn(String battleCode, long userCode) {
         return battleRepository.getLivePoint(battleCode, userCode);
     }
+
+    public void foodUpload(long userCode, int type) {
+        int cnt = battleRepository.foodCount(userCode, type);
+
+        if (cnt == 0) {
+            List<String> list = battleRepository.getBattleCodeListAsPlayer(userCode);
+
+            for (String code : list) {
+                setBattlePoint(code, userCode, Const.TYPE_FOOD_BASIC_POINT, Const.FOOD_BASIC_POINT);
+            }
+        }
+    }
+
 }
