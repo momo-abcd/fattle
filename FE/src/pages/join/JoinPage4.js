@@ -46,6 +46,18 @@ const JoinPage4 = () => {
     setNutrient(updateNutrient);
     // setNutrient
   };
+  const handleProteinChange = (e) => {
+    const updateNutrient = [...nutrient];
+    updateNutrient[joinInfo.menu].protein = parseInt(e.target.value, 10) || 0;
+    setNutrient(updateNutrient);
+    // setNutrient
+  };
+  const handlefatsChange = (e) => {
+    const updateNutrient = [...nutrient];
+    updateNutrient[joinInfo.menu].fats = parseInt(e.target.value, 10) || 0;
+    setNutrient(updateNutrient);
+    // setNutrient
+  };
   return (
     <div>
       <div>
@@ -62,13 +74,19 @@ const JoinPage4 = () => {
           <input
             placeholder="g"
             value={nutrient[joinInfo.menu].protein}
+            onChange={handleProteinChange}
           ></input>
         </div>
         <div>
           <div>지방</div>
-          <input placeholder="g" value={nutrient[joinInfo.menu].fats}></input>
+          <input
+            placeholder="g"
+            value={nutrient[joinInfo.menu].fats}
+            onChange={handlefatsChange}
+          ></input>
         </div>
       </div>
+      <div></div>
     </div>
   );
 };

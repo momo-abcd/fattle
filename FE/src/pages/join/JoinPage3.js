@@ -47,7 +47,7 @@ const JoinPage3 = () => {
               height: joinInfo.height,
               weight: joinInfo.weight,
               goalWeight: joinInfo.goalWeight,
-              goalCalory: joinInfo.goalCalory,
+              goalCalory: kcal,
               goalCarbon: joinInfo.goalCarbon,
               goalProtein: joinInfo.goalProtein,
               goalFat: joinInfo.goalFat,
