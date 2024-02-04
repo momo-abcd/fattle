@@ -24,8 +24,8 @@ public class ExpService {
                 .build();
     }
 
-//    public void setExp(long userCode, String type, String content, int point) {
-//
-//    }
+    public void setExp(long userCode, String type, String content, int exp) {
+        expRepository.setExp(userCode, type, content, exp);
+    }
 
 }

@@ -9,4 +9,6 @@ public interface ExpRepositoryCustom {
 
     List<ExpHistory> getExpHistory(long userCode, LocalDate date);
 
+    void setExp(long userCode, String type, String content, int exp);
+
 }
