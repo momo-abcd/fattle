@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/exp")
 @RequiredArgsConstructor
@@ -21,11 +23,11 @@ public class ExpController {
     private final ExpService expService;
 
     @Operation(summary = "경험치 히스토리 조회",
-            description = "유저 코드를 통해 경험치 히스토리 조회")
+            description = "유저 코드를 통해 특정 날짜의 경험치 히스토리 조회")
     @ApiResponse(responseCode = "200", description = "경험치 히스토리 조회 성공")
-    @GetMapping("/history/{userCode}")
-    public ResponseEntity<ExpHistoryResponse> getExpHistory(@PathVariable long userCode) {
-        ExpHistoryResponse response = expService.getExpHistory(userCode);
+    @GetMapping("/history/{userCode}/{date}")
+    public ResponseEntity<ExpHistoryResponse> getExpHistory(@PathVariable long userCode, @PathVariable LocalDate date) {
+        ExpHistoryResponse response = expService.getExpHistory(userCode, date);
         return ResponseEntity.ok(response);
     }
 

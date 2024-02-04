@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -16,11 +17,15 @@ public class ExpService {
 
     private final ExpRepository expRepository;
 
-    public ExpHistoryResponse getExpHistory(long userCode) {
-        List<ExpHistory> list = expRepository.findAllByUserCd(userCode);
+    public ExpHistoryResponse getExpHistory(long userCode, LocalDate date) {
+        List<ExpHistory> list = expRepository.getExpHistory(userCode, date);
         return ExpHistoryResponse.builder()
                 .list(list)
                 .build();
     }
+
+//    public void setExp(long userCode, String type, String content, int point) {
+//
+//    }
 
 }
