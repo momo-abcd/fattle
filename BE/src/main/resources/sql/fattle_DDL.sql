@@ -99,7 +99,7 @@ CREATE TABLE `exp_history_tb` (
   `rec_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `type` varchar(50) NOT NULL,
   `content` varchar(50) NOT NULL,
-  `point` int DEFAULT '0',
+  `point` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`exp_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
