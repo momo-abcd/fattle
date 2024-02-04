@@ -84,7 +84,7 @@ public class BattlePointService {
             List<String> list = battleRepository.getBattleCodeListAsPlayer(userCode);
 
             for (String code : list) {
-                setBattlePoint(code, userCode, Const.TYPE_FOOD_BASIC_POINT, Const.FOOD_BASIC_POINT);
+                battleRepository.setPoint(code, userCode, Const.TYPE_FOOD_BASIC_POINT, Const.FOOD_BASIC_POINT);
             }
         }
     }
@@ -93,7 +93,7 @@ public class BattlePointService {
         List<String> list = battleRepository.getBattleCodeListAsPlayer(userCode);
 
         for (String code : list) {
-            setBattlePoint(code, userCode, Const.TYPE_QUEST_POINT, Const.QUEST_POINT);
+            battleRepository.setPoint(code, userCode, Const.TYPE_QUEST_POINT, Const.QUEST_POINT);
         }
     }
 
