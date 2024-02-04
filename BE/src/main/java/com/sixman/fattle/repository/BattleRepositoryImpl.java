@@ -665,4 +665,5 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .fetch();
     }
 
+
 }

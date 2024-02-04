@@ -66,8 +66,15 @@ public class BattlePointService {
                 .build();
     }
 
-    public int liveOn(String battleCode, long userCode) {
-        return battleRepository.getLivePoint(battleCode, userCode);
+    public HttpStatus liveOn(String battleCode, long userCode) {
+        int cnt = battleRepository.getLivePoint(battleCode, userCode);
+
+        if (cnt == 0) {
+            battleRepository.setPoint(battleCode, userCode, Const.TYPE_LIVE_BASIC_POINT, Const.LIVE_BASIC_POINT);
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.ACCEPTED;
+        }
     }
 
     public void foodUpload(long userCode, int type) {

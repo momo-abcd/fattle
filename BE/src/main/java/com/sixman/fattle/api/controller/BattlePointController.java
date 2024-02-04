@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "BattlePoint 컨트롤러", description = "배틀 포인트 관리를 위한 API")
 public class BattlePointController {
 
-    private final BattleService battleService;
     private final BattlePointService battlePointService;
 
     @Operation(summary = "자극자 남은 라이브 점수",
@@ -63,14 +62,8 @@ public class BattlePointController {
     })
     @GetMapping("/live-on/{battleCode}/{userCode}")
     public ResponseEntity<?> liveOn(@PathVariable String battleCode, @PathVariable long userCode) {
-        int cnt = battlePointService.liveOn(battleCode, userCode);
-
-        if (cnt == 0) {
-            battlePointService.setBattlePoint(battleCode, userCode, Const.TYPE_LIVE_BASIC_POINT, Const.LIVE_BASIC_POINT);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.accepted().build();
-        }
+        HttpStatus status = battlePointService.liveOn(battleCode, userCode);
+        return ResponseEntity.status(status).build();
     }
 
 }
