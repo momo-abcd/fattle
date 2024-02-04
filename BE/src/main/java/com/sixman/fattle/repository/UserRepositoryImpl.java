@@ -41,6 +41,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         quser.sex,
                         quser.goalWeight,
                         quser.goalCalory,
+                        quser.goalCarbo,
                         quser.goalProtein,
                         quser.goalFat)
                 .values(
@@ -49,6 +50,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         request.getSex(),
                         request.getGoalWeight(),
                         request.getGoalCalory(),
+                        request.getGoalCarbo(),
                         request.getGoalProtein(),
                         request.getGoalFat())
                 .execute();
