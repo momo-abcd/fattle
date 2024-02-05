@@ -1,6 +1,6 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.response.DailyQuestResponse;
+import com.sixman.fattle.dto.dto.DailyQuestDto;
 import com.sixman.fattle.entity.DailyQuest;
 import com.sixman.fattle.entity.User;
 import com.sixman.fattle.repository.DailyQuestRepository;
@@ -21,9 +21,9 @@ public class DailyQuestServiceImpl implements DailyQuestService {
     @Autowired
     private final DailyQuestRepository dailyQuestRepository;
 
-    public ResponseEntity<DailyQuestResponse> getDailyQuests(Long userCode) {
+    public ResponseEntity<DailyQuestDto> getDailyQuests(Long userCode) {
         DailyQuest lastDailyQuest = getDailyQuest(userCode);
-        DailyQuestResponse dailyQuest = DailyQuestResponse.builder()
+        DailyQuestDto dailyQuest = DailyQuestDto.builder()
                 .userCd(userCode)
                 .recordDate(lastDailyQuest.getRecordDate())
                 .dayCheck(lastDailyQuest.isDayCheck())

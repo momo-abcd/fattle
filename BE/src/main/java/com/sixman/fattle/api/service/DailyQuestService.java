@@ -1,11 +1,11 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.response.DailyQuestResponse;
+import com.sixman.fattle.dto.dto.DailyQuestDto;
 import org.springframework.http.ResponseEntity;
 
 
 public interface DailyQuestService {
-     ResponseEntity<DailyQuestResponse> getDailyQuests(Long userCode);
+     ResponseEntity<DailyQuestDto> getDailyQuests(Long userCode);
 
 
 }

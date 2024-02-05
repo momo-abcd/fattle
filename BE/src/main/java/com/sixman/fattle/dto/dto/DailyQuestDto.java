@@ -1,4 +1,4 @@
-package com.sixman.fattle.dto.response;
+package com.sixman.fattle.dto.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @Builder
-public class DailyQuestResponse {
+public class DailyQuestDto {
     private Timestamp recordDate;
     private Long userCd;
     private boolean dayCheck;
