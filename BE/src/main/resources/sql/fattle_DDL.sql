@@ -164,7 +164,7 @@ CREATE TABLE `quest_tb` (
 create or replace view `fattle`.`ranking_vw` as
 select
     rank() over (
-    order by (`fattle`.`user_tb`.`growth_exp` + `fattle`.`user_tb`.`stack_exp`) ) as `rank`,
+    order by (`fattle`.`user_tb`.`growth_exp` + `fattle`.`user_tb`.`stack_exp`) desc) as `rank`,
     `fattle`.`user_tb`.`user_cd` as `user_cd`,
     `fattle`.`user_tb`.`nickname` as `nickname`,
     `fattle`.`user_tb`.`growth_exp` as `growth_exp`,
