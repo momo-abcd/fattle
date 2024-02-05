@@ -55,6 +55,7 @@ public class UserService {
         dailyQuest.setFinish(false);
         dailyQuestRepository.save(dailyQuest);
         }
+        // 운동 유형 레포지토리에서 리스트 저장하고 순회하면서 운동유형코드에 다 넣기,
         return HttpStatus.OK;
 
     }
