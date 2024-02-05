@@ -10,6 +10,9 @@ const JoinPage3 = () => {
     setKcal(e.target.value);
   };
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
   const navigate = useNavigate();
   const location = useLocation();
   const joinInfo = {
@@ -28,6 +31,15 @@ const JoinPage3 = () => {
 
   return (
     <div>
+      <div>
+        <button
+          onClick={() => {
+            handleGoBack();
+          }}
+        >
+          ←
+        </button>
+      </div>
       <div>목표 섭취 열량</div>
       <div>
         <input

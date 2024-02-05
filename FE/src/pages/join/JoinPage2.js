@@ -19,6 +19,9 @@ const JoinPage2 = () => {
     goalFat: location.state.goalFat,
   };
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
   // useEffect(() => {
   //   const handleBeforeUnload = (e) => {
   //     const confirmationMessage =
@@ -38,6 +41,15 @@ const JoinPage2 = () => {
   return (
     <div>
       <div>조인페이지2</div>
+      <div>
+        <button
+          onClick={() => {
+            handleGoBack();
+          }}
+        >
+          ←
+        </button>
+      </div>
       <div className="mealCheck">
         <label>
           <input

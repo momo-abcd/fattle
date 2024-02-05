@@ -42,6 +42,10 @@ const JoinPage4 = () => {
     menu: location.state.menu,
   };
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   const handleCarbonChange = (e) => {
     const updateNutrient = [...nutrient];
     updateNutrient[joinInfo.menu].carbon = parseInt(e.target.value, 10) || 0;
@@ -60,8 +64,18 @@ const JoinPage4 = () => {
     setNutrient(updateNutrient);
     // setNutrient
   };
+
   return (
     <div>
+      <div>
+        <button
+          onClick={() => {
+            handleGoBack();
+          }}
+        >
+          ←
+        </button>
+      </div>
       <div>
         <div>
           <div>순 탄수</div>
