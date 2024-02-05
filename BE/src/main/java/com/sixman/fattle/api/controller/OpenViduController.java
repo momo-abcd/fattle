@@ -33,7 +33,7 @@ public class OpenViduController {
     }
 
     @Operation(summary = "Session 시작",
-            description = "OpenVidu parameters를 받아 session 시작")
+            description = "OpenVidu session 시작")
     @ApiResponse(responseCode = "200", description = "세션 ID 응답")
     @PostMapping("/sessions")
     public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
@@ -44,7 +44,7 @@ public class OpenViduController {
     }
 
     @Operation(summary = "Session 연결",
-            description = "OpenVidu parameters를 받아 session에 연결")
+            description = "OpenVidu session에 연결")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Session connection token 응답"),
             @ApiResponse(responseCode = "404", description = "Session을 찾지 못함")
