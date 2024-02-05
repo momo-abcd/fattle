@@ -3,6 +3,7 @@ package com.sixman.fattle.api.controller;
 import com.sixman.fattle.api.service.MyPageService;
 import com.sixman.fattle.dto.response.FollowResponse;
 import com.sixman.fattle.dto.response.MyPageGoalUpdateResponse;
+import com.sixman.fattle.dto.response.MyPageResponse;
 import com.sixman.fattle.dto.response.MyPageUpdateResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +28,7 @@ public class MyPageController {
             description = "유저코드를 통해 마이페이지 조회")
     @ApiResponse(responseCode = "200", description = "마이페이지 조회 응답")
     @GetMapping("/{userCode}")
-    public ResponseEntity<?> getMyPageInfo(@PathVariable Long userCode) {
+    public ResponseEntity<MyPageResponse> getMyPageInfo(@PathVariable Long userCode) {
         return myPageService.getMyPageInfo(userCode);
     }
 
