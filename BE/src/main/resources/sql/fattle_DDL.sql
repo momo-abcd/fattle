@@ -14,7 +14,7 @@ CREATE TABLE `avatar_tb` (
 
 CREATE TABLE `user_tb` (
   `user_cd` bigint NOT NULL,
-  `avatar_cd` char(3) DEFAULT NULL,
+  `avatar_cd` char(3) DEFAULT '알',
   `nickname` varchar(16) DEFAULT NULL,
   `sex` char(1) DEFAULT 'M',
   `join_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
