@@ -3,6 +3,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Routes, Route, Link} from 'react-router-dom'
 import ExpHistory from './ExpHistory'
+import FoodRecommend from './FoodRecommend'
 import Frame from '../../assets/images/main/Frame.svg'
 import Frame2 from '../../assets/images/main/Frame2.svg'
 import panda from '../../assets/images/main/panda.png'
@@ -10,6 +11,7 @@ import carbon from '../../assets/images/main/carbon.svg'
 import protein from '../../assets/images/main/protein.svg'
 import fat from '../../assets/images/main/fat.svg'
 import { API } from '../../services/main/URL';
+import BodyinfoModify from "./BodyinfoModify"
 
 function Character() {
   const [mainUserData, setMainUserData] = useState(null)
@@ -136,16 +138,21 @@ function Character() {
 
 
           
-          <div className={styles.infobar}>
-            <p>
+          <div className={`${styles.centeredContainer}`}>
+            <p className={styles.infobar}>
               <img src={Frame} alt='' />
               신장: {mainUserData.height}cm 체중: {mainUserData.weight}kg
+              {/* <BodyinfoModify/> */}
               <img src={Frame2} alt='' />
             </p>
           </div>
         </div>
       )}
 
+      <div className={styles.foodRecommendIconWrapper} >
+        <FoodRecommend/>
+      </div>
+      
         
         <Routes>
           <Route path="/history" element={<ExpHistory />} />
