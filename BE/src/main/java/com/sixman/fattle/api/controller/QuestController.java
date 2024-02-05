@@ -2,6 +2,7 @@ package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.DailyQuestService;
 import com.sixman.fattle.dto.dto.DailyQuestDto;
+import com.sixman.fattle.dto.response.DailyQuestResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +27,7 @@ public class QuestController {
             description = "유저 코드를 받아 메인 페이지에 퀘스트 정보를 응답")
     @ApiResponse(responseCode = "200", description = "유저 정보 응답")
     @GetMapping("/list/{userCode}")
-    public ResponseEntity<DailyQuestDto> getDailyQuests(@PathVariable long userCode) {
+    public ResponseEntity<DailyQuestResponse> getDailyQuests(@PathVariable long userCode) {
         return dailyQuestService.getDailyQuests(userCode);
     }
 }

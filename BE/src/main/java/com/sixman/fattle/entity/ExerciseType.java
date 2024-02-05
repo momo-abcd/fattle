@@ -17,4 +17,7 @@ public class ExerciseType {
     @Column(name = "type_cd")
     private String typeCode;
 
+    @Column(name = "name")
+    private String name;
+
 }
