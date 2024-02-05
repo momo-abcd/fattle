@@ -81,5 +81,5 @@ logging:
 
 # OpenVidu Setting
 openvidu:
-  public-ip: https://13.209.80.143
+  public-ip: https://13.209.80.143:8443
   secret: fattle
