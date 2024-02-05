@@ -35,29 +35,28 @@ public class DailyQuestServiceImpl implements DailyQuestService {
 
     public ResponseEntity<DailyQuestResponse> getDailyQuests(Long userCode) {
         ExerciseDto exerciseDto = new ExerciseDto(0,0,0,0,0,0);
-        List<Exercise> exercises = exerciseRepository.findExerciseByUser_UserCdAndRecDate(userCode, LocalDate.now());
+        List<Exercise> exercises = exerciseRepository.findExerciseByUser_UserCdAndRecDateBetween(userCode, LocalDate.now().atStartOfDay(), LocalDate.now().atTime(23, 59, 59));
         if (!exercises.isEmpty()) {
             for (Exercise exercise : exercises) {
                 String exerciseName = exercise.getExerciseType().getName();
                 switch (exerciseName) {
                     case EXP_CONTENT_RUNNING:
                         exerciseDto.setRunning(1);
-                        break;
+                        continue;
                     case EXP_CONTENT_BURPEE:
                         exerciseDto.setBurpee(1);
-                        break;
+                        continue;
                     case EXP_CONTENT_PLANK:
                         exerciseDto.setPlank(1);
-                        break;
+                        continue;
                     case EXP_CONTENT_PULLUP:
                         exerciseDto.setPullup(1);
-                        break;
+                        continue;
                     case EXP_CONTENT_PUSHUP:
                         exerciseDto.setPushup(1);
-                        break;
-                    case EXERCISE_CODE_SQUAT:
+                        continue;
+                    case EXP_CONTENT_SQUAT:
                         exerciseDto.setSquat(1);
-                        break;
                 }
             }
         }

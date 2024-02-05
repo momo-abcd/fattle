@@ -6,10 +6,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Builder
+@NoArgsConstructor
 @Table(name = "exercise_type_tb")
 public class ExerciseType {
 

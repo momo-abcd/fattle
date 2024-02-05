@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Builder
+@NoArgsConstructor
 @Table(name = "exercise_tb")
 public class Exercise {
 
@@ -23,7 +24,7 @@ public class Exercise {
     @JoinColumn(name = "user_cd", referencedColumnName = "user_cd")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     @JoinColumn(name = "type_cd", referencedColumnName = "type_cd")
     private ExerciseType exerciseType;
