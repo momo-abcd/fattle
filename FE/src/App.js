@@ -11,6 +11,7 @@ import mypageRoutes from './pages/mypage/mypageRoutes.js';
 //styles
 import styles from './styles/App.module.css';
 import Callback from './pages/login/SosialLogin/Login-callback';
+import BattleTest from './components/battle/BattleTest.js';
 
 function App() {
   let isLogged = false;
@@ -20,6 +21,7 @@ function App() {
         <Route path="/mypage" element={<Mypage />}>
           {mypageRoutes}
         </Route>
+        <Route path="/battle" element={<BattleTest />} />
         <Route path="/" element={<Auth isLogged={isLogged} />} />
         <Route path="/login" element={<Auth isLogged={isLogged} />} />
         <Route path="/join/page1" element={<JoinPage1></JoinPage1>}></Route>
