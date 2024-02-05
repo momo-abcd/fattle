@@ -13,6 +13,5 @@ import java.util.List;
 @Repository
 public interface DailyQuestRepository extends JpaRepository<DailyQuest, Date> {
     List<DailyQuest> findByUser(User user);
-    List<DailyQuest> findByUserAndRecordDateBetween(User user, LocalDate start, LocalDate end);
 
 }
