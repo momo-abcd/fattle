@@ -2,6 +2,7 @@ package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.UserService;
 import com.sixman.fattle.dto.request.SignUpRequest;
+import com.sixman.fattle.dto.request.UserInfoRequest;
 import com.sixman.fattle.dto.response.UserInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -60,5 +61,16 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "유저 정보 수정",
+            description = "유저의 체중, 신장 정보 수정")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "유저 정보 수정 성공"),
+            @ApiResponse(responseCode = "400", description = "존재하지 않는 유저")
+    })
+    @PatchMapping("/userinfo/modify")
+    public ResponseEntity<?> modifyUser(@RequestBody UserInfoRequest request) {
+        HttpStatus status = userService.modifyUserInfo(request);
+        return ResponseEntity.status(status).build();
+    }
 
 }

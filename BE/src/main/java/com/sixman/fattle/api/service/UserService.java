@@ -1,20 +1,18 @@
 package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.request.SignUpRequest;
+import com.sixman.fattle.dto.request.UserInfoRequest;
 import com.sixman.fattle.dto.response.UserInfoResponse;
-import com.sixman.fattle.entity.DailyQuest;
+import com.sixman.fattle.entity.Quest;
 import com.sixman.fattle.entity.User;
-import com.sixman.fattle.repository.DailyQuestRepository;
+import com.sixman.fattle.repository.QuestRepository;
 import com.sixman.fattle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -23,39 +21,21 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final DailyQuestRepository dailyQuestRepository;
+    private final QuestService questService;
 
     public HttpStatus login(long userCode) {
         User user =  userRepository.getUser(userCode);
+
         if (user == null) {
             return HttpStatus.NO_CONTENT;
         }
 
-        List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
-        LocalDateTime now = LocalDateTime.now();
-        if (!dailyQuests.isEmpty()) {
-            DailyQuest lastDailyQuest = dailyQuests.get(dailyQuests.size() - 1);
-            if (lastDailyQuest.getRecordDate().toLocalDateTime().isBefore(now.toLocalDate().atStartOfDay())) {
-                DailyQuest dailyQuest = new DailyQuest();
-                dailyQuest.setRecordDate(Timestamp.valueOf(now));
-                dailyQuest.setUser(user);
-                dailyQuest.setDayCheck(true);
-                dailyQuest.setExerciseCount(0);
-                dailyQuest.setFoodCount(0);
-                dailyQuest.setFinish(false);
-                dailyQuestRepository.save(dailyQuest);
-            }
-        } else {
-        DailyQuest dailyQuest = new DailyQuest();
-        dailyQuest.setRecordDate(Timestamp.valueOf(now));
-        dailyQuest.setUser(user);
-        dailyQuest.setDayCheck(true);
-        dailyQuest.setExerciseCount(0);
-        dailyQuest.setFoodCount(0);
-        dailyQuest.setFinish(false);
-        dailyQuestRepository.save(dailyQuest);
+        Quest quest = questService.getDailyQuest(userCode);
+
+        if (quest == null) {
+            questService.createQuest(userCode);
         }
-        // 운동 유형 레포지토리에서 리스트 저장하고 순회하면서 운동유형코드에 다 넣기,
+
         return HttpStatus.OK;
 
     }
@@ -78,5 +58,17 @@ public class UserService {
         return userRepository.getUserInfo(userCode);
     }
 
+    public HttpStatus modifyUserInfo(UserInfoRequest request) {
+        long userCode = request.getUserCode();
+
+        User user = userRepository.getUser(userCode);
+
+        if (user == null) {
+            return HttpStatus.BAD_REQUEST;
+        } else {
+            userRepository.setUserInfo(request);
+            return HttpStatus.OK;
+        }
+    }
 
 }

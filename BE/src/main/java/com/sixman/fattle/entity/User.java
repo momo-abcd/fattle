@@ -60,16 +60,4 @@ public class User {
     @Column(name = "introduction")
     private String introduction;
 
-//    @OneToMany(mappedBy = "toUser", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private List<Follow> followers;
-//
-//    @OneToMany(mappedBy = "fromUser", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private List<Follow> following;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<DailyQuest> dailyQuests;
-
 }

@@ -1,9 +1,9 @@
-package com.sixman.fattle.dto.response;
+package com.sixman.fattle.dto.request;
 
 import lombok.Data;
 
 @Data
-public class MyPageGoalUpdateResponse {
+public class MyPageGoalUpdateRequest {
 
     private long userCode;
     private Float goalWeight;

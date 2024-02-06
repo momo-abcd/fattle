@@ -2,15 +2,15 @@ package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.dto.DailyQuestDto;
 import com.sixman.fattle.dto.response.FollowResponse;
-import com.sixman.fattle.dto.response.MyPageGoalUpdateResponse;
+import com.sixman.fattle.dto.request.MyPageGoalUpdateRequest;
 import com.sixman.fattle.dto.response.MyPageResponse;
 import com.sixman.fattle.dto.request.MyPageUpdateRequest;
 import com.sixman.fattle.entity.Avatar;
-import com.sixman.fattle.entity.DailyQuest;
+import com.sixman.fattle.entity.Quest;
 import com.sixman.fattle.entity.Follow;
 import com.sixman.fattle.entity.User;
 import com.sixman.fattle.repository.AvatarRepository;
-import com.sixman.fattle.repository.DailyQuestRepository;
+import com.sixman.fattle.repository.QuestRepository;
 import com.sixman.fattle.repository.FollowRepository;
 import com.sixman.fattle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class MyPageServiceImpl implements MyPageService {
     private final FollowRepository followRepository;
 
     @Autowired
-    private final DailyQuestRepository dailyQuestRepository;
+    private final QuestRepository questRepository;
 
     @Autowired
     private final AvatarRepository avatarRepository;
@@ -61,7 +61,7 @@ public class MyPageServiceImpl implements MyPageService {
                 .followingCnt(getFollowingCount(user))
                 .build();
 
-        List<DailyQuest> monthlyQuests = getMonthlyQuests(userCode);
+        List<Quest> monthlyQuests = getMonthlyQuests(userCode);
         List<DailyQuestDto> monthlyQuestDTOs = monthlyQuests.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -70,17 +70,17 @@ public class MyPageServiceImpl implements MyPageService {
         return ResponseEntity.ok(myPageResponse);
     }
 
-    private List<DailyQuest> getMonthlyQuests(long userCode) {
+    private List<Quest> getMonthlyQuests(long userCode) {
         User user = userRepository.getUser(userCode);
-        List<DailyQuest> dailyQuests = dailyQuestRepository.findByUser(user);
+        List<Quest> quests = questRepository.findByUserCd(userCode);
 
         LocalDate now = LocalDate.now();
         int currentYear = now.getYear();
         Month currentMonth = now.getMonth();
 
-        return dailyQuests.stream()
+        return quests.stream()
                 .filter(dailyQuest -> {
-                    LocalDate questDate = dailyQuest.getRecordDate().toLocalDateTime().toLocalDate();
+                    LocalDate questDate = dailyQuest.getRecDt().toLocalDate();
                     return questDate.getYear() == currentYear && questDate.getMonth() == currentMonth;
                 })
                 .collect(Collectors.toList());
@@ -101,7 +101,7 @@ public class MyPageServiceImpl implements MyPageService {
 
 
     @Override
-    public ResponseEntity<MyPageGoalUpdateResponse> updateGoalInfo(MyPageGoalUpdateResponse myPageGoalInfo) {
+    public ResponseEntity<MyPageGoalUpdateRequest> updateGoalInfo(MyPageGoalUpdateRequest myPageGoalInfo) {
         userRepository.findById(myPageGoalInfo.getUserCode())
                 .ifPresent(user -> {
                     user.setGoalWeight(myPageGoalInfo.getGoalWeight());
@@ -173,14 +173,14 @@ public class MyPageServiceImpl implements MyPageService {
 
 
 
-    private DailyQuestDto convertToDTO(DailyQuest dailyQuest) {
+    private DailyQuestDto convertToDTO(Quest quest) {
         return DailyQuestDto.builder()
-                .recordDate(dailyQuest.getRecordDate())
-                .userCd(dailyQuest.getUser().getUserCd())
-                .dayCheck(dailyQuest.isDayCheck())
-                .exerciseCount(dailyQuest.getExerciseCount())
-                .foodCount(dailyQuest.getFoodCount())
-                .Finish(dailyQuest.isFinish())
+                .recordDate(quest.getRecDt())
+                .userCd(quest.getUserCd())
+                .dayCheck(quest.isDayChk())
+                .exerciseCount(quest.getExerciseCnt())
+                .foodCount(quest.getFoodCnt())
+                .Finish(quest.isFinish())
                 .build();
     }
 

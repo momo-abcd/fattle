@@ -82,4 +82,12 @@ public class Const {
 
     public static final String EXERCISE_CODE_PULLUP = "PUL";
 
+    public static final int DAILY_QUEST_EXP = 2;
+
+    public static final int DAILY_QUEST_FINISH_EXP = 10;
+
+    public static final float BATTLE_WIN_EXP_RATIO = 0.02f;
+
+    public static final float BATTLE_LOSE_EXP_RATIO = 0.01f;
+
 }

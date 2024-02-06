@@ -1,7 +1,7 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.ExerciseService;
-import com.sixman.fattle.dto.request.ExerciseCreateRequest;
+import com.sixman.fattle.dto.request.QuestRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,8 @@ public class ExerciseController {
     private final ExerciseService exerciseService;
 
     @PostMapping("/record")
-    public ResponseEntity<?> exerciseRecord(@RequestBody ExerciseCreateRequest exerciseInfo) {
+    public ResponseEntity<?> exerciseRecord(@RequestBody QuestRequest exerciseInfo) {
         return exerciseService.exerciseRecord(exerciseInfo);
     }
-
 
 }

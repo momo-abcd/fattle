@@ -9,11 +9,11 @@ import lombok.Data;
 @Builder
 public class ExerciseDto {
 
-    int RUN;
-    int PUS;
-    int SQU;
-    int BUR;
-    int PUL;
-    int PLA;
+    private int RUN;
+    private int PUS;
+    private int SQU;
+    private int BUR;
+    private int PUL;
+    private int PLA;
 
 }

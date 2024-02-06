@@ -4,14 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @Builder
 public class DailyQuestDto {
-    private Timestamp recordDate;
-    private Long userCd;
+
+    private LocalDateTime recordDate;
+    private long userCd;
     private boolean dayCheck;
     private int exerciseCount;
     private int foodCount;

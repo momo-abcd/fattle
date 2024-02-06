@@ -3,6 +3,7 @@ package com.sixman.fattle.repository;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sixman.fattle.dto.request.SignUpRequest;
+import com.sixman.fattle.dto.request.UserInfoRequest;
 import com.sixman.fattle.dto.response.UserInfoResponse;
 import com.sixman.fattle.entity.*;
 import lombok.RequiredArgsConstructor;
@@ -153,6 +154,20 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .stackExp(user.get(quser.stackExp))
                 .imgPath(user.get(qavatar.imgPath))
                 .build();
+    }
+
+    @Override
+    public void setUserInfo(UserInfoRequest request) {
+        queryFactory.insert(qhealth)
+                .columns(
+                        qhealth.userCd,
+                        qhealth.height,
+                        qhealth.weight)
+                .values(
+                        request.getUserCode(),
+                        request.getHeight(),
+                        request.getWeight())
+                .execute();
     }
 
 }

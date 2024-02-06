@@ -13,7 +13,6 @@ public class DailyQuestResponse {
 
     private int foodCnt;
     private ExerciseDto exercise;
-//    private List<ExerciseType> exerciseType;
     private int exerciseCnt;
 
 }

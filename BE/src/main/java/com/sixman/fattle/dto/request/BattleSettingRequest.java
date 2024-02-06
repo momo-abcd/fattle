@@ -12,7 +12,6 @@ public class BattleSettingRequest {
     private String battleName;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private String contractPath;
     private List<String> betting;
 
 }
