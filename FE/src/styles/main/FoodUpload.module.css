@@ -6,7 +6,6 @@
   background-color: #FFC38C; 
 }
 
-
 .container {
   display: flex;
   background-color: #FFC38C;
@@ -17,9 +16,6 @@
   flex-wrap: wrap;
   margin-top: 50px;
 }
-
-
-
 
 .box {
   width: 150px; 
