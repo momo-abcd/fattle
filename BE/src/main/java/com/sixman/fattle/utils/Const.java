@@ -40,13 +40,17 @@ public class Const {
 
     public static final int MAX_GROWTH_EXP = 2500;
 
-    public static final String EXP_TYPE_DAILY = "출석 체크";
+    public static final String EXP_TYPE_DAILY = "출석";
+
+    public static final String EXP_TYPE_FINISH = "일일퀘스트";
 
     public static final String EXP_TYPE_FOOD = "식단";
 
     public static final String EXP_TYPE_EXERCISE = "운동";
 
     public static final String EXP_TYPE_BATTLE = "배틀";
+
+    public static final String EXP_CONTENT_DAILY = "완료";
 
     public static final String EXP_CONTENT_BREAKFAST = "아침";
 
@@ -69,6 +73,8 @@ public class Const {
     public static final String EXP_CONTENT_WIN = "승리";
 
     public static final String EXP_CONTENT_LOSE = "패배";
+
+    public static final String EXP_CONTENT_DRAW = "무승부";
 
     public static final String EXERCISE_CODE_RUNNING = "RUN";
 

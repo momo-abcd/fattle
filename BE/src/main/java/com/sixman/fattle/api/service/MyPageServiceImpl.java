@@ -177,10 +177,10 @@ public class MyPageServiceImpl implements MyPageService {
         return DailyQuestDto.builder()
                 .recordDate(quest.getRecDt())
                 .userCd(quest.getUserCd())
-                .dayCheck(quest.isDayChk())
+                .dayCheck(quest.getDayChk())
                 .exerciseCount(quest.getExerciseCnt())
                 .foodCount(quest.getFoodCnt())
-                .Finish(quest.isFinish())
+                .Finish(quest.getIsFinish())
                 .build();
     }
 

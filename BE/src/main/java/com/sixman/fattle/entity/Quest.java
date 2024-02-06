@@ -21,7 +21,7 @@ public class Quest {
     private LocalDateTime recDt;
 
     @Column(name = "day_chk")
-    private boolean dayChk;
+    private int dayChk;
 
     @Column(name = "exercise_cnt")
     private int exerciseCnt;
@@ -30,6 +30,6 @@ public class Quest {
     private int foodCnt;
 
     @Column(name = "is_finish")
-    private boolean isFinish;
+    private int isFinish;
 
 }

@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface ExerciseRepository extends JpaRepository<Exercise, Integer> {
-
-    List<Exercise> findExerciseByUser_UserCdAndRecDateBetween(Long userCode, LocalDateTime startOfDay, LocalDateTime endOfDay);
+public interface ExerciseRepository extends JpaRepository<Exercise, Integer>, ExerciseRepositoryCustom {
 
 }

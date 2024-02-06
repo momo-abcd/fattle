@@ -1,7 +1,6 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.QuestService;
-import com.sixman.fattle.api.service.ExerciseService;
 import com.sixman.fattle.dto.request.QuestRequest;
 import com.sixman.fattle.dto.response.DailyQuestResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class QuestController {
 
     private final QuestService questService;
-    private final ExerciseService exerciseService;
 
     @Operation(summary = "퀘스트 정보",
             description = "유저 코드를 받아 메인 페이지에 퀘스트 정보를 응답")
@@ -30,7 +28,9 @@ public class QuestController {
 
     @PostMapping("/record")
     public ResponseEntity<?> questRecord(@RequestBody QuestRequest request) {
-        return questService.questRecord(request);
+        questService.questRecord(request);
+        questService.checkFinish(request.getUserCode());
+        return ResponseEntity.ok().build();
     }
 
 }

@@ -36,4 +36,8 @@ public class BattlePlayerInfo {
 
     private String imgPath;
 
+    public int sumPoints() {
+        return livePoint + foodPoint + liveUserPoint + foodUserPoint + questPoint + goalPoint;
+    }
+
 }

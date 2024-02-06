@@ -8,4 +8,8 @@ public interface QuestRepositoryCustom {
 
     void createQuest(long userCode);
 
+    int getCount(long userCode);
+
+    void setFinish(long userCode);
+
 }

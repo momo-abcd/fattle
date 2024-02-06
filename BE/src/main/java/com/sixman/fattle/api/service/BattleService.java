@@ -20,7 +20,9 @@ import java.util.List;
 public class BattleService {
 
     private final BattleRepository battleRepository;
+
     private final BattlePointService battlePointService;
+    private final ExpService expService;
 
     public BattleCreateResponse createBattle(BattleCreateRequest request) {
         long userCode = request.getUserCode();
@@ -79,9 +81,32 @@ public class BattleService {
 
     private HttpStatus setBattleStatus(String battleCode, int status) {
         if (battleRepository.setBattleStatus(battleCode, status)) {
+            giveExp(battleCode);
+
             return HttpStatus.OK;
         } else {
             return HttpStatus.BAD_REQUEST;
+        }
+    }
+
+    private void giveExp(String battleCode) {
+        List<BattlePlayerInfo> playerCodeList = battleRepository.getPlayerList(battleCode);
+
+        BattlePlayerInfo playerA = playerCodeList.get(0);
+        BattlePlayerInfo playerB = playerCodeList.get(1);
+
+        int sumA = playerA.sumPoints();
+        int sumB = playerB.sumPoints();
+
+        if (sumA > sumB) {
+            expService.setExp(playerA.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_WIN, (int) (sumA * Const.BATTLE_WIN_EXP_RATIO));
+            expService.setExp(playerB.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_LOSE, (int) (sumB * Const.BATTLE_LOSE_EXP_RATIO));
+        } else if (sumA < sumB) {
+            expService.setExp(playerA.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_LOSE, (int) (sumA * Const.BATTLE_LOSE_EXP_RATIO));
+            expService.setExp(playerB.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_WIN, (int) (sumB * Const.BATTLE_WIN_EXP_RATIO));
+        } else {
+            expService.setExp(playerA.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_DRAW, (int) (sumA * Const.BATTLE_WIN_EXP_RATIO));
+            expService.setExp(playerB.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_DRAW, (int) (sumB * Const.BATTLE_WIN_EXP_RATIO));
         }
     }
 

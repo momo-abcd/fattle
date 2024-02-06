@@ -13,9 +13,9 @@ public class DailyQuestDto {
 
     private LocalDateTime recordDate;
     private long userCd;
-    private boolean dayCheck;
+    private int dayCheck;
     private int exerciseCount;
     private int foodCount;
-    private boolean Finish;
+    private int Finish;
 
 }

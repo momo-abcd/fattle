@@ -1,6 +1,5 @@
 package com.sixman.fattle.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,28 +12,22 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "exercise_tb")
 public class Exercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exercise_cd")
-    private int exerciseCode;
+    private int exerciseCd;
 
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "user_cd", referencedColumnName = "user_cd")
-    private User user;
+    @Column(name = "user_cd")
+    private long userCd;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
-    @JoinColumn(name = "type_cd", referencedColumnName = "type_cd")
-    private ExerciseType exerciseType;
+    @Column(name = "type_cd")
+    private String typeCd;
 
     @Column(name = "rec_dt")
     @CreationTimestamp
-    private LocalDateTime recDate;
+    private LocalDateTime recDt;
 
 }
