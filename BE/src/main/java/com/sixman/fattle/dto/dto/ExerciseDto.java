@@ -9,11 +9,11 @@ import lombok.Data;
 @Builder
 public class ExerciseDto {
 
-    int running;
-    int pushup;
-    int squat;
-    int burpee;
-    int pullup;
-    int plank;
+    int RUN;
+    int PUS;
+    int SQU;
+    int BUR;
+    int PUL;
+    int PLA;
 
 }
