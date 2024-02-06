@@ -5,10 +5,10 @@ spring:
       client:
         registration:
           kakao:
-            client-id: 40a6ee1bb9a630be39ffadabd71c51bd
-            redirect-uri: https://i10e106.p.ssafy.io/login-callback
+            client-id: ENC(tGBMpaFYOr9v4vD6NCBgQqyyx6sjO+NKja58/7AblVCSa9+nitEPS0XdBwoh1Xif)
+            redirect-uri: ENC(I5ouPRahyvuhjNkNzNTrq/92qMpk2NxLnKlMkfZW4HPNcJgi3EG3qBTfCJ8/A4MHRG2yDoWCzBw=)
             client-authentication-method: POST
-            client-secret: zPTNIFgvrKxFEzMFYZWgSmDbFleYUpZG
+            client-secret: ENC(d+ueansefZk6QdoADExq1B6lqUdjEZ5t7LtUuZmaWeY2QGBIW1SrdlxL6zZGZSSS)
             authorization-grant-type: authorization_code
             client_name: kakao
         provider:
@@ -20,7 +20,7 @@ spring:
 
 jwt:
   token:
-    secret-key: a054d41e0323429ba0e6e7cc1380091fe4f416a04d04a3f372399a8303ec0fb7
+    secret-key: ENC(HKk1M8Cgd+DREXx72LbvVkpB8nih586RWRPov7XoiJbqq/pYcsLfwlzTYH+r3VFhPWRaZWvW3zWYiGUMxynqUvO6S6QTV7oCdYIUONpHor4=)
   access-token:
     expire-length: 1800000
   refresh-token:
