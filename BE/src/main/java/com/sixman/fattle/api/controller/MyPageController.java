@@ -4,7 +4,7 @@ import com.sixman.fattle.api.service.MyPageService;
 import com.sixman.fattle.dto.response.FollowResponse;
 import com.sixman.fattle.dto.response.MyPageGoalUpdateResponse;
 import com.sixman.fattle.dto.response.MyPageResponse;
-import com.sixman.fattle.dto.response.MyPageUpdateResponse;
+import com.sixman.fattle.dto.request.MyPageUpdateRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +36,7 @@ public class MyPageController {
             description = "마이페이지에서 유저가 입력한 데이터로 회원 정보 수정")
     @ApiResponse(responseCode = "200", description = "유저 정보 변경 성공")
     @PatchMapping("/modify")
-    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(@RequestBody MyPageUpdateResponse myPageInfo) {
+    public ResponseEntity<MyPageUpdateRequest> updateMyPageInfo(@RequestBody MyPageUpdateRequest myPageInfo) {
         return myPageService.updateMyPageInfo(myPageInfo);
     }
 

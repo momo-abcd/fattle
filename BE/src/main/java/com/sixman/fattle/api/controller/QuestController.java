@@ -1,6 +1,7 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.DailyQuestService;
+import com.sixman.fattle.dto.dto.DailyQuestDto;
 import com.sixman.fattle.dto.response.DailyQuestResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

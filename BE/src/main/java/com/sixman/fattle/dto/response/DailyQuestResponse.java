@@ -1,20 +1,19 @@
 package com.sixman.fattle.dto.response;
 
-import lombok.AllArgsConstructor;
+import com.sixman.fattle.dto.dto.ExerciseDto;
+import com.sixman.fattle.entity.ExerciseType;
 import lombok.Builder;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
 @Builder
 public class DailyQuestResponse {
-    private Timestamp recordDate;
-    private Long userCd;
-    private boolean dayCheck;
-    private int exerciseCount;
-    private int foodCount;
-    private boolean Finish;
+
+    private int foodCnt;
+    private ExerciseDto exercise;
+//    private List<ExerciseType> exerciseType;
+    private int exerciseCnt;
 
 }

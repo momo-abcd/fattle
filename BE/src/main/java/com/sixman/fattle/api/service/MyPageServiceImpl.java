@@ -1,10 +1,10 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.response.DailyQuestResponse;
+import com.sixman.fattle.dto.dto.DailyQuestDto;
 import com.sixman.fattle.dto.response.FollowResponse;
 import com.sixman.fattle.dto.response.MyPageGoalUpdateResponse;
 import com.sixman.fattle.dto.response.MyPageResponse;
-import com.sixman.fattle.dto.response.MyPageUpdateResponse;
+import com.sixman.fattle.dto.request.MyPageUpdateRequest;
 import com.sixman.fattle.entity.Avatar;
 import com.sixman.fattle.entity.DailyQuest;
 import com.sixman.fattle.entity.Follow;
@@ -62,7 +62,7 @@ public class MyPageServiceImpl implements MyPageService {
                 .build();
 
         List<DailyQuest> monthlyQuests = getMonthlyQuests(userCode);
-        List<DailyQuestResponse> monthlyQuestDTOs = monthlyQuests.stream()
+        List<DailyQuestDto> monthlyQuestDTOs = monthlyQuests.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
         myPageResponse.setDailyQuests(monthlyQuestDTOs);
@@ -87,7 +87,7 @@ public class MyPageServiceImpl implements MyPageService {
     }
     @Override
 
-    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(MyPageUpdateResponse myPageInfo) {
+    public ResponseEntity<MyPageUpdateRequest> updateMyPageInfo(MyPageUpdateRequest myPageInfo) {
         userRepository.findById(myPageInfo.getUserCode())
                 .ifPresent(user -> {
                     user.setNickname(myPageInfo.getNickname());
@@ -173,8 +173,8 @@ public class MyPageServiceImpl implements MyPageService {
 
 
 
-    private DailyQuestResponse convertToDTO(DailyQuest dailyQuest) {
-        return DailyQuestResponse.builder()
+    private DailyQuestDto convertToDTO(DailyQuest dailyQuest) {
+        return DailyQuestDto.builder()
                 .recordDate(dailyQuest.getRecordDate())
                 .userCd(dailyQuest.getUser().getUserCd())
                 .dayCheck(dailyQuest.isDayCheck())
