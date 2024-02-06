@@ -1,5 +1,6 @@
 package com.sixman.fattle.api.service;
 
+import com.sixman.fattle.dto.dto.DailyQuestCheck;
 import com.sixman.fattle.dto.dto.ExerciseDto;
 import com.sixman.fattle.dto.request.QuestRequest;
 import com.sixman.fattle.dto.response.DailyQuestResponse;
@@ -99,9 +100,12 @@ public class QuestServiceImpl implements QuestService {
 
     @Override
     public void checkFinish(long userCode) {
-        int cnt = questRepository.getCount(userCode);
+        DailyQuestCheck chk = questRepository.check(userCode);
 
-        if (cnt == 5) {
+        int cnt = chk.chkSum();
+        int finish = chk.getIsFinish();
+
+        if (cnt == 5 && finish == 0) {
             questRepository.setFinish(userCode);
             battlePointService.quest(userCode);
             expService.setExp(userCode, EXP_TYPE_FINISH, EXP_CONTENT_DAILY, DAILY_QUEST_FINISH_EXP);
