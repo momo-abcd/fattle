@@ -1,4 +1,4 @@
-package com.sixman.fattle.dto.dto;
+package com.sixman.fattle.dto.request;
 
 import lombok.Builder;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ExerciseCreateDto {
+public class ExerciseCreateRequest {
 
     private int exerciseCode;
     private Long userCode;
