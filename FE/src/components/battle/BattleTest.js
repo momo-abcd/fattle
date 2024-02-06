@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import UserVideoComponent from './UserVideoComponent';
 
-const APPLICATION_SERVER_URL = 'http://i10e106.p.ssafy.io:8000/';
+const APPLICATION_SERVER_URL = 'https://i10e106.p.ssafy.io/api/';
 
 class BattleTest extends Component {
   constructor(props) {
