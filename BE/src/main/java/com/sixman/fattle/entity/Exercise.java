@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "exercise_tb")
 public class Exercise {
 

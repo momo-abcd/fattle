@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "quest_tb")
 @IdClass(QuestId.class)
 public class Quest {

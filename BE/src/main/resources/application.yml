@@ -83,3 +83,7 @@ logging:
 openvidu:
   public-ip: ENC(8p+JO8/jgjUr3d9IX9/mYz1EIJH2+516QmLK99BoH56EzXfJnqS2/w==)
   secret: ENC(eD9miX6VqvbRGoop6MAGsw==)
+
+jasypt:
+  encryptor:
+    password: fattle

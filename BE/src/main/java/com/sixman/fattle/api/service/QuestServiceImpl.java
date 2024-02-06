@@ -64,6 +64,7 @@ public class QuestServiceImpl implements QuestService {
 
         DailyQuestResponse dailyQuest = DailyQuestResponse.builder()
                 .foodCnt(lastQuest.getFoodCnt())
+                .dayCheck(lastQuest.getDayChk())
                 .exercise(exerciseDto)
                 .exerciseCnt(lastQuest.getExerciseCnt())
                 .build();

@@ -12,6 +12,7 @@ import java.util.List;
 public class DailyQuestResponse {
 
     private int foodCnt;
+    private int dayCheck;
     private ExerciseDto exercise;
     private int exerciseCnt;
 
