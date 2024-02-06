@@ -4,7 +4,7 @@ import com.sixman.fattle.dto.dto.DailyQuestDto;
 import com.sixman.fattle.dto.response.FollowResponse;
 import com.sixman.fattle.dto.response.MyPageGoalUpdateResponse;
 import com.sixman.fattle.dto.response.MyPageResponse;
-import com.sixman.fattle.dto.response.MyPageUpdateResponse;
+import com.sixman.fattle.dto.request.MyPageUpdateRequest;
 import com.sixman.fattle.entity.Avatar;
 import com.sixman.fattle.entity.DailyQuest;
 import com.sixman.fattle.entity.Follow;
@@ -87,7 +87,7 @@ public class MyPageServiceImpl implements MyPageService {
     }
     @Override
 
-    public ResponseEntity<MyPageUpdateResponse> updateMyPageInfo(MyPageUpdateResponse myPageInfo) {
+    public ResponseEntity<MyPageUpdateRequest> updateMyPageInfo(MyPageUpdateRequest myPageInfo) {
         userRepository.findById(myPageInfo.getUserCode())
                 .ifPresent(user -> {
                     user.setNickname(myPageInfo.getNickname());

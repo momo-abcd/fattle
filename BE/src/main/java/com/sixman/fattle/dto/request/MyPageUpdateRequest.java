@@ -1,9 +1,9 @@
-package com.sixman.fattle.dto.response;
+package com.sixman.fattle.dto.request;
 
 import lombok.Data;
 
 @Data
-public class MyPageUpdateResponse {
+public class MyPageUpdateRequest {
 
     private long userCode;
     private String nickname;
