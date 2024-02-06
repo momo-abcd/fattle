@@ -195,8 +195,12 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
         for (String betting : bettingList) {
             queryFactory
                     .insert(qbetting)
-                    .set(qbetting.battleCd, battleCode)
-                    .set(qbetting.content, betting)
+                    .columns(
+                            qbetting.battleCd,
+                            qbetting.content)
+                    .values(
+                            battleCode,
+                            betting)
                     .execute();
         }
     }
