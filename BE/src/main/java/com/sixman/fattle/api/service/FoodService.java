@@ -2,6 +2,7 @@ package com.sixman.fattle.api.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sixman.fattle.dto.dto.FoodImage;
 import com.sixman.fattle.dto.response.FoodInfoResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.entity.Food;
@@ -99,19 +100,18 @@ public class FoodService {
 
     }
     public FoodInfoResponse getFoodInfo(String folderPath) throws JsonProcessingException {
-        final String uri = "http://i10e106.p.ssafy.io:5000/food_detect/";
+        final String uri = "http://i10e106.p.ssafy.io:5000/food_detect";
 
-        Map<String, String> body = new HashMap<>();
-        body.put("source", folderPath);
-
+        FoodImage body = FoodImage.builder()
+                .source(folderPath)
+                .build();
 
         return WebClient.create()
                 .post()
                 .uri(uri)
-                .headers(header -> {
-                    header.setContentType(MediaType.APPLICATION_JSON);
-                })
-                .body(Mono.just(body), Map.class)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(Mono.just(body), FoodImage.class)
                 .retrieve()
                 .bodyToMono(FoodInfoResponse.class)
                 .block();
