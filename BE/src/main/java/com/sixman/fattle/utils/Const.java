@@ -38,7 +38,7 @@ public class Const {
 
     public static final int TYPE_GOAL_POINT = 6;
 
-    public static final int MAX_GROWTH_EXP = 2500;
+    public static final int MAX_GROWTH_EXP = 4000;
 
     public static final String EXP_TYPE_DAILY = "출석";
 
@@ -95,5 +95,21 @@ public class Const {
     public static final float BATTLE_WIN_EXP_RATIO = 0.02f;
 
     public static final float BATTLE_LOSE_EXP_RATIO = 0.01f;
+
+    public static final int CHA_LV_1_TO_2_EXP = 500;
+
+    public static final int CHA_LV_2_TO_3_EXP = 1300;
+
+    public static final int CHA_LV_3_TO_4_EXP = 2500;
+
+    public static final String CHA_CODE_LV_1 = "PK1";
+
+    public static final String CHA_CODE_LV_2 = "PK2";
+
+    public static final String CHA_CODE_LV_3 = "PK3";
+
+    public static final String CHA_CODE_LV_4 = "PK4";
+
+    public static final String CHA_CODE_LV_5 = "PK5";
 
 }
