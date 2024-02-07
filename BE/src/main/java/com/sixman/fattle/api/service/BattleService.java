@@ -82,7 +82,9 @@ public class BattleService {
 
     private HttpStatus setBattleStatus(String battleCode, int status) {
         if (battleRepository.setBattleStatus(battleCode, status)) {
-            giveExp(battleCode);
+            if (status == BATTLE_STATUS_END) {
+                giveExp(battleCode);
+            }
 
             return HttpStatus.OK;
         } else {
