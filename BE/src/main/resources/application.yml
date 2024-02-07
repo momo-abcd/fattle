@@ -24,11 +24,11 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
       auto-commit: true
-#  # File Upload size Setting
-##  servlet:
-##    multipart:
-##      max-file-size: 25MB
-##      max-request-size: 25MB
+ # File Upload size Setting
+  servlet:
+   multipart:
+     max-file-size: 25MB
+     max-request-size: 25MB
 #  # swagger setting >> Failed to start bean 'documentationPluginsBootstrapper'; error
 #  mvc:
 #    pathmatch:
@@ -82,4 +82,4 @@ logging:
 # OpenVidu Setting
 openvidu:
   public-ip: ENC(8p+JO8/jgjUr3d9IX9/mYz1EIJH2+516QmLK99BoH56EzXfJnqS2/w==)
-  secret: ENC(eD9miX6VqvbRGoop6MAGsw==)
+  secret: ENC(eD9miX6VqvbRGoop6MAGsw==)git 
