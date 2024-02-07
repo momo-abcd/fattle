@@ -106,7 +106,7 @@ public class FoodService {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(body);
 
-        System.out.println(jsonString);
+        System.out.println("jsonString: "+jsonString);
 
 
         return WebClient.create()
@@ -115,7 +115,7 @@ public class FoodService {
                 .headers(header -> {
                     header.setContentType(MediaType.APPLICATION_JSON);
                 })
-                .bodyValue(BodyInserters.fromValue(jsonString))
+                .bodyValue(jsonString)
                 .retrieve()
                 .bodyToMono(FoodInfoResponse.class)
                 .block();
