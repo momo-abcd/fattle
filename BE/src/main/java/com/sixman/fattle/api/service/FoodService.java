@@ -1,20 +1,13 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.dto.FoodInfo;
-import com.sixman.fattle.dto.request.FoodImageRequest;
+import com.sixman.fattle.dto.response.FoodInfoResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.entity.Food;
 import com.sixman.fattle.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -101,16 +94,11 @@ public class FoodService {
         return folderPath;
 
     }
-    public FoodInfo getFoodInfo(String folderPath)
-    {
+    public FoodInfoResponse getFoodInfo(String folderPath) {
         final String uri = "http://i10e106.p.ssafy.io:5000/food_detect/";
 
-//        Map<String, String> body = new HashMap<>();
-//        body.put("source", folderPath);
-
-        FoodImageRequest request = FoodImageRequest.builder()
-                .source(uri)
-                .build();
+        Map<String, String> body = new HashMap<>();
+        body.put("source", folderPath);
 
         return WebClient.create()
                 .post()
@@ -118,11 +106,11 @@ public class FoodService {
                 .headers(header -> {
                     header.setContentType(MediaType.APPLICATION_JSON);
                 })
-                .bodyValue(request)
+                .bodyValue(body)
                 .retrieve()
-                .bodyToMono(FoodInfo.class)
+                .bodyToMono(FoodInfoResponse.class)
                 .block();
-//
+
 //        RestTemplate restTemplate = new RestTemplate();
 //
 //        HttpHeaders headers = new HttpHeaders();
@@ -137,4 +125,5 @@ public class FoodService {
 //        System.out.println("food Info : " + result);
 //        return result;
     }
+
 }

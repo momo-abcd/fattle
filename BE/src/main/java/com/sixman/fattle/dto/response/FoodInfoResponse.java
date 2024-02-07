@@ -1,4 +1,4 @@
-package com.sixman.fattle.dto.dto;
+package com.sixman.fattle.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FoodInfo {
+public class FoodInfoResponse {
 
     private String food_cd;
 
