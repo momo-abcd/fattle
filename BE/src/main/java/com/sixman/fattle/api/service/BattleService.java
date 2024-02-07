@@ -91,10 +91,10 @@ public class BattleService {
     }
 
     private void giveExp(String battleCode) {
-        List<BattlePlayerInfo> playerCodeList = battleRepository.getPlayerList(battleCode);
+        List<BattlePlayerInfo> playerList = battleRepository.getPlayerList(battleCode);
 
-        BattlePlayerInfo playerA = playerCodeList.get(0);
-        BattlePlayerInfo playerB = playerCodeList.get(1);
+        BattlePlayerInfo playerA = playerList.get(0);
+        BattlePlayerInfo playerB = playerList.get(1);
 
         int sumA = playerA.sumPoints();
         int sumB = playerB.sumPoints();
