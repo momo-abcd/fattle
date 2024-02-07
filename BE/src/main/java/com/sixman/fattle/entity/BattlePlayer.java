@@ -1,14 +1,18 @@
 package com.sixman.fattle.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "battle_player_tb")
 public class BattlePlayer extends BattleUser {
 

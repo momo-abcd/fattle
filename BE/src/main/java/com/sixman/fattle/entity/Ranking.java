@@ -1,6 +1,7 @@
 package com.sixman.fattle.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @Table(name = "ranking_vw")
+@AllArgsConstructor
 @NoArgsConstructor
 public class Ranking {
 
