@@ -1,6 +1,7 @@
 package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.dto.FoodInfo;
+import com.sixman.fattle.dto.request.FoodImageRequest;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.entity.Food;
 import com.sixman.fattle.repository.FoodRepository;
@@ -104,8 +105,12 @@ public class FoodService {
     {
         final String uri = "http://i10e106.p.ssafy.io:5000/food_detect/";
 
-        Map<String, String> body = new HashMap<>();
-        body.put("source", folderPath);
+//        Map<String, String> body = new HashMap<>();
+//        body.put("source", folderPath);
+
+        FoodImageRequest request = FoodImageRequest.builder()
+                .source(uri)
+                .build();
 
         return WebClient.create()
                 .post()
@@ -113,7 +118,7 @@ public class FoodService {
                 .headers(header -> {
                     header.setContentType(MediaType.APPLICATION_JSON);
                 })
-                .bodyValue(body)
+                .bodyValue(request)
                 .retrieve()
                 .bodyToMono(FoodInfo.class)
                 .block();
