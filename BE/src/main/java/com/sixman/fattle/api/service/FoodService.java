@@ -49,10 +49,10 @@ public class FoodService {
             return null;
         }
 
-        String uploadPath = "C:\\PROJECTS\\First\\S10P12E106\\Resources\\"+userCode;
+        String uploadPath = "/home/ubuntu/resources/food_image/"+userCode;
         String orginalName = file.getOriginalFilename();
 //        assert orginalName != null;
-        String fileName = orginalName.substring(orginalName.lastIndexOf("\\") + 1);
+        String fileName = orginalName.substring(orginalName.lastIndexOf("/") + 1);
 
         System.out.println("fileName: "+fileName);
 
@@ -98,8 +98,7 @@ public class FoodService {
     }
     public JSONObject getFoodInfo(String folderPath)
     {
-//        final String uri = "http://i10e106.p.ssafy.io:5000/food_detect/";
-        final String uri = "http://localhost:5000/food_detect/";
+        final String uri = "http://i10e106.p.ssafy.io:5000/food_detect/";
 
         RestTemplate restTemplate = new RestTemplate();
 
