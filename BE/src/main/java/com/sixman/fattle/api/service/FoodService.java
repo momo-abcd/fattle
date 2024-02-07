@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.IOException;
@@ -103,11 +104,6 @@ public class FoodService {
         Map<String, String> body = new HashMap<>();
         body.put("source", folderPath);
 
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(body);
-
-        System.out.println("jsonString: "+jsonString);
-
 
         return WebClient.create()
                 .post()
@@ -115,7 +111,7 @@ public class FoodService {
                 .headers(header -> {
                     header.setContentType(MediaType.APPLICATION_JSON);
                 })
-                .bodyValue(jsonString)
+                .body(Mono.just(body), Map.class)
                 .retrieve()
                 .bodyToMono(FoodInfoResponse.class)
                 .block();
