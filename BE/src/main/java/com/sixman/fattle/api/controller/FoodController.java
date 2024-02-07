@@ -30,7 +30,7 @@ public class FoodController {
             description = "음식 사진을 업로드해 음식 정보 얻기")
     @ApiResponse(responseCode = "200", description = "음식 정보 응답")
     @PostMapping("/img-upload/{userCode}/{foodCode}")
-    public ResponseEntity<FoodInfoResponse> imgUpload(@PathVariable long userCode, @PathVariable int foodCode, MultipartFile uploadFile) throws JsonProcessingException {
+    public ResponseEntity<FoodInfoResponse> imgUpload(@PathVariable long userCode, @PathVariable int foodCode, MultipartFile uploadFile) {
         String folderPath = foodService.saveImage(userCode, foodCode, uploadFile);
         FoodInfoResponse info = foodService.getFoodInfo(folderPath);
         return ResponseEntity.ok(info);
