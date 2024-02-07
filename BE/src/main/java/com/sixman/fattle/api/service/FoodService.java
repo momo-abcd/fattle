@@ -1,5 +1,7 @@
 package com.sixman.fattle.api.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sixman.fattle.dto.response.FoodInfoResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.entity.Food;
@@ -9,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.File;
@@ -94,11 +97,17 @@ public class FoodService {
         return folderPath;
 
     }
-    public FoodInfoResponse getFoodInfo(String folderPath) {
+    public FoodInfoResponse getFoodInfo(String folderPath) throws JsonProcessingException {
         final String uri = "http://i10e106.p.ssafy.io:5000/food_detect/";
 
         Map<String, String> body = new HashMap<>();
         body.put("source", folderPath);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(body);
+
+        System.out.println(jsonString);
+
 
         return WebClient.create()
                 .post()
@@ -106,7 +115,7 @@ public class FoodService {
                 .headers(header -> {
                     header.setContentType(MediaType.APPLICATION_JSON);
                 })
-                .bodyValue(body)
+                .bodyValue(BodyInserters.fromValue(jsonString))
                 .retrieve()
                 .bodyToMono(FoodInfoResponse.class)
                 .block();
