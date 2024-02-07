@@ -16,6 +16,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -29,9 +31,7 @@ public class OAuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final UserRepository userRepository;
-
-    public RedirectView getCode(String providerName) {
+    public URI getCode(String providerName) throws URISyntaxException {
         ClientRegistration provider = inMemoryRepository.findByRegistrationId(providerName);
 
         String uri = provider.getProviderDetails().getAuthorizationUri()
@@ -39,7 +39,7 @@ public class OAuthService {
                 + provider.getRedirectUri()
                 + "&client_id="
                 + provider.getClientId();
-        return new RedirectView(uri);
+        return new URI(uri);
     }
 
     public TokenResponse login(String providerName, String code) {
