@@ -2,6 +2,8 @@ package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.FoodService;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
@@ -25,8 +27,11 @@ public class FoodController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "음식 사진 업로드 & 음식 정보 얻기",
+            description = "음식 사진을 업로드해 음식 정보 얻기")
+    @ApiResponse(responseCode = "200", description = "음식 정보 응답")
     @PostMapping("/img-upload/{userCode}/{foodCode}")
-    public ResponseEntity<?> imgUpload(@PathVariable long userCode, @PathVariable int foodCode, MultipartFile uploadFile){
+    public ResponseEntity<JSONObject> imgUpload(@PathVariable long userCode, @PathVariable int foodCode, MultipartFile uploadFile){
         String folderPath = foodService.saveImage(userCode, foodCode, uploadFile);
         JSONObject info = foodService.getFoodInfo(folderPath);
         return ResponseEntity.ok(info);
