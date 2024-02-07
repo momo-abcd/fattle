@@ -14,7 +14,7 @@ CREATE TABLE `avatar_tb` (
 
 CREATE TABLE `user_tb` (
   `user_cd` bigint NOT NULL,
-  `avatar_cd` char(3) DEFAULT '알',
+  `avatar_cd` char(3) DEFAULT 'PK1',
   `nickname` varchar(16) DEFAULT NULL,
   `sex` char(1) DEFAULT 'M',
   `join_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -132,7 +132,7 @@ CREATE TABLE `food_tb` (
   `food_cd` int NOT NULL AUTO_INCREMENT,
   `user_cd` bigint NOT NULL,
   `name` varchar(50) NOT NULL,
-  `type` tinyint NOT NULL DEFAULT '0' COMMENT '아침: 0\r\n점심: 1\r\n저녁: 2',
+  `type` tinyint NOT NULL DEFAULT '0',
   `calory` int NOT NULL DEFAULT '0',
   `protein` int NOT NULL DEFAULT '0',
   `carbo` int NOT NULL DEFAULT '0',
