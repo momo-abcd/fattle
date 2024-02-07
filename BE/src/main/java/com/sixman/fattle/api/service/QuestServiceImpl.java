@@ -9,7 +9,6 @@ import com.sixman.fattle.entity.Exercise;
 import com.sixman.fattle.repository.ExerciseRepository;
 import com.sixman.fattle.repository.ExerciseTypeRepository;
 import com.sixman.fattle.repository.QuestRepository;
-import com.sixman.fattle.utils.Const;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -84,7 +83,7 @@ public class QuestServiceImpl implements QuestService {
 
         String exTypeName = typeRepository.getName(request.getExercise());
 
-        expService.setExp(request.getUserCode(), Const.EXP_TYPE_EXERCISE, exTypeName, Const.DAILY_QUEST_EXP);
+        expService.setExp(request.getUserCode(), EXP_TYPE_EXERCISE, exTypeName, DAILY_QUEST_EXP);
     }
 
     @Override

@@ -6,13 +6,14 @@ import com.sixman.fattle.dto.response.*;
 import com.sixman.fattle.entity.Battle;
 import com.sixman.fattle.repository.BattleRepository;
 import com.sixman.fattle.utils.CodeGenerator;
-import com.sixman.fattle.utils.Const;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.sixman.fattle.utils.Const.*;
 
 @Service
 @Transactional
@@ -72,11 +73,11 @@ public class BattleService {
     }
 
     public HttpStatus battleStart(String battleCode) {
-        return setBattleStatus(battleCode, Const.BATTLE_STATUS_START);
+        return setBattleStatus(battleCode, BATTLE_STATUS_START);
     }
 
     public HttpStatus battleFinish(String battleCode) {
-        return setBattleStatus(battleCode, Const.BATTLE_STATUS_END);
+        return setBattleStatus(battleCode, BATTLE_STATUS_END);
     }
 
     private HttpStatus setBattleStatus(String battleCode, int status) {
@@ -99,14 +100,14 @@ public class BattleService {
         int sumB = playerB.sumPoints();
 
         if (sumA > sumB) {
-            expService.setExp(playerA.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_WIN, (int) (sumA * Const.BATTLE_WIN_EXP_RATIO));
-            expService.setExp(playerB.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_LOSE, (int) (sumB * Const.BATTLE_LOSE_EXP_RATIO));
+            expService.setExp(playerA.getUserCode(), EXP_TYPE_BATTLE, EXP_CONTENT_WIN, (int) (sumA * BATTLE_WIN_EXP_RATIO));
+            expService.setExp(playerB.getUserCode(), EXP_TYPE_BATTLE, EXP_CONTENT_LOSE, (int) (sumB * BATTLE_LOSE_EXP_RATIO));
         } else if (sumA < sumB) {
-            expService.setExp(playerA.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_LOSE, (int) (sumA * Const.BATTLE_LOSE_EXP_RATIO));
-            expService.setExp(playerB.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_WIN, (int) (sumB * Const.BATTLE_WIN_EXP_RATIO));
+            expService.setExp(playerA.getUserCode(), EXP_TYPE_BATTLE, EXP_CONTENT_LOSE, (int) (sumA * BATTLE_LOSE_EXP_RATIO));
+            expService.setExp(playerB.getUserCode(), EXP_TYPE_BATTLE, EXP_CONTENT_WIN, (int) (sumB * BATTLE_WIN_EXP_RATIO));
         } else {
-            expService.setExp(playerA.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_DRAW, (int) (sumA * Const.BATTLE_WIN_EXP_RATIO));
-            expService.setExp(playerB.getUserCode(), Const.EXP_TYPE_BATTLE, Const.EXP_CONTENT_DRAW, (int) (sumB * Const.BATTLE_WIN_EXP_RATIO));
+            expService.setExp(playerA.getUserCode(), EXP_TYPE_BATTLE, EXP_CONTENT_DRAW, (int) (sumA * BATTLE_WIN_EXP_RATIO));
+            expService.setExp(playerB.getUserCode(), EXP_TYPE_BATTLE, EXP_CONTENT_DRAW, (int) (sumB * BATTLE_WIN_EXP_RATIO));
         }
     }
 
@@ -115,7 +116,7 @@ public class BattleService {
 
         int point = battleRepository.getGoalPoint(request);
 
-        battlePointService.setBattlePoint(request.getBattleCode(), request.getUserCode(), Const.TYPE_GOAL_POINT, point);
+        battlePointService.setBattlePoint(request.getBattleCode(), request.getUserCode(), TYPE_GOAL_POINT, point);
     }
 
     public BattleInfoResponse getBattleInfo(String battleCode) {
@@ -125,7 +126,7 @@ public class BattleService {
 
         int status = battleInfo.getStatus();
 
-        if (status != Const.BATTLE_STATUS_END) {
+        if (status != BATTLE_STATUS_END) {
             for (BattlePlayerInfo info : playerList) {
                 info.setLivePoint(0);
                 info.setFoodPoint(0);
