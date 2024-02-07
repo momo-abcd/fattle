@@ -23,9 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
@@ -106,8 +104,8 @@ public class FoodService {
     {
         final String uri = "http://i10e106.p.ssafy.io:5000/food_detect/";
 
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("source", folderPath);
+        Map<String, String> body = new HashMap<>();
+        body.put("source", folderPath);
 
         return WebClient.create()
                 .post()
