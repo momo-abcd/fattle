@@ -5,6 +5,7 @@ import com.sixman.fattle.dto.request.BattlePointRequest;
 import com.sixman.fattle.dto.response.PointHistoryResponse;
 import com.sixman.fattle.dto.response.RemainPointResponse;
 import com.sixman.fattle.repository.BattleRepository;
+import com.sixman.fattle.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import static com.sixman.fattle.utils.Const.*;
 public class BattlePointService {
 
     private final BattleRepository battleRepository;
+    private final FoodRepository foodRepository;
 
     public RemainPointResponse getRemainPoint(String battleCode, long userCode) {
         int currentPoint = battleRepository.getCurrentPoint(battleCode, userCode);
@@ -78,15 +80,11 @@ public class BattlePointService {
         }
     }
 
-    public void foodUpload(long userCode, int type) {
-        int cnt = battleRepository.foodCount(userCode, type);
+    public void foodUpload(long userCode) {
+        List<String> list = battleRepository.getBattleCodeListAsPlayer(userCode);
 
-        if (cnt == 0) {
-            List<String> list = battleRepository.getBattleCodeListAsPlayer(userCode);
-
-            for (String code : list) {
-                battleRepository.setPoint(code, userCode, TYPE_FOOD_BASIC_POINT, FOOD_BASIC_POINT);
-            }
+        for (String code : list) {
+            battleRepository.setPoint(code, userCode, TYPE_FOOD_BASIC_POINT, FOOD_BASIC_POINT);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.sixman.fattle.api.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sixman.fattle.api.service.FoodService;
 import com.sixman.fattle.dto.dto.FoodInfo;
 import com.sixman.fattle.dto.request.FoodUploadRequest;
@@ -11,6 +10,7 @@ import com.sixman.fattle.exceptions.NoFileException;
 import com.sixman.fattle.exceptions.NoImageExceptoin;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -56,12 +56,16 @@ public class FoodController {
         return ResponseEntity.ok(response);
     }
 
-//    @Operation(summary = "식단 업로드",
-//            description = "식단을 업로드 해 서버에 저장")
-//    @ApiResponse(responseCode = "201", description = "식단 업로드 성공")
-//    @PostMapping("food-upload")
-//    public ResponseEntity<?> foodUpload(@RequestBody FoodUploadRequest request) {
-//        return null;
-//    }
+    @Operation(summary = "식단 업로드",
+            description = "식단을 업로드 해 서버에 저장")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "식단 업로드 성공"),
+            @ApiResponse(responseCode = "400", description = "식단 중복 업로드")
+    })
+    @PostMapping("food-upload")
+    public ResponseEntity<?> foodUpload(@RequestBody FoodUploadRequest request) {
+        HttpStatus status = foodService.foodUpload(request);
+        return ResponseEntity.status(status).build();
+    }
 
 }

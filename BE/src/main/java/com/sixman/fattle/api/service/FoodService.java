@@ -2,6 +2,7 @@ package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.dto.FoodImage;
 import com.sixman.fattle.dto.dto.FoodInfo;
+import com.sixman.fattle.dto.request.FoodUploadRequest;
 import com.sixman.fattle.dto.response.FoodInfoResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.entity.Food;
@@ -11,6 +12,7 @@ import com.sixman.fattle.exceptions.NoImageExceptoin;
 import com.sixman.fattle.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,8 @@ import java.util.*;
 @Transactional
 @RequiredArgsConstructor
 public class FoodService {
+
+    private final BattlePointService battlePointService;
 
     private final FoodRepository foodRepository;
 
@@ -130,6 +134,17 @@ public class FoodService {
                 .retrieve()
                 .bodyToMono(FoodInfo.class)
                 .block();
+    }
+
+    public HttpStatus foodUpload(FoodUploadRequest request) {
+        int cnt = foodRepository.foodCount(request.getUserCode(), request.getType());
+        if (cnt == 0) {
+            foodRepository.setFood(request);
+            battlePointService.foodUpload(request.getUserCode());
+            return HttpStatus.CREATED;
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package com.sixman.fattle.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sixman.fattle.dto.request.FoodUploadRequest;
 import com.sixman.fattle.entity.Food;
 import com.sixman.fattle.entity.QFood;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,43 @@ public class FoodRepositoryImpl implements FoodRepositoryCustom {
                 .select(qfood)
                 .from(qfood)
                 .where(qfood.userCd.eq(userCode),
-                        qfood.recDt.after(Timestamp.valueOf(LocalDate.now().atStartOfDay())))
+                        qfood.recDt.after(LocalDate.now().atStartOfDay()))
                 .fetch();
+    }
+
+    @Override
+    public int foodCount(long userCode, int type) {
+        return queryFactory
+                .select(qfood.count())
+                .from(qfood)
+                .where(
+                        qfood.userCd.eq(userCode),
+                        qfood.type.eq(type),
+                        qfood.recDt.after(LocalDate.now().atStartOfDay()))
+                .fetchFirst()
+                .intValue();
+    }
+
+    @Override
+    public void setFood(FoodUploadRequest request) {
+        queryFactory.insert(qfood)
+                .columns(
+                        qfood.userCd,
+                        qfood.type,
+                        qfood.calory,
+                        qfood.carbo,
+                        qfood.protein,
+                        qfood.fat,
+                        qfood.imgPath)
+                .values(
+                        request.getUserCode(),
+                        request.getType(),
+                        request.getCalory(),
+                        request.getCarbo(),
+                        request.getProtein(),
+                        request.getFat(),
+                        request.getImgPath())
+                .execute();
     }
 
 }

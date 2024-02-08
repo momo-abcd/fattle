@@ -74,7 +74,5 @@ public interface BattleRepositoryCustom {
 
     int getLivePoint(String battleCode, long userCode);
 
-    int foodCount(long userCode, int type);
-
     List<String> getBattleCodeListAsPlayer(long userCode);
 }

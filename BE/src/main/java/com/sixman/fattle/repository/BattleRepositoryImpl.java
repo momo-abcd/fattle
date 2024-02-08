@@ -647,19 +647,6 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
-    public int foodCount(long userCode, int type) {
-        return queryFactory
-                .select(qfood.count())
-                .from(qfood)
-                .where(
-                        qfood.userCd.eq(userCode),
-                        qfood.type.eq(type),
-                        qfood.recDt.after(Timestamp.valueOf(LocalDate.now().atStartOfDay())))
-                .fetchFirst()
-                .intValue();
-    }
-
-    @Override
     public List<String> getBattleCodeListAsPlayer(long userCode) {
         return queryFactory
                 .select(qplayer.battleCd)
