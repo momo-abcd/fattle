@@ -13,13 +13,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BoardDto {
 
-    private int boardCd;
+    private int boardCode;
 
     private String battleCode;
 
     private long playerCode;
 
     private String nickname;
+
+    private String profileImgPath;
 
     private LocalDateTime recDt;
 

@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sixman.fattle.dto.dto.BoardDto;
 import com.sixman.fattle.dto.request.FoodUploadRequest;
+import com.sixman.fattle.entity.QAvatar;
 import com.sixman.fattle.entity.QFoodBoard;
 import com.sixman.fattle.entity.QUser;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class BattleBoardRepositoryImpl implements BattleBoardRepositoryCustom {
 
     private final QFoodBoard qboard = QFoodBoard.foodBoard;
     private final QUser quser = QUser.user;
+    private final QAvatar qavatar = QAvatar.avatar;
 
     @Override
     public List<BoardDto> getBoardList(String battleCode) {
@@ -30,11 +32,14 @@ public class BattleBoardRepositoryImpl implements BattleBoardRepositoryCustom {
                                 qboard.battleCd,
                                 qboard.playerCd,
                                 quser.nickname,
+                                qavatar.profileImgPath,
                                 qboard.recDt,
                                 qboard.imgPath))
                 .from(qboard)
                 .join(quser)
                 .on(qboard.playerCd.eq(quser.userCd))
+                .join(qavatar)
+                .on(quser.avatarCd.eq(qavatar.avatarCd))
                 .where(qboard.battleCd.eq(battleCode))
                 .fetch();
     }
