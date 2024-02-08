@@ -19,7 +19,7 @@ public class BoardDto {
 
     private long playerCode;
 
-    private String name;
+    private String nickname;
 
     private LocalDateTime recDt;
 
