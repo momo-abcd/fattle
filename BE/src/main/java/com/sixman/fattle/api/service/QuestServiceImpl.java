@@ -92,15 +92,15 @@ public class QuestServiceImpl implements QuestService {
         String expType = "";
 
         switch (request.getType()) {
-            case 1:
+            case TYPE_BREAKFAST:
                 expType = EXP_CONTENT_BREAKFAST;
                 break;
 
-            case 2:
+            case TYPE_LUNCH:
                 expType = EXP_CONTENT_LUNCH;
                 break;
 
-            case 3:
+            case TYPE_DINNER:
                 expType = EXP_CONTENT_DINNER;
                 break;
         }
