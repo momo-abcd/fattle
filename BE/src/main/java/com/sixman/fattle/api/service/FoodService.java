@@ -1,15 +1,16 @@
 package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.dto.FoodImage;
-import com.sixman.fattle.dto.dto.FoodInfo;
+import com.sixman.fattle.dto.dto.FoodInfoDto;
+import com.sixman.fattle.dto.dto.FoodSearch;
 import com.sixman.fattle.dto.request.FoodUploadRequest;
+import com.sixman.fattle.dto.response.FoodSearchResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.entity.Food;
 import com.sixman.fattle.exceptions.FileSaveFailedException;
 import com.sixman.fattle.exceptions.NoFileException;
 import com.sixman.fattle.exceptions.NoImageExceptoin;
 import com.sixman.fattle.repository.FoodRepository;
-import com.sixman.fattle.utils.Const;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,6 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import static com.sixman.fattle.utils.Const.*;
 
 @Service
 @Transactional
@@ -121,7 +120,7 @@ public class FoodService {
         directory.delete();
     }
 
-    public FoodInfo getFoodInfo(String imgPath) {
+    public FoodInfoDto getFoodInfo(String imgPath) {
         String folderPath = imgPath.substring(0, imgPath.lastIndexOf("/"));
 
         FoodImage body = FoodImage.builder()
@@ -135,7 +134,7 @@ public class FoodService {
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(body), FoodImage.class)
                 .retrieve()
-                .bodyToMono(FoodInfo.class)
+                .bodyToMono(FoodInfoDto.class)
                 .block();
     }
 
@@ -152,6 +151,14 @@ public class FoodService {
         } else {
             return HttpStatus.BAD_REQUEST;
         }
+    }
+
+    public FoodSearchResponse foodSearch(String word) {
+        List<FoodSearch> list = foodRepository.foodSearch(word);
+
+        return FoodSearchResponse.builder()
+                .list(list)
+                .build();
     }
 
 }

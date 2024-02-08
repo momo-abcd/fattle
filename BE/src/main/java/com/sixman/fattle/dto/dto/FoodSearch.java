@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class FoodInfo {
-
-    private String food_cd;
+@AllArgsConstructor
+public class FoodSearch {
 
     private String name;
 

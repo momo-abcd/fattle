@@ -1,9 +1,10 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.FoodService;
-import com.sixman.fattle.dto.dto.FoodInfo;
+import com.sixman.fattle.dto.dto.FoodInfoDto;
 import com.sixman.fattle.dto.request.FoodUploadRequest;
 import com.sixman.fattle.dto.response.FoodInfoResponse;
+import com.sixman.fattle.dto.response.FoodSearchResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.exceptions.FileSaveFailedException;
 import com.sixman.fattle.exceptions.NoFileException;
@@ -42,7 +43,7 @@ public class FoodController {
     public ResponseEntity<FoodInfoResponse> imgUpload(@PathVariable long userCode, @PathVariable int type, MultipartFile uploadFile)
             throws FileSaveFailedException, NoImageExceptoin, NoFileException {
         String imgPath = foodService.saveImage(userCode, type, uploadFile);
-        FoodInfo info = foodService.getFoodInfo(imgPath);
+        FoodInfoDto info = foodService.getFoodInfo(imgPath);
 
         FoodInfoResponse response = FoodInfoResponse.builder()
                 .name(info.getName())
@@ -66,6 +67,12 @@ public class FoodController {
     public ResponseEntity<?> foodUpload(@RequestBody FoodUploadRequest request) {
         HttpStatus status = foodService.foodUpload(request);
         return ResponseEntity.status(status).build();
+    }
+
+    @GetMapping("/search/{word}")
+    public ResponseEntity<FoodSearchResponse> foodSearch(@PathVariable String word) {
+        FoodSearchResponse response = foodService.foodSearch(word);
+        return ResponseEntity.ok(response);
     }
 
 }
