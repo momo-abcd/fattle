@@ -523,7 +523,7 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`fattle`@`%` SQL SECURITY DEFINER */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `ranking_vw` AS select rank() OVER (ORDER BY (`user_tb`.`growth_exp` + `user_tb`.`stack_exp`) desc )  AS `rank`,`user_tb`.`user_cd` AS `user_cd`,`user_tb`.`nickname` AS `nickname`,`user_tb`.`growth_exp` AS `growth_exp`,`user_tb`.`stack_exp` AS `stack_exp`,`avatar_tb`.`img_path` AS `img_path` from (`user_tb` join `avatar_tb` on((`user_tb`.`avatar_cd` = `avatar_tb`.`avatar_cd`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
