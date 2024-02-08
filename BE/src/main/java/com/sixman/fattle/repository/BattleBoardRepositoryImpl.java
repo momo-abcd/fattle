@@ -3,6 +3,7 @@ package com.sixman.fattle.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sixman.fattle.dto.dto.BoardDto;
+import com.sixman.fattle.dto.request.FoodUploadRequest;
 import com.sixman.fattle.entity.QFoodBoard;
 import com.sixman.fattle.entity.QUser;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,23 @@ public class BattleBoardRepositoryImpl implements BattleBoardRepositoryCustom {
                 .on(qboard.playerCd.eq(quser.userCd))
                 .where(qboard.battleCd.eq(battleCode))
                 .fetch();
+    }
+
+    @Override
+    public void registBoard(FoodUploadRequest request, List<String> codeList) {
+        for (String code : codeList) {
+            queryFactory
+                    .insert(qboard)
+                    .columns(
+                            qboard.battleCd,
+                            qboard.playerCd,
+                            qboard.imgPath)
+                    .values(
+                            code,
+                            request.getUserCode(),
+                            request.getImgPath())
+                    .execute();
+        }
     }
 
 }

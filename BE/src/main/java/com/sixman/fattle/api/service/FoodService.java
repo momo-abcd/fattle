@@ -35,6 +35,7 @@ import java.util.*;
 public class FoodService {
 
     private final BattlePointService battlePointService;
+    private final BattleBoardService battleBoardService;
     private final QuestService questService;
 
     private final FoodRepository foodRepository;
@@ -147,6 +148,7 @@ public class FoodService {
             questService.checkFinish(request.getUserCode());
 
             battlePointService.foodUpload(request.getUserCode());
+            battleBoardService.registBoard(request);
             return HttpStatus.CREATED;
         } else {
             return HttpStatus.BAD_REQUEST;

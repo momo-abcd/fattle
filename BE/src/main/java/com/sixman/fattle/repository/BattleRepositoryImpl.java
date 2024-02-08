@@ -7,7 +7,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sixman.fattle.dto.dto.*;
 import com.sixman.fattle.dto.request.*;
 import com.sixman.fattle.entity.*;
-import com.sixman.fattle.utils.Const;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +15,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sixman.fattle.utils.Const.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -508,7 +509,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .fetchFirst();
 
         switch (type) {
-            case Const.TYPE_LIVE_BASIC_POINT:
+            case TYPE_LIVE_BASIC_POINT:
                 queryFactory
                         .update(qplayer)
                         .set(qplayer.livePt, point + points.get(qplayer.livePt))
@@ -517,7 +518,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                                 qplayer.userCd.eq(userCode))
                         .execute();
                 break;
-            case Const.TYPE_FOOD_BASIC_POINT:
+            case TYPE_FOOD_BASIC_POINT:
                 queryFactory
                         .update(qplayer)
                         .set(qplayer.foodPt, point + points.get(qplayer.foodPt))
@@ -526,7 +527,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                                 qplayer.userCd.eq(userCode))
                         .execute();
                 break;
-            case Const.TYPE_QUEST_POINT:
+            case TYPE_QUEST_POINT:
                 queryFactory
                         .update(qplayer)
                         .set(qplayer.questPt, point + points.get(qplayer.questPt))
@@ -535,7 +536,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                                 qplayer.userCd.eq(userCode))
                         .execute();
                 break;
-            case Const.TYPE_GOAL_POINT:
+            case TYPE_GOAL_POINT:
                 queryFactory
                         .update(qplayer)
                         .set(qplayer.goalPt, point)
@@ -613,23 +614,23 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
             if (beforeWeight < afterWeight) {
                 point = 0;
             } else if (afterWeight < goalWeight) {
-                point = Const.MAX_GOAL_POINT * days;
+                point = MAX_GOAL_POINT * days;
             } else {
                 float goalDiff = beforeWeight - goalWeight;
                 float finalDiff = beforeWeight - afterWeight;
 
-                point = (int) (finalDiff / goalDiff * Const.MAX_GOAL_POINT * 500);
+                point = (int) (finalDiff / goalDiff * MAX_GOAL_POINT * 500);
             }
         } else {
             if (beforeWeight > afterWeight) {
                 point = 0;
             } else if (afterWeight > goalWeight) {
-                point = Const.MAX_GOAL_POINT * days;
+                point = MAX_GOAL_POINT * days;
             } else {
                 float goalDiff = goalWeight - beforeWeight;
                 float finalDiff = afterWeight - beforeWeight;
 
-                point = (int) (finalDiff / goalDiff * Const.MAX_GOAL_POINT * 500);
+                point = (int) (finalDiff / goalDiff * MAX_GOAL_POINT * 500);
             }
         }
 
@@ -654,7 +655,10 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
         return queryFactory
                 .select(qplayer.battleCd)
                 .from(qplayer)
-                .where(qplayer.userCd.eq(userCode))
+                .join(qbattle)
+                .on(qplayer.battleCd.eq(qbattle.battleCd))
+                .where(qplayer.userCd.eq(userCode),
+                        qbattle.status.eq(BATTLE_STATUS_START))
                 .fetch();
     }
 
