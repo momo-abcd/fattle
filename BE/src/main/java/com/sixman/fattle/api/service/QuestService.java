@@ -10,9 +10,9 @@ public interface QuestService {
 
      ResponseEntity<DailyQuestResponse> getDailyQuests(long userCode);
 
-     void questRecord(QuestRequest request);
+     void exerciseRecord(QuestRequest request);
 
-     void questRecord(FoodUploadRequest request);
+     void exerciseRecord(FoodUploadRequest request);
 
      Quest getDailyQuest(long userCode);
 
