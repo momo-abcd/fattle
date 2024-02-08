@@ -33,7 +33,7 @@ public class FoodController {
     @Operation(summary = "음식 사진 업로드 & 음식 정보 얻기",
             description = "음식 사진을 업로드해 음식 정보 얻기")
     @ApiResponse(responseCode = "200", description = "음식 정보 응답")
-    @PostMapping("/img-upload/{userCode}/{foodCode}")
+    @PostMapping("/img-upload/{userCode}/{type}")
     public ResponseEntity<FoodInfoResponse> imgUpload(@PathVariable long userCode, @PathVariable int type, MultipartFile uploadFile)
             throws FileSaveFailedException, NoImageExceptoin, NoFileException {
         String folderPath = foodService.saveImage(userCode, type, uploadFile);
