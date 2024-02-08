@@ -62,7 +62,7 @@ public class FoodController {
             @ApiResponse(responseCode = "201", description = "식단 업로드 성공"),
             @ApiResponse(responseCode = "400", description = "식단 중복 업로드")
     })
-    @PostMapping("food-upload")
+    @PostMapping("/upload")
     public ResponseEntity<?> foodUpload(@RequestBody FoodUploadRequest request) {
         HttpStatus status = foodService.foodUpload(request);
         return ResponseEntity.status(status).build();
