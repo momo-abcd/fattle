@@ -4,8 +4,12 @@ import com.sixman.fattle.dto.dto.FoodImage;
 import com.sixman.fattle.dto.response.FoodInfoResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.entity.Food;
+import com.sixman.fattle.exceptions.FileSaveFailedException;
+import com.sixman.fattle.exceptions.NoFileException;
+import com.sixman.fattle.exceptions.NoImageExceptoin;
 import com.sixman.fattle.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +32,12 @@ public class FoodService {
 
     private final FoodRepository foodRepository;
 
+    @Value("${flask.img-path}")
+    private String UPLOAD_PATH;
+
+    @Value("${flask.connection-uri}")
+    private String CONNECTION_URI;
+
     public TodaysFoodResponse todaysFood(long userCode) {
         List<Food> foodList = foodRepository.todaysFood(userCode);
 
@@ -36,34 +46,31 @@ public class FoodService {
                 .build();
     }
 
-    public String saveImage(long userCode, int foodCode, MultipartFile file){
-
+    public String saveImage(long userCode, int type, MultipartFile file)
+            throws NoFileException, NoImageExceptoin, FileSaveFailedException {
         if(file == null){
-            return null;
+            throw new NoFileException("파일이 존재하지 않습니다.");
         }
 
         if (!Objects.requireNonNull(file.getContentType()).startsWith("image")) {
-            System.out.println("경고! 업로드된 파일이 이미지 타입이 아닙니다.");
-            return null;
+            throw new NoImageExceptoin("이미지 파일이 아닙니다.");
         }
 
-        String uploadPath = "/home/ubuntu/resources/food_image/"+userCode;
-        String orginalName = file.getOriginalFilename();
-//        assert orginalName != null;
-        String fileName = orginalName.substring(orginalName.lastIndexOf("/") + 1);
+        String uploadPath = UPLOAD_PATH + "/" + userCode;
+        String originalName = file.getOriginalFilename();
+
+        String fileName = originalName.substring(originalName.lastIndexOf("/") + 1);
 
         System.out.println("fileName: "+fileName);
 
         // 날짜 폴더 생성
-        String folderPath = makeFolder(uploadPath, foodCode);
-
+        String folderPath = makeFolder(uploadPath, type);
 
         // UUID
         String uuid = UUID.randomUUID().toString();
 
         // 저장할 파일 이름 중간에 "_"를 이용해서 구현
-        String saveName = uploadPath + "/" + folderPath + "/"
-                + uuid + "_" + fileName;
+        String saveName = uploadPath + "/" + folderPath + "/" + uuid + "_" + fileName;
 
         System.out.println(saveName);
 
@@ -72,40 +79,53 @@ public class FoodService {
         try {
             file.transferTo(savePath); // 실제 이미지 저장
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FileSaveFailedException("이미지 저장에 실패했습니다.");
         }
 
         return uploadPath + "/" + folderPath;
     }
 
     /*날짜 폴더 생성*/
-    private String makeFolder(String uploadPath, int foodCode) {
-
+    private String makeFolder(String uploadPath, int type) {
         String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
-        String folderPath = str + "/" + String.valueOf(foodCode);
+        String folderPath = str + "/" + type;
 
         // make folder --------
         File uploadPathFolder = new File(uploadPath, folderPath);
 
-        if(!uploadPathFolder.exists()) {
-            boolean mkdirs = uploadPathFolder.mkdirs();
-            System.out.println("make directory : "+uploadPath);
+        if (uploadPathFolder.exists()) {
+            deleteDirectory(uploadPathFolder);
         }
 
+        uploadPathFolder.mkdirs();
+        System.out.println("make directory : " + uploadPath);
+
         return folderPath;
-
     }
-    public FoodInfoResponse getFoodInfo(String folderPath) {
-        final String uri = "http://i10e106.p.ssafy.io:5000/food_detect";
 
+    private void deleteDirectory(File directory) {
+        File[] files = directory.listFiles();
+
+        for (File file: Objects.requireNonNull(files)) {
+            if (file.isDirectory()) {
+                deleteDirectory(file);
+            } else {
+                file.delete();
+            }
+        }
+
+        directory.delete();
+    }
+
+    public FoodInfoResponse getFoodInfo(String folderPath) {
         FoodImage body = FoodImage.builder()
                 .source(folderPath)
                 .build();
 
         return WebClient.create()
                 .post()
-                .uri(uri)
+                .uri(CONNECTION_URI)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(body), FoodImage.class)

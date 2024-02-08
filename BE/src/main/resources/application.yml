@@ -83,3 +83,9 @@ logging:
 openvidu:
   public-ip: ENC(8p+JO8/jgjUr3d9IX9/mYz1EIJH2+516QmLK99BoH56EzXfJnqS2/w==)
   secret: ENC(eD9miX6VqvbRGoop6MAGsw==)
+
+
+# Flask connection
+flask:
+  img-path: /home/ubuntu/resources/food_image
+  connection-uri: ENC(xcr8NdpeevWb7hjc52uBUfuQfnAXHrIm3iB4+kneh7DkxU5aRYMyBUVueYkK+oZS)
