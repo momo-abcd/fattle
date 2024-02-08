@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BoardDto {
 
+    private int boardCd;
+
     private String battleCode;
 
     private long playerCode;

@@ -25,6 +25,7 @@ public class BattleBoardRepositoryImpl implements BattleBoardRepositoryCustom {
                 .select(
                         Projections.constructor(
                                 BoardDto.class,
+                                qboard.foodBoardCd,
                                 qboard.battleCd,
                                 qboard.playerCd,
                                 quser.nickname,
