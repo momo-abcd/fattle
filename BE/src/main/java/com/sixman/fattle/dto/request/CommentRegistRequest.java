@@ -3,12 +3,12 @@ package com.sixman.fattle.dto.request;
 import lombok.Getter;
 
 @Getter
-public class CommentRequest {
+public class CommentRegistRequest {
 
     private int boardCode;
 
     private long userCode;
 
-    private String comment;
+    private String content;
 
 }

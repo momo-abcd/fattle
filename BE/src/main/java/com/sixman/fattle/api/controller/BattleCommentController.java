@@ -1,7 +1,8 @@
 package com.sixman.fattle.api.controller;
 
 import com.sixman.fattle.api.service.BattleCommentService;
-import com.sixman.fattle.dto.request.CommentRequest;
+import com.sixman.fattle.dto.request.CommentModifyRequest;
+import com.sixman.fattle.dto.request.CommentRegistRequest;
 import com.sixman.fattle.dto.response.CommentListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -32,8 +33,14 @@ public class BattleCommentController {
             description = "배틀 식단 댓글 등록")
     @ApiResponse(responseCode = "200", description = "댓글 등록 성공")
     @PostMapping("/regist")
-    public ResponseEntity<?> registComment(@RequestBody CommentRequest request) {
+    public ResponseEntity<?> registComment(@RequestBody CommentRegistRequest request) {
         commentService.registComment(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<?> modifyComment(@RequestBody CommentModifyRequest request) {
+        commentService.modifyCommment(request);
         return ResponseEntity.ok().build();
     }
 
