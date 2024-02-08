@@ -57,7 +57,15 @@ public class OpenViduController {
         if (session == null) {
             return ResponseEntity.notFound().build();
         }
-        ConnectionProperties properties = ConnectionProperties.fromJson(params).build();
+        ConnectionProperties properties = new ConnectionProperties.Builder()
+                .type(ConnectionType.WEBRTC)
+                .data("user_data")
+                .role(OpenViduRole.PUBLISHER)
+                .kurentoOptions(
+                        new KurentoOptions.Builder()
+                                .allowedFilters(new String[]{"GStreamerFilter"})
+                                .build())
+                .build();
         Connection connection = session.createConnection(properties);
         return ResponseEntity.ok(connection.getToken());
     }
