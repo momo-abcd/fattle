@@ -1,8 +1,8 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.dto.FoodImage;
+import com.sixman.fattle.dto.dto.FoodImageDto;
 import com.sixman.fattle.dto.dto.FoodInfoDto;
-import com.sixman.fattle.dto.dto.FoodSearch;
+import com.sixman.fattle.dto.dto.FoodSearchDto;
 import com.sixman.fattle.dto.request.FoodUploadRequest;
 import com.sixman.fattle.dto.response.FoodSearchResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
@@ -123,7 +123,7 @@ public class FoodService {
     public FoodInfoDto getFoodInfo(String imgPath) {
         String folderPath = imgPath.substring(0, imgPath.lastIndexOf("/"));
 
-        FoodImage body = FoodImage.builder()
+        FoodImageDto body = FoodImageDto.builder()
                 .source(folderPath)
                 .build();
 
@@ -132,7 +132,7 @@ public class FoodService {
                 .uri(CONNECTION_URI)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .body(Mono.just(body), FoodImage.class)
+                .body(Mono.just(body), FoodImageDto.class)
                 .retrieve()
                 .bodyToMono(FoodInfoDto.class)
                 .block();
@@ -154,7 +154,7 @@ public class FoodService {
     }
 
     public FoodSearchResponse foodSearch(String word) {
-        List<FoodSearch> list = foodRepository.foodSearch(word);
+        List<FoodSearchDto> list = foodRepository.foodSearch(word);
 
         return FoodSearchResponse.builder()
                 .list(list)

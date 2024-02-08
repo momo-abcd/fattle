@@ -69,8 +69,8 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
-    public List<BattleInfo> getBattleList(List<String> battleCodeList) {
-        List<BattleInfo> battleList = new ArrayList<>();
+    public List<BattleInfoDto> getBattleList(List<String> battleCodeList) {
+        List<BattleInfoDto> battleList = new ArrayList<>();
 
         List<Tuple> tupleList
                 = queryFactory.select(
@@ -91,10 +91,10 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                 .fetch();
 
         for (Tuple tuple : tupleList) {
-            List<SimpleBattlePlayerInfo> playerList
+            List<SimpleBattlePlayerInfoDto> playerList
                     = queryFactory.select(
                             Projections.constructor(
-                                    SimpleBattlePlayerInfo.class,
+                                    SimpleBattlePlayerInfoDto.class,
                                     quser.userCd,
                                     quser.nickname))
                     .from(quser)
@@ -111,7 +111,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                     .fetchFirst()
                     .intValue();
 
-            BattleInfo info = BattleInfo.builder()
+            BattleInfoDto info = BattleInfoDto.builder()
                     .battleCode(tuple.get(qbattle.battleCd))
                     .name(tuple.get(qbattle.name))
                     .status(tuple.get(qbattle.status))
@@ -238,11 +238,11 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
-    public SimpleBattleInfo getBattleInfo(String battleCode) {
+    public SimpleBattleInfoDto getBattleInfo(String battleCode) {
         return queryFactory
                 .select(
                         Projections.constructor(
-                                SimpleBattleInfo.class,
+                                SimpleBattleInfoDto.class,
                                 qbattle.name,
                                 qbattle.status,
                                 qbattle.startDt,
@@ -262,11 +262,11 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
-    public List<BattlePlayerInfo> getPlayerList(String battleCode) {
+    public List<BattlePlayerInfoDto> getPlayerList(String battleCode) {
         return queryFactory
                 .select(
                         Projections.bean(
-                                BattlePlayerInfo.class,
+                                BattlePlayerInfoDto.class,
                                 qplayer.userCd,
                                 quser.nickname,
                                 qplayer.beforeWeight,
@@ -289,11 +289,11 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
-    public List<BattleTriggerInfo> getTriggerList(String battleCode) {
+    public List<BattleTriggerInfoDto> getTriggerList(String battleCode) {
         return queryFactory
                 .select(
                         Projections.constructor(
-                                BattleTriggerInfo.class,
+                                BattleTriggerInfoDto.class,
                                 qtrigger.userCd,
                                 quser.nickname,
                                 qavatar.imgPath))
@@ -559,13 +559,13 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     }
 
     @Override
-    public List<PointHistory> getPointHistory(String battleCode) {
+    public List<PointHistoryDto> getPointHistory(String battleCode) {
         QUser player = new QUser("player");
         QUser trigger = new QUser("trigger");
 
         return queryFactory
                 .select(Projections.constructor(
-                        PointHistory.class,
+                        PointHistoryDto.class,
                         player.nickname,
                         trigger.nickname,
                         qpoint.type,

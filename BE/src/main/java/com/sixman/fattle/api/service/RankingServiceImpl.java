@@ -1,6 +1,6 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.dto.RankingInfo;
+import com.sixman.fattle.dto.dto.RankingInfoDto;
 import com.sixman.fattle.dto.response.RankingListResponse;
 import com.sixman.fattle.entity.Ranking;
 import com.sixman.fattle.repository.RankingRepository;
@@ -18,11 +18,11 @@ public class RankingServiceImpl implements RankingService {
     private final RankingRepository rankingRepository;
     @Override
     public ResponseEntity<RankingListResponse> getRankingResponse(int page, Long userCode) {
-        List<RankingInfo> rankingList = rankingRepository.getRankingList();
+        List<RankingInfoDto> rankingList = rankingRepository.getRankingList();
         Ranking ranking = rankingRepository.findByUserCd(userCode);
         int myRank = ranking.getRank();
         boolean end = rankingList.size() <= 10*page;
-        List<RankingInfo> rankingListInfo;
+        List<RankingInfoDto> rankingListInfo;
         if (!end) {
             rankingListInfo = rankingList.subList(10 * (page - 1), 10 * page);
         }

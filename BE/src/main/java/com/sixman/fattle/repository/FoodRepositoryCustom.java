@@ -1,6 +1,6 @@
 package com.sixman.fattle.repository;
 
-import com.sixman.fattle.dto.dto.FoodSearch;
+import com.sixman.fattle.dto.dto.FoodSearchDto;
 import com.sixman.fattle.dto.request.FoodUploadRequest;
 import com.sixman.fattle.entity.Food;
 
@@ -14,6 +14,6 @@ public interface FoodRepositoryCustom {
 
     void setFood(FoodUploadRequest request);
 
-    List<FoodSearch> foodSearch(String word);
+    List<FoodSearchDto> foodSearch(String word);
 
 }

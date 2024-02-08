@@ -1,10 +1,9 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.dto.KakaoProfile;
+import com.sixman.fattle.dto.dto.KakaoProfileDto;
 import com.sixman.fattle.dto.response.TokenResponse;
-import com.sixman.fattle.dto.dto.OAuthToken;
+import com.sixman.fattle.dto.dto.OAuthTokenDto;
 import com.sixman.fattle.utils.JwtTokenProvider;
-import com.sixman.fattle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -45,7 +43,7 @@ public class OAuthService {
     public TokenResponse login(String providerName, String code) {
         ClientRegistration provider = inMemoryRepository.findByRegistrationId(providerName);
 
-        OAuthToken token = getToken(code, provider);
+        OAuthTokenDto token = getToken(code, provider);
 
         long userCode = getUserProfile(token, provider);
 
@@ -60,7 +58,7 @@ public class OAuthService {
                 .build();
     }
 
-    private OAuthToken getToken(String code, ClientRegistration provider) {
+    private OAuthTokenDto getToken(String code, ClientRegistration provider) {
         return WebClient.create()
                 .post()
                 .uri(provider.getProviderDetails().getTokenUri())
@@ -70,7 +68,7 @@ public class OAuthService {
                 })
                 .bodyValue(tokenRequest(code, provider))
                 .retrieve()
-                .bodyToMono(OAuthToken.class)
+                .bodyToMono(OAuthTokenDto.class)
                 .block();
     }
 
@@ -84,14 +82,14 @@ public class OAuthService {
         return formData;
     }
 
-    private long getUserProfile(OAuthToken token, ClientRegistration provider) {
+    private long getUserProfile(OAuthTokenDto token, ClientRegistration provider) {
         Map<String, Object> userAttributes = getUserAttributes(provider, token);
-        KakaoProfile profile = new KakaoProfile(userAttributes);
+        KakaoProfileDto profile = new KakaoProfileDto(userAttributes);
 
        return profile.getProviderId();
     }
 
-    private Map<String, Object> getUserAttributes(ClientRegistration provider, OAuthToken token) {
+    private Map<String, Object> getUserAttributes(ClientRegistration provider, OAuthTokenDto token) {
         return WebClient.create()
                 .get()
                 .uri(provider.getProviderDetails().getUserInfoEndpoint().getUri())

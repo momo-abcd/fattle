@@ -3,17 +3,15 @@ package com.sixman.fattle.dto.dto;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.jpa.repository.Query;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class PointHistory {
+public class PointHistoryDto {
 
     @QueryProjection
-    public PointHistory(String playerName, String triggerName, int type, int point, LocalDateTime recDate) {
+    public PointHistoryDto(String playerName, String triggerName, int type, int point, LocalDateTime recDate) {
         this.playerName = playerName;
         this.triggerName = triggerName;
         this.type = type;

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class DailyQuestCheck {
+public class DailyQuestCheckDto {
 
     private int dayChk;
 

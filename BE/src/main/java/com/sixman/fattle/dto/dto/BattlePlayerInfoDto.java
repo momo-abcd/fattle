@@ -1,6 +1,5 @@
 package com.sixman.fattle.dto.dto;
 
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BattlePlayerInfo {
+public class BattlePlayerInfoDto {
 
     private long userCode;
 

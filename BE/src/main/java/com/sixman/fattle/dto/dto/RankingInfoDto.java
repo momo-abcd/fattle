@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RankingInfo {
+public class RankingInfoDto {
     private int rank;
     private long userCode;
     private String nickName;

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class FoodImage {
+public class FoodImageDto {
 
     private String source;
 

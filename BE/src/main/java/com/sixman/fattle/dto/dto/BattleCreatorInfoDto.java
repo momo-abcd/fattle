@@ -1,4 +1,4 @@
 package com.sixman.fattle.dto.dto;
 
-public class BattleCreatorInfo {
+public class BattleCreatorInfoDto {
 }

@@ -1,6 +1,6 @@
 package com.sixman.fattle.dto.response;
 
-import com.sixman.fattle.dto.dto.FoodSearch;
+import com.sixman.fattle.dto.dto.FoodSearchDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,6 +10,6 @@ import java.util.List;
 @Builder
 public class FoodSearchResponse {
 
-    private List<FoodSearch> list;
+    private List<FoodSearchDto> list;
 
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimpleBattlePlayerInfo {
+public class SimpleBattlePlayerInfoDto {
 
     private long userCode;
 

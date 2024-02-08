@@ -1,6 +1,6 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.dto.PointHistory;
+import com.sixman.fattle.dto.dto.PointHistoryDto;
 import com.sixman.fattle.dto.request.BattlePointRequest;
 import com.sixman.fattle.dto.response.PointHistoryResponse;
 import com.sixman.fattle.dto.response.RemainPointResponse;
@@ -61,9 +61,9 @@ public class BattlePointService {
     }
 
     public PointHistoryResponse getPointHistory(String battleCode) {
-        List<PointHistory> pointHistoryList = battleRepository.getPointHistory(battleCode);
+        List<PointHistoryDto> pointHistoryDtoList = battleRepository.getPointHistory(battleCode);
         return PointHistoryResponse.builder()
-                .list(pointHistoryList)
+                .list(pointHistoryDtoList)
                 .build();
     }
 

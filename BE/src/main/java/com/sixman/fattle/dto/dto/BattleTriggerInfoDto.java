@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class BattleTriggerInfo {
+public class BattleTriggerInfoDto {
 
     @QueryProjection
-    public BattleTriggerInfo(long userCode, String nickname, String imgPath) {
+    public BattleTriggerInfoDto(long userCode, String nickname, String imgPath) {
         this.userCode = userCode;
         this.nickname = nickname;
         this.imgPath = imgPath;

@@ -1,9 +1,8 @@
 package com.sixman.fattle.repository;
 
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sixman.fattle.dto.dto.DailyQuestCheck;
+import com.sixman.fattle.dto.dto.DailyQuestCheckDto;
 import com.sixman.fattle.entity.QQuest;
 import com.sixman.fattle.entity.Quest;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +37,11 @@ public class QuestRepositoryImpl implements QuestRepositoryCustom {
     }
 
     @Override
-    public DailyQuestCheck check(long userCode) {
+    public DailyQuestCheckDto check(long userCode) {
         return queryFactory
                 .select(
                         Projections.constructor(
-                                DailyQuestCheck.class,
+                                DailyQuestCheckDto.class,
                                 qquest.dayChk,
                                 qquest.exerciseCnt,
                                 qquest.foodCnt,

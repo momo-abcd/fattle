@@ -1,6 +1,6 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.dto.CustomUserDetails;
+import com.sixman.fattle.dto.dto.CustomUserDetailsDto;
 import com.sixman.fattle.entity.User;
 import com.sixman.fattle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userCode) throws UsernameNotFoundException {
         User user = userRepository.getUser(Long.parseLong(userCode));
 
-        return new CustomUserDetails(user);
+        return new CustomUserDetailsDto(user);
     }
 }

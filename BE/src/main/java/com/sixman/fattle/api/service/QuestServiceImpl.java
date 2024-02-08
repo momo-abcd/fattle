@@ -1,6 +1,6 @@
 package com.sixman.fattle.api.service;
 
-import com.sixman.fattle.dto.dto.DailyQuestCheck;
+import com.sixman.fattle.dto.dto.DailyQuestCheckDto;
 import com.sixman.fattle.dto.dto.ExerciseDto;
 import com.sixman.fattle.dto.request.FoodUploadRequest;
 import com.sixman.fattle.dto.request.QuestRequest;
@@ -121,7 +121,7 @@ public class QuestServiceImpl implements QuestService {
 
     @Override
     public void checkFinish(long userCode) {
-        DailyQuestCheck chk = questRepository.check(userCode);
+        DailyQuestCheckDto chk = questRepository.check(userCode);
 
         int cnt = chk.chkSum();
         int finish = chk.getIsFinish();

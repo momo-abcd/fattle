@@ -49,7 +49,7 @@ public class BattleService {
     public BattleListResponse getBattleList(long userCode) {
         List<String> battleCodeList = battleRepository.getBattleCodeList(userCode);
 
-        List<BattleInfo> infoList = battleRepository.getBattleList(battleCodeList);
+        List<BattleInfoDto> infoList = battleRepository.getBattleList(battleCodeList);
 
         return BattleListResponse.builder()
                 .list(infoList)
@@ -93,10 +93,10 @@ public class BattleService {
     }
 
     private void giveExp(String battleCode) {
-        List<BattlePlayerInfo> playerList = battleRepository.getPlayerList(battleCode);
+        List<BattlePlayerInfoDto> playerList = battleRepository.getPlayerList(battleCode);
 
-        BattlePlayerInfo playerA = playerList.get(0);
-        BattlePlayerInfo playerB = playerList.get(1);
+        BattlePlayerInfoDto playerA = playerList.get(0);
+        BattlePlayerInfoDto playerB = playerList.get(1);
 
         int sumA = playerA.sumPoints();
         int sumB = playerB.sumPoints();
@@ -122,14 +122,14 @@ public class BattleService {
     }
 
     public BattleInfoResponse getBattleInfo(String battleCode) {
-        SimpleBattleInfo battleInfo = battleRepository.getBattleInfo(battleCode);
+        SimpleBattleInfoDto battleInfo = battleRepository.getBattleInfo(battleCode);
         List<String> betting = battleRepository.getBettings(battleCode);
-        List<BattlePlayerInfo> playerList = battleRepository.getPlayerList(battleCode);
+        List<BattlePlayerInfoDto> playerList = battleRepository.getPlayerList(battleCode);
 
         int status = battleInfo.getStatus();
 
         if (status != BATTLE_STATUS_END) {
-            for (BattlePlayerInfo info : playerList) {
+            for (BattlePlayerInfoDto info : playerList) {
                 info.setLivePoint(0);
                 info.setFoodPoint(0);
                 info.setQuestPoint(0);
@@ -137,7 +137,7 @@ public class BattleService {
             }
         }
 
-        List<BattleTriggerInfo> triggerList = battleRepository.getTriggerList(battleCode);
+        List<BattleTriggerInfoDto> triggerList = battleRepository.getTriggerList(battleCode);
 
         return BattleInfoResponse.builder()
                 .battleCode(battleCode)

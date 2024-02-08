@@ -1,7 +1,7 @@
 package com.sixman.fattle.dto.response;
 
-import com.sixman.fattle.dto.dto.BattlePlayerInfo;
-import com.sixman.fattle.dto.dto.BattleTriggerInfo;
+import com.sixman.fattle.dto.dto.BattlePlayerInfoDto;
+import com.sixman.fattle.dto.dto.BattleTriggerInfoDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -22,8 +22,8 @@ public class BattleInfoResponse {
 
     private List<String> betting;
 
-    private List<BattlePlayerInfo> playerList;
+    private List<BattlePlayerInfoDto> playerList;
 
-    private List<BattleTriggerInfo> triggerList;
+    private List<BattleTriggerInfoDto> triggerList;
 
 }

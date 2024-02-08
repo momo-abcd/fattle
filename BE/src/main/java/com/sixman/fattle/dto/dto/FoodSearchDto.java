@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FoodSearch {
+public class FoodSearchDto {
 
     private String name;
 

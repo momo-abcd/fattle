@@ -14,7 +14,7 @@ public interface BattleRepositoryCustom {
 
     List<String> getBattleCodeList(long userCode);
 
-    List<BattleInfo> getBattleList(List<String> battleCodeList);
+    List<BattleInfoDto> getBattleList(List<String> battleCodeList);
 
     boolean setPlayer(PlayerRequest request);
 
@@ -26,13 +26,13 @@ public interface BattleRepositoryCustom {
 
     void setPlayerWeight(PlayerWeightRequest request);
 
-    SimpleBattleInfo getBattleInfo(String battleCode);
+    SimpleBattleInfoDto getBattleInfo(String battleCode);
 
     List<String> getBettings(String battleCode);
 
-    List<BattlePlayerInfo> getPlayerList(String battleCode);
+    List<BattlePlayerInfoDto> getPlayerList(String battleCode);
 
-    List<BattleTriggerInfo> getTriggerList(String battleCode);
+    List<BattleTriggerInfoDto> getTriggerList(String battleCode);
 
     void deleteBoard(String battleCode);
 
@@ -68,7 +68,7 @@ public interface BattleRepositoryCustom {
 
     void setPoint(String battleCode, long userCode, int type, int point);
 
-    List<PointHistory> getPointHistory(String battleCode);
+    List<PointHistoryDto> getPointHistory(String battleCode);
 
     int getGoalPoint(PlayerWeightRequest request);
 

@@ -7,11 +7,11 @@ import java.util.*;
 
 @Data
 @NoArgsConstructor
-public class KakaoProfile {
+public class KakaoProfileDto {
 
     private Map<String, Object> attributes;
 
-    public KakaoProfile(Map<String, Object> attributes) {
+    public KakaoProfileDto(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
 
