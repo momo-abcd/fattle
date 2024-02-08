@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -31,6 +31,6 @@ public class FoodComment {
     private String content;
 
     @Column(name = "rec_dt")
-    private Timestamp recDt;
+    private LocalDateTime recDt;
 
 }
