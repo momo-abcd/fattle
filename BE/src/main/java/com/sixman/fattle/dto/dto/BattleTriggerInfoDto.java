@@ -1,19 +1,15 @@
 package com.sixman.fattle.dto.dto;
 
-import com.querydsl.core.annotations.QueryProjection;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BattleTriggerInfoDto {
-
-    @QueryProjection
-    public BattleTriggerInfoDto(long userCode, String nickname, String imgPath) {
-        this.userCode = userCode;
-        this.nickname = nickname;
-        this.imgPath = imgPath;
-    }
 
     private long userCode;
 

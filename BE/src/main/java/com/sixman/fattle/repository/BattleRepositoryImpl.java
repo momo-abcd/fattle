@@ -265,7 +265,7 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
     public List<BattlePlayerInfoDto> getPlayerList(String battleCode) {
         return queryFactory
                 .select(
-                        Projections.bean(
+                        Projections.constructor(
                                 BattlePlayerInfoDto.class,
                                 qplayer.userCd,
                                 quser.nickname,
