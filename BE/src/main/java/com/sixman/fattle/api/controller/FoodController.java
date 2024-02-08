@@ -2,6 +2,8 @@ package com.sixman.fattle.api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sixman.fattle.api.service.FoodService;
+import com.sixman.fattle.dto.dto.FoodInfo;
+import com.sixman.fattle.dto.request.FoodUploadRequest;
 import com.sixman.fattle.dto.response.FoodInfoResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.exceptions.FileSaveFailedException;
@@ -24,6 +26,9 @@ public class FoodController {
 
     private final FoodService foodService;
 
+    @Operation(summary = "오늘의 식단",
+            description = "오늘의 식단 조회")
+    @ApiResponse(responseCode = "200", description = "식단 정보 응답")
     @GetMapping("/todays/{userCode}")
     public ResponseEntity<TodaysFoodResponse> todaysFood(@PathVariable long userCode) {
         TodaysFoodResponse response = foodService.todaysFood(userCode);
@@ -36,9 +41,27 @@ public class FoodController {
     @PostMapping("/img-upload/{userCode}/{type}")
     public ResponseEntity<FoodInfoResponse> imgUpload(@PathVariable long userCode, @PathVariable int type, MultipartFile uploadFile)
             throws FileSaveFailedException, NoImageExceptoin, NoFileException {
-        String folderPath = foodService.saveImage(userCode, type, uploadFile);
-        FoodInfoResponse info = foodService.getFoodInfo(folderPath);
-        return ResponseEntity.ok(info);
+        String imgPath = foodService.saveImage(userCode, type, uploadFile);
+        FoodInfo info = foodService.getFoodInfo(imgPath);
+
+        FoodInfoResponse response = FoodInfoResponse.builder()
+                .name(info.getName())
+                .gram(info.getGram())
+                .calory(info.getCalory())
+                .protein(info.getProtein())
+                .fat(info.getFat())
+                .imgPath(imgPath)
+                .build();
+
+        return ResponseEntity.ok(response);
     }
+
+//    @Operation(summary = "식단 업로드",
+//            description = "식단을 업로드 해 서버에 저장")
+//    @ApiResponse(responseCode = "201", description = "식단 업로드 성공")
+//    @PostMapping("food-upload")
+//    public ResponseEntity<?> foodUpload(@RequestBody FoodUploadRequest request) {
+//        return null;
+//    }
 
 }

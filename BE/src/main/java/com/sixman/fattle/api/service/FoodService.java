@@ -1,6 +1,7 @@
 package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.dto.FoodImage;
+import com.sixman.fattle.dto.dto.FoodInfo;
 import com.sixman.fattle.dto.response.FoodInfoResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.entity.Food;
@@ -61,8 +62,6 @@ public class FoodService {
 
         String fileName = originalName.substring(originalName.lastIndexOf("/") + 1);
 
-        System.out.println("fileName: "+fileName);
-
         // 날짜 폴더 생성
         String folderPath = makeFolder(uploadPath, type);
 
@@ -72,8 +71,6 @@ public class FoodService {
         // 저장할 파일 이름 중간에 "_"를 이용해서 구현
         String saveName = uploadPath + "/" + folderPath + "/" + uuid + "_" + fileName;
 
-        System.out.println(saveName);
-
         Path savePath = Paths.get(saveName);
 
         try {
@@ -82,7 +79,7 @@ public class FoodService {
             throw new FileSaveFailedException("이미지 저장에 실패했습니다.");
         }
 
-        return uploadPath + "/" + folderPath;
+        return saveName;
     }
 
     /*날짜 폴더 생성*/
@@ -99,7 +96,6 @@ public class FoodService {
         }
 
         uploadPathFolder.mkdirs();
-        System.out.println("make directory : " + uploadPath);
 
         return folderPath;
     }
@@ -118,7 +114,9 @@ public class FoodService {
         directory.delete();
     }
 
-    public FoodInfoResponse getFoodInfo(String folderPath) {
+    public FoodInfo getFoodInfo(String imgPath) {
+        String folderPath = imgPath.substring(0, imgPath.lastIndexOf("/"));
+
         FoodImage body = FoodImage.builder()
                 .source(folderPath)
                 .build();
@@ -130,7 +128,7 @@ public class FoodService {
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(body), FoodImage.class)
                 .retrieve()
-                .bodyToMono(FoodInfoResponse.class)
+                .bodyToMono(FoodInfo.class)
                 .block();
     }
 
