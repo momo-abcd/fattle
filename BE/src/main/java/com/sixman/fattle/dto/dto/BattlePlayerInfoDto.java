@@ -35,6 +35,8 @@ public class BattlePlayerInfoDto {
 
     private String imgPath;
 
+    private String profileImgPath;
+
     public int sumPoints() {
         return livePoint + foodPoint + liveUserPoint + foodUserPoint + questPoint + goalPoint;
     }

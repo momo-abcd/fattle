@@ -25,7 +25,6 @@ public class UserInfoResponse {
     private int growthExp;
     private int stackExp;
     private String imgPath;
-
-
+    private String profileImgPath;
 
 }

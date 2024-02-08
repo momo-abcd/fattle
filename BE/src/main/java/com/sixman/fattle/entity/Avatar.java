@@ -2,7 +2,6 @@ package com.sixman.fattle.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +24,8 @@ public class Avatar {
 
     @Column(name = "img_path")
     private String imgPath;
+
+    @Column(name = "profile_img_path")
+    private String profileImgPath;
 
 }

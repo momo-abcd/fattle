@@ -129,7 +129,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         quser.goalFat,
                         quser.growthExp,
                         quser.stackExp,
-                        qavatar.imgPath)
+                        qavatar.imgPath,
+                        qavatar.profileImgPath)
                 .from(quser)
                 .where(quser.userCd.eq(userCode))
                 .join(qavatar)
@@ -153,6 +154,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .growthExp(user.get(quser.growthExp))
                 .stackExp(user.get(quser.stackExp))
                 .imgPath(user.get(qavatar.imgPath))
+                .profileImgPath(user.get(qavatar.profileImgPath))
                 .build();
     }
 

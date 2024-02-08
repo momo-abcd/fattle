@@ -17,4 +17,6 @@ public class BattleTriggerInfoDto {
 
     private String imgPath;
 
+    private String profileImgPath;
+
 }

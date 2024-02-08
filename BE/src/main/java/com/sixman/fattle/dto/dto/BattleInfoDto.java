@@ -32,6 +32,8 @@ public class BattleInfoDto {
 
     private String imgPath;
 
+    private String profileImgPath;
+
     private List<SimpleBattlePlayerInfoDto> playerList;
 
 }

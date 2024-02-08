@@ -11,5 +11,6 @@ public class FollowResponse {
     private String nickname;
     private String avatarCode;
     private String imgPath;
+    private String profileImgPath;
 
 }

@@ -57,6 +57,7 @@ public class MyPageServiceImpl implements MyPageService {
                 .goalFat(user.getGoalFat())
                 .avatarCode(user.getAvatarCd())
                 .imgPath(avatar.getImgPath())
+                .profileImgPath(avatar.getProfileImgPath())
                 .followerCnt(getFollowerCount(user))
                 .followingCnt(getFollowingCount(user))
                 .build();
@@ -131,6 +132,7 @@ public class MyPageServiceImpl implements MyPageService {
                             .nickname(u.getNickname())
                             .avatarCode(u.getAvatarCd())
                             .imgPath(avatar.getImgPath())
+                            .profileImgPath(avatar.getProfileImgPath())
                             .build());
         }
         return ResponseEntity.ok(response);
@@ -153,6 +155,7 @@ public class MyPageServiceImpl implements MyPageService {
                     .nickname(u.getNickname())
                     .avatarCode(u.getAvatarCd())
                     .imgPath(avatar.getImgPath())
+                    .profileImgPath(avatar.getProfileImgPath())
                     .build());
         }
         return ResponseEntity.ok(response2);

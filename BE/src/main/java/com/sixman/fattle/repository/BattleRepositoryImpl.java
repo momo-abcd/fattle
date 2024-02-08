@@ -81,7 +81,8 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                         qbattle.endDt,
                         quser.userCd,
                         quser.nickname,
-                        qavatar.imgPath)
+                        qavatar.imgPath,
+                        qavatar.profileImgPath)
                 .from(qbattle)
                 .where(qbattle.battleCd.in(battleCodeList))
                 .join(quser)
@@ -278,7 +279,8 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                                 qplayer.foodUserPt,
                                 qplayer.questPt,
                                 qplayer.goalPt,
-                                qavatar.imgPath))
+                                qavatar.imgPath,
+                                qavatar.profileImgPath))
                 .from(qplayer)
                 .where(qplayer.battleCd.eq(battleCode))
                 .join(quser)
@@ -296,7 +298,8 @@ public class BattleRepositoryImpl implements BattleRepositoryCustom {
                                 BattleTriggerInfoDto.class,
                                 qtrigger.userCd,
                                 quser.nickname,
-                                qavatar.imgPath))
+                                qavatar.imgPath,
+                                qavatar.profileImgPath))
                 .from(qtrigger)
                 .where(qtrigger.battleCd.eq(battleCode))
                 .join(quser)

@@ -21,7 +21,7 @@ public class RankingServiceImpl implements RankingService {
         List<RankingInfoDto> rankingList = rankingRepository.getRankingList();
         Ranking ranking = rankingRepository.findByUserCd(userCode);
         int myRank = ranking.getRank();
-        boolean end = rankingList.size() <= 10*page;
+        boolean end = rankingList.size() <= 10 * page;
         List<RankingInfoDto> rankingListInfo;
         if (!end) {
             rankingListInfo = rankingList.subList(10 * (page - 1), 10 * page);

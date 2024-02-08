@@ -32,6 +32,9 @@ public class Ranking {
     @Column(name = "img_path")
     private String imgPath;
 
+    @Column(name = "profile_img_path")
+    private String profileImgPath;
+
     @Transient
     private int page;
 
