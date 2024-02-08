@@ -1,4 +1,4 @@
-package com.sixman.fattle.dto.response;
+package com.sixman.fattle.dto.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class FoodInfoResponse {
+@AllArgsConstructor
+public class FoodSearch {
 
     private String name;
 
@@ -22,7 +22,5 @@ public class FoodInfoResponse {
     private int protein;
 
     private int fat;
-
-    private String imgPath;
 
 }

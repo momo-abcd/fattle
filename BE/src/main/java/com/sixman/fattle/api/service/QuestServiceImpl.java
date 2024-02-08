@@ -2,6 +2,7 @@ package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.dto.DailyQuestCheck;
 import com.sixman.fattle.dto.dto.ExerciseDto;
+import com.sixman.fattle.dto.request.FoodUploadRequest;
 import com.sixman.fattle.dto.request.QuestRequest;
 import com.sixman.fattle.dto.response.DailyQuestResponse;
 import com.sixman.fattle.entity.Quest;
@@ -73,7 +74,7 @@ public class QuestServiceImpl implements QuestService {
     }
 
     @Override
-    public void questRecord(QuestRequest request) {
+    public void exerciseRecord(QuestRequest request) {
         Exercise exercise = Exercise.builder()
                 .userCd(request.getUserCode())
                 .typeCd(request.getExercise())
@@ -84,6 +85,27 @@ public class QuestServiceImpl implements QuestService {
         String exTypeName = typeRepository.getName(request.getExercise());
 
         expService.setExp(request.getUserCode(), EXP_TYPE_EXERCISE, exTypeName, DAILY_QUEST_EXP);
+    }
+
+    @Override
+    public void exerciseRecord(FoodUploadRequest request) {
+        String expType = "";
+
+        switch (request.getType()) {
+            case TYPE_BREAKFAST:
+                expType = EXP_CONTENT_BREAKFAST;
+                break;
+
+            case TYPE_LUNCH:
+                expType = EXP_CONTENT_LUNCH;
+                break;
+
+            case TYPE_DINNER:
+                expType = EXP_CONTENT_DINNER;
+                break;
+        }
+
+        expService.setExp(request.getUserCode(), EXP_TYPE_FOOD, expType, DAILY_QUEST_EXP);
     }
 
     @Override

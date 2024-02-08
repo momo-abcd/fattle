@@ -1,8 +1,12 @@
 package com.sixman.fattle.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sixman.fattle.dto.dto.FoodSearch;
+import com.sixman.fattle.dto.request.FoodUploadRequest;
 import com.sixman.fattle.entity.Food;
 import com.sixman.fattle.entity.QFood;
+import com.sixman.fattle.entity.QFoodInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +21,7 @@ public class FoodRepositoryImpl implements FoodRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     private final QFood qfood = QFood.food;
+    private final QFoodInfo qinfo = QFoodInfo.foodInfo;
 
     @Override
     public List<Food> todaysFood(long userCode) {
@@ -24,7 +29,59 @@ public class FoodRepositoryImpl implements FoodRepositoryCustom {
                 .select(qfood)
                 .from(qfood)
                 .where(qfood.userCd.eq(userCode),
-                        qfood.recDt.after(Timestamp.valueOf(LocalDate.now().atStartOfDay())))
+                        qfood.recDt.after(LocalDate.now().atStartOfDay()))
+                .fetch();
+    }
+
+    @Override
+    public int foodCount(long userCode, int type) {
+        return queryFactory
+                .select(qfood.count())
+                .from(qfood)
+                .where(
+                        qfood.userCd.eq(userCode),
+                        qfood.type.eq(type),
+                        qfood.recDt.after(LocalDate.now().atStartOfDay()))
+                .fetchFirst()
+                .intValue();
+    }
+
+    @Override
+    public void setFood(FoodUploadRequest request) {
+        queryFactory.insert(qfood)
+                .columns(
+                        qfood.userCd,
+                        qfood.type,
+                        qfood.calory,
+                        qfood.carbo,
+                        qfood.protein,
+                        qfood.fat,
+                        qfood.imgPath)
+                .values(
+                        request.getUserCode(),
+                        request.getType(),
+                        request.getCalory(),
+                        request.getCarbo(),
+                        request.getProtein(),
+                        request.getFat(),
+                        request.getImgPath())
+                .execute();
+    }
+
+    @Override
+    public List<FoodSearch> foodSearch(String word) {
+        return queryFactory
+                .select(
+                        Projections.constructor(
+                                FoodSearch.class,
+                                qinfo.name,
+                                qinfo.gram,
+                                qinfo.calory,
+                                qinfo.carbo,
+                                qinfo.protein,
+                                qinfo.fat))
+                .from(qinfo)
+                .where(qinfo.name.contains(word))
                 .fetch();
     }
 

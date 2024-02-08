@@ -78,15 +78,11 @@ public class BattlePointService {
         }
     }
 
-    public void foodUpload(long userCode, int type) {
-        int cnt = battleRepository.foodCount(userCode, type);
+    public void foodUpload(long userCode) {
+        List<String> list = battleRepository.getBattleCodeListAsPlayer(userCode);
 
-        if (cnt == 0) {
-            List<String> list = battleRepository.getBattleCodeListAsPlayer(userCode);
-
-            for (String code : list) {
-                battleRepository.setPoint(code, userCode, TYPE_FOOD_BASIC_POINT, FOOD_BASIC_POINT);
-            }
+        for (String code : list) {
+            battleRepository.setPoint(code, userCode, TYPE_FOOD_BASIC_POINT, FOOD_BASIC_POINT);
         }
     }
 

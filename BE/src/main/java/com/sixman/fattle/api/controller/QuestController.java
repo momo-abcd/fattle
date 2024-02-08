@@ -26,9 +26,12 @@ public class QuestController {
         return questService.getDailyQuests(userCode);
     }
 
+    @Operation(summary = "퀘스트 등록 (운동)",
+            description = "운동 기록 퀘스트 등록")
+    @ApiResponse(responseCode = "200", description = "퀘스트 등록 성공")
     @PostMapping("/record")
-    public ResponseEntity<?> questRecord(@RequestBody QuestRequest request) {
-        questService.questRecord(request);
+    public ResponseEntity<?> exerciseRecord(@RequestBody QuestRequest request) {
+        questService.exerciseRecord(request);
         questService.checkFinish(request.getUserCode());
         return ResponseEntity.ok().build();
     }

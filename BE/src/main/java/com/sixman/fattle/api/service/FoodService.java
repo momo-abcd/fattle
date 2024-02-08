@@ -1,7 +1,10 @@
 package com.sixman.fattle.api.service;
 
 import com.sixman.fattle.dto.dto.FoodImage;
-import com.sixman.fattle.dto.response.FoodInfoResponse;
+import com.sixman.fattle.dto.dto.FoodInfoDto;
+import com.sixman.fattle.dto.dto.FoodSearch;
+import com.sixman.fattle.dto.request.FoodUploadRequest;
+import com.sixman.fattle.dto.response.FoodSearchResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.entity.Food;
 import com.sixman.fattle.exceptions.FileSaveFailedException;
@@ -10,6 +13,7 @@ import com.sixman.fattle.exceptions.NoImageExceptoin;
 import com.sixman.fattle.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +33,9 @@ import java.util.*;
 @Transactional
 @RequiredArgsConstructor
 public class FoodService {
+
+    private final BattlePointService battlePointService;
+    private final QuestService questService;
 
     private final FoodRepository foodRepository;
 
@@ -61,8 +68,6 @@ public class FoodService {
 
         String fileName = originalName.substring(originalName.lastIndexOf("/") + 1);
 
-        System.out.println("fileName: "+fileName);
-
         // 날짜 폴더 생성
         String folderPath = makeFolder(uploadPath, type);
 
@@ -72,8 +77,6 @@ public class FoodService {
         // 저장할 파일 이름 중간에 "_"를 이용해서 구현
         String saveName = uploadPath + "/" + folderPath + "/" + uuid + "_" + fileName;
 
-        System.out.println(saveName);
-
         Path savePath = Paths.get(saveName);
 
         try {
@@ -82,7 +85,7 @@ public class FoodService {
             throw new FileSaveFailedException("이미지 저장에 실패했습니다.");
         }
 
-        return uploadPath + "/" + folderPath;
+        return saveName;
     }
 
     /*날짜 폴더 생성*/
@@ -99,7 +102,6 @@ public class FoodService {
         }
 
         uploadPathFolder.mkdirs();
-        System.out.println("make directory : " + uploadPath);
 
         return folderPath;
     }
@@ -118,7 +120,9 @@ public class FoodService {
         directory.delete();
     }
 
-    public FoodInfoResponse getFoodInfo(String folderPath) {
+    public FoodInfoDto getFoodInfo(String imgPath) {
+        String folderPath = imgPath.substring(0, imgPath.lastIndexOf("/"));
+
         FoodImage body = FoodImage.builder()
                 .source(folderPath)
                 .build();
@@ -130,8 +134,31 @@ public class FoodService {
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(body), FoodImage.class)
                 .retrieve()
-                .bodyToMono(FoodInfoResponse.class)
+                .bodyToMono(FoodInfoDto.class)
                 .block();
+    }
+
+    public HttpStatus foodUpload(FoodUploadRequest request) {
+        int cnt = foodRepository.foodCount(request.getUserCode(), request.getType());
+        if (cnt == 0) {
+            foodRepository.setFood(request);
+
+            questService.exerciseRecord(request);
+            questService.checkFinish(request.getUserCode());
+
+            battlePointService.foodUpload(request.getUserCode());
+            return HttpStatus.CREATED;
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
+    public FoodSearchResponse foodSearch(String word) {
+        List<FoodSearch> list = foodRepository.foodSearch(word);
+
+        return FoodSearchResponse.builder()
+                .list(list)
+                .build();
     }
 
 }
