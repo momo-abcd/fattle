@@ -3,13 +3,13 @@ package com.sixman.fattle.api.service;
 import com.sixman.fattle.dto.dto.FoodImage;
 import com.sixman.fattle.dto.dto.FoodInfo;
 import com.sixman.fattle.dto.request.FoodUploadRequest;
-import com.sixman.fattle.dto.response.FoodInfoResponse;
 import com.sixman.fattle.dto.response.TodaysFoodResponse;
 import com.sixman.fattle.entity.Food;
 import com.sixman.fattle.exceptions.FileSaveFailedException;
 import com.sixman.fattle.exceptions.NoFileException;
 import com.sixman.fattle.exceptions.NoImageExceptoin;
 import com.sixman.fattle.repository.FoodRepository;
+import com.sixman.fattle.utils.Const;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -28,12 +28,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static com.sixman.fattle.utils.Const.*;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class FoodService {
 
     private final BattlePointService battlePointService;
+    private final QuestService questService;
 
     private final FoodRepository foodRepository;
 
@@ -140,6 +143,10 @@ public class FoodService {
         int cnt = foodRepository.foodCount(request.getUserCode(), request.getType());
         if (cnt == 0) {
             foodRepository.setFood(request);
+
+            questService.questRecord(request);
+            questService.checkFinish(request.getUserCode());
+
             battlePointService.foodUpload(request.getUserCode());
             return HttpStatus.CREATED;
         } else {
