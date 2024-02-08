@@ -33,7 +33,4 @@ public class FoodComment {
     @Column(name = "rec_dt")
     private LocalDateTime recDt;
 
-    @Column(name = "point")
-    private int point;
-
 }

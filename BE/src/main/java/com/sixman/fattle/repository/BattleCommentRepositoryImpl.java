@@ -3,6 +3,7 @@ package com.sixman.fattle.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sixman.fattle.dto.dto.CommentDto;
+import com.sixman.fattle.dto.request.CommentRequest;
 import com.sixman.fattle.entity.QAvatar;
 import com.sixman.fattle.entity.QFoodBoard;
 import com.sixman.fattle.entity.QFoodComment;
@@ -35,7 +36,6 @@ public class BattleCommentRepositoryImpl implements BattleCommentRepositoryCusto
                                 quser.nickname,
                                 qavatar.profileImgPath,
                                 qcomment.content,
-                                qcomment.point,
                                 qcomment.recDt))
                 .from(qcomment)
                 .join(quser)
@@ -44,6 +44,21 @@ public class BattleCommentRepositoryImpl implements BattleCommentRepositoryCusto
                 .on(quser.avatarCd.eq(qavatar.avatarCd))
                 .where(qcomment.foodBoardCd.eq(boardCode))
                 .fetch();
+    }
+
+    @Override
+    public void registComment(CommentRequest request) {
+        queryFactory
+                .insert(qcomment)
+                .columns(
+                        qcomment.foodBoardCd,
+                        qcomment.triggerCd,
+                        qcomment.content)
+                .values(
+                        request.getBoardCode(),
+                        request.getUserCode(),
+                        request.getComment())
+                .execute();
     }
 
 }

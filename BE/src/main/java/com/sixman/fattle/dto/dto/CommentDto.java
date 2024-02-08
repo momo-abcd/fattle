@@ -25,8 +25,6 @@ public class CommentDto {
 
     private String content;
 
-    private int point;
-
     private LocalDateTime recDt;
 
 }
