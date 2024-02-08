@@ -14,4 +14,6 @@ public interface BattleCommentRepositoryCustom {
 
     void modifyComment(CommentModifyRequest request);
 
+    void deleteComment(int commentCode);
+
 }

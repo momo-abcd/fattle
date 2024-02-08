@@ -44,4 +44,10 @@ public class BattleCommentController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/delete/{commentCode}")
+    public ResponseEntity<?> deleteComment(@PathVariable int commentCode) {
+        commentService.deleteComment(commentCode);
+        return ResponseEntity.ok().build();
+    }
+
 }

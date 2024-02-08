@@ -71,4 +71,12 @@ public class BattleCommentRepositoryImpl implements BattleCommentRepositoryCusto
                 .execute();
     }
 
+    @Override
+    public void deleteComment(int commentCode) {
+        queryFactory
+                .delete(qcomment)
+                .where(qcomment.foodCommentCd.eq(commentCode))
+                .execute();
+    }
+
 }

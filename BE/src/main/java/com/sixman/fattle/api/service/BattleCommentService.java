@@ -36,4 +36,8 @@ public class BattleCommentService {
         commentRepository.modifyComment(request);
     }
 
+    public void deleteComment(int commentCode) {
+        commentRepository.deleteComment(commentCode);
+    }
+
 }
