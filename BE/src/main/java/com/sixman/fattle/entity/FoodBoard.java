@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -28,7 +28,7 @@ public class FoodBoard {
     private long playerCd;
 
     @Column(name = "rec_dt")
-    private Timestamp recDt;
+    private LocalDateTime recDt;
 
     @Column(name = "img_path")
     private String imgPath;
