@@ -10,6 +10,7 @@ import org.springframework.http.*;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -20,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class OAuthService {
 
