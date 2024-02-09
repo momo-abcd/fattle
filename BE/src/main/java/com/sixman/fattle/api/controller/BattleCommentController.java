@@ -38,12 +38,18 @@ public class BattleCommentController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Operation(summary = "배틀 식단 댓글 수정",
+            description = "배틀 식단 댓글 수정")
+    @ApiResponse(responseCode = "200", description = "댓글 수정 성공")
     @PutMapping("/modify")
     public ResponseEntity<?> modifyComment(@RequestBody CommentModifyRequest request) {
         commentService.modifyCommment(request);
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "배틀 식단 댓글 삭제",
+            description = "배틀 식단 댓글 삭제")
+    @ApiResponse(responseCode = "200", description = "댓글 삭제 성공")
     @DeleteMapping("/delete/{commentCode}")
     public ResponseEntity<?> deleteComment(@PathVariable int commentCode) {
         commentService.deleteComment(commentCode);
