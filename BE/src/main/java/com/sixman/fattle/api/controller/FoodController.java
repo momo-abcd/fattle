@@ -72,8 +72,8 @@ public class FoodController {
     @Operation(summary = "음식 검색",
             description = "키워드를 통해 음식 리스트 검색")
     @ApiResponse(responseCode = "200", description = "음식 검색 성공")
-    @GetMapping("/search/{word}")
-    public ResponseEntity<FoodSearchResponse> foodSearch(@PathVariable String word) {
+    @GetMapping("/search")
+    public ResponseEntity<FoodSearchResponse> foodSearch(@RequestParam String word) {
         FoodSearchResponse response = foodService.foodSearch(word);
         return ResponseEntity.ok(response);
     }
