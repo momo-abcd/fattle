@@ -144,7 +144,7 @@ public class FoodService {
         if (cnt == 0) {
             foodRepository.setFood(request);
 
-            questService.exerciseRecord(request);
+            questService.foodRecord(request);
             questService.checkFinish(request.getUserCode());
 
             battlePointService.foodUpload(request.getUserCode());

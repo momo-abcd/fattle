@@ -12,7 +12,7 @@ public interface QuestService {
 
      void exerciseRecord(QuestRequest request);
 
-     void exerciseRecord(FoodUploadRequest request);
+     void foodRecord(FoodUploadRequest request);
 
      Quest getDailyQuest(long userCode);
 
