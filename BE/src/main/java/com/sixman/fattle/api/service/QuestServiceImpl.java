@@ -116,7 +116,7 @@ public class QuestServiceImpl implements QuestService {
     @Override
     public void createQuest(long userCode) {
         questRepository.createQuest(userCode);
-        expService.setExp(userCode, EXP_TYPE_DAILY, EXP_TYPE_DAILY, DAILY_QUEST_EXP);
+        expService.setExp(userCode, EXP_TYPE_DAILY, EXP_CONTENT_DAILY, DAILY_QUEST_EXP);
     }
 
     @Override
